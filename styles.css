@@ -1148,6 +1148,10 @@
     transform-origin: center;
     animation: rackLedBlink 2.4s ease-in-out infinite;
   }
+  .rack-overlay .rack-led-cool {
+    fill: #78d8d0;
+    filter: drop-shadow(0 0 1.4px rgba(120, 216, 208, 0.75));
+  }
   .rack-overlay .rack:hover .rack-led {
     fill: #ffd86a;
     opacity: 1;
@@ -1155,6 +1159,12 @@
       drop-shadow(0 0 3px rgba(255, 200, 90, 1))
       drop-shadow(0 0 9px rgba(255, 180, 60, 0.55));
     animation-duration: 1s;
+  }
+  .rack-overlay .rack:hover .rack-led-cool {
+    fill: #9ee6df;
+    filter:
+      drop-shadow(0 0 3px rgba(150, 230, 220, 1))
+      drop-shadow(0 0 9px rgba(120, 210, 200, 0.55));
   }
   @keyframes rackLedBlink {
     0%, 100% { opacity: 0.25; }

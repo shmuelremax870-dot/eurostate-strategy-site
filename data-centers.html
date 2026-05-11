@@ -281,8 +281,8 @@
         const W = 2400, H = 1350;
         const vpX = W / 2;
         const vpY = H * 0.5;
+        const RACK_COUNT = 12;
         const lerp = (a, b, t) => a + (b - a) * t;
-        // Tiny deterministic RNG so LED positions are stable
         const rngFrom = (seed) => {
           let s = (seed | 0) || 1;
           return () => {
@@ -299,12 +299,12 @@
         svg.setAttribute("aria-hidden", "true");
 
         for (const side of [-1, 1]) {
-          for (let i = 0; i < 9; i++) {
-            const depth = i / 9;
+          for (let i = 0; i < RACK_COUNT; i++) {
+            const depth = i / RACK_COUNT;
             const xNear = W * 0.5 + side * W * 0.46;
-            const xFar = vpX + side * 70;
+            const xFar = vpX + side * 65;
             const x = lerp(xNear, xFar, depth);
-            const rw = lerp(120, 16, depth);
+            const rw = lerp(105, 14, depth);
             const rhTop = lerp(H * 0.42, vpY, depth * 0.95);
             const rhBot = lerp(H * 0.92, vpY + 10, depth * 0.95);
             const rackLeft = side === -1 ? x - rw : x;
@@ -314,7 +314,7 @@
             g.setAttribute("class", "rack");
             g.setAttribute("data-rack", `${side === -1 ? "L" : "R"}-${i + 1}`);
 
-            // Invisible hotspot covers the rack for hover
+            // Hover hotspot
             const hot = document.createElementNS(svgNS, "rect");
             hot.setAttribute("x", rackLeft);
             hot.setAttribute("y", rhTop);
@@ -323,21 +323,46 @@
             hot.setAttribute("class", "rack-hotspot");
             g.appendChild(hot);
 
-            // LED dots: fewer + smaller with depth; 4-7 near, 2-3 far
-            const ledCount = Math.max(2, Math.round(lerp(7, 2, depth)));
             const rng = rngFrom(side * 131 + i * 37 + 11);
-            for (let k = 0; k < ledCount; k++) {
-              const cx = rackLeft + (rackRight - rackLeft) * (0.18 + rng() * 0.64);
-              const cy = rhTop + (rhBot - rhTop) * (0.08 + rng() * 0.84);
-              const r = Math.max(0.8, lerp(2.4, 0.9, depth));
-              const led = document.createElementNS(svgNS, "circle");
-              led.setAttribute("cx", cx.toFixed(1));
-              led.setAttribute("cy", cy.toFixed(1));
-              led.setAttribute("r", r.toFixed(2));
-              led.setAttribute("class", "rack-led");
-              led.style.animationDelay = (rng() * 3.2).toFixed(2) + "s";
-              led.style.animationDuration = (1.6 + rng() * 2.4).toFixed(2) + "s";
-              g.appendChild(led);
+
+            if (side === 1) {
+              // RIGHT side: one amber LED on every visible slot, centered.
+              // Use the image's slot geometry: led_count = max(6, lerp(34, 6, depth))
+              const ledCount = Math.max(6, Math.round(lerp(34, 6, depth)));
+              const plinthH = Math.max(2, lerp(8, 2, depth));
+              const innerH = (rhBot - rhTop - plinthH - 4);
+              const slotH = innerH / ledCount;
+              const inset = Math.max(2, rw * 0.08);
+              const cx = (rackLeft + inset + rackRight - inset) / 2;
+              const r = Math.max(0.55, lerp(1.5, 0.55, depth));
+              for (let k = 0; k < ledCount; k++) {
+                const cy = rhTop + 4 + slotH * (k + 0.5);
+                const led = document.createElementNS(svgNS, "circle");
+                led.setAttribute("cx", cx.toFixed(1));
+                led.setAttribute("cy", cy.toFixed(1));
+                led.setAttribute("r", r.toFixed(2));
+                led.setAttribute("class", "rack-led");
+                // Slight per-LED variation so the wall doesn't strobe in sync
+                led.style.animationDelay = (rng() * 4).toFixed(2) + "s";
+                led.style.animationDuration = (2.2 + rng() * 2.6).toFixed(2) + "s";
+                g.appendChild(led);
+              }
+            } else {
+              // LEFT side: sparse mint accents (existing behavior, fewer)
+              const ledCount = Math.max(2, Math.round(lerp(5, 2, depth)));
+              for (let k = 0; k < ledCount; k++) {
+                const cx = rackLeft + (rackRight - rackLeft) * (0.18 + rng() * 0.64);
+                const cy = rhTop + (rhBot - rhTop) * (0.08 + rng() * 0.84);
+                const r = Math.max(0.7, lerp(2.0, 0.7, depth));
+                const led = document.createElementNS(svgNS, "circle");
+                led.setAttribute("cx", cx.toFixed(1));
+                led.setAttribute("cy", cy.toFixed(1));
+                led.setAttribute("r", r.toFixed(2));
+                led.setAttribute("class", "rack-led rack-led-cool");
+                led.style.animationDelay = (rng() * 3.2).toFixed(2) + "s";
+                led.style.animationDuration = (1.8 + rng() * 2.6).toFixed(2) + "s";
+                g.appendChild(led);
+              }
             }
 
             svg.appendChild(g);
