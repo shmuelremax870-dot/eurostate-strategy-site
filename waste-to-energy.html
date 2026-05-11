@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Waste-to-Energy — Eurostate Strategy</title>
+    <meta name="description" content="Circular-economy energy infrastructure. Eurostate Strategy converts waste into power that runs our data centers and AI systems." />
+    <meta name="theme-color" content="#06080a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="https://eurostatestrategy.com/waste-to-energy.html" />
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("es-theme");
+          if (saved === "light" || saved === "dark") {
+            document.documentElement.setAttribute("data-theme", saved);
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="progress-bar" aria-hidden="true"><span></span></div>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="./" aria-label="Eurostate Strategy home">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <strong>Eurostate Strategy</strong>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="./">Lab</a>
+        <a href="./#architecture">Systems</a>
+        <a href="./#stack">Stack</a>
+        <a href="./data-centers.html">Data Centers</a>
+        <a href="./waste-to-energy.html" class="active">Waste-to-Energy</a>
+      </nav>
+      <div class="header-tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ============================ HERO ============================ -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-meta">
+            <div><span class="dot"></span> Pillar 03 / Energy</div>
+            <div>Eurostate Strategy</div>
+            <div>Circular Infrastructure</div>
+          </div>
+
+          <h1>
+            From <span class="accent">waste</span> to the power that runs the world's AI.
+          </h1>
+
+          <div class="hero-deck">
+            <p class="hero-lede">
+              We convert municipal and industrial waste into reliable, low-carbon
+              electricity — and route that electricity directly into our
+              dedicated AI data centers. Circular economy meets compute economy:
+              the trash of one system becomes the foundation of the next.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#plant">
+                See the plant <span class="arrow">→</span>
+              </a>
+              <a class="btn" href="./data-centers.html">
+                Where the power goes
+              </a>
+            </div>
+          </div>
+
+          <dl class="hero-footnote">
+            <div>
+              <dt>Input</dt>
+              <dd>Municipal &amp; industrial waste streams</dd>
+            </div>
+            <div>
+              <dt>Output</dt>
+              <dd>Base-load electricity + thermal recovery</dd>
+            </div>
+            <div>
+              <dt>Demand</dt>
+              <dd>Eurostate-owned AI data centers</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ============================ PLANT 3D ============================ -->
+      <section class="section container" id="plant">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">01 — Plant</span>
+          </aside>
+          <div>
+            <h2>The plant, in three movements.</h2>
+            <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
+              Intake. Conversion. Turbine. Power. Every stage operates on a
+              closed loop — material that would have become landfill becomes
+              the electrons that train tomorrow's AI models.
+            </p>
+
+            <div class="we-stage" aria-label="Waste-to-energy plant schematic">
+              <svg viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <pattern id="we-iso-grid" width="48" height="28" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                    <path d="M 48 0 L 0 0 0 28" fill="none" class="we-iso-grid" stroke-width="0.5"/>
+                  </pattern>
+                  <linearGradient id="energy-glow" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0"/>
+                    <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Ground plane -->
+                <rect x="0" y="430" width="1200" height="290" fill="url(#we-iso-grid)" opacity="0.35"/>
+
+                <!-- Stage 01: INTAKE -->
+                <g class="we-unit intake" transform="translate(120, 320)">
+                  <!-- Building: rectangular volume in iso -->
+                  <polygon class="face-top"   points="0,40 100,-10 200,40 100,90"/>
+                  <polygon class="face-left"  points="0,40 0,160 100,210 100,90"/>
+                  <polygon class="face-right" points="200,40 200,160 100,210 100,90"/>
+                  <!-- Stack -->
+                  <polygon class="face-top"   points="60,-20 90,-35 120,-20 90,-5"/>
+                  <polygon class="face-left"  points="60,-20 60,40 90,55 90,-5"/>
+                  <polygon class="face-right" points="120,-20 120,40 90,55 90,-5"/>
+                </g>
+                <text x="100" y="290" class="we-label">01 · INTAKE</text>
+                <text x="100" y="305" class="we-label-muted">Sorting + drying</text>
+
+                <!-- Flow: Intake -> Combustion -->
+                <path class="we-flow"
+                      d="M 330 415 C 380 415, 420 405, 470 410"/>
+
+                <!-- Stage 02: COMBUSTION -->
+                <g class="we-unit combustion" transform="translate(450, 290)">
+                  <polygon class="face-top"   points="0,50 120,-15 240,50 120,115"/>
+                  <polygon class="face-left"  points="0,50 0,190 120,250 120,115"/>
+                  <polygon class="face-right" points="240,50 240,190 120,250 120,115"/>
+                  <!-- Heat indicator stack -->
+                  <polygon class="face-top"   points="80,-30 110,-50 140,-30 110,-10"/>
+                  <polygon class="face-left"  points="80,-30 80,50 110,70 110,-10"/>
+                  <polygon class="face-right" points="140,-30 140,50 110,70 110,-10"/>
+                </g>
+                <text x="440" y="280" class="we-label">02 · COMBUSTION</text>
+                <text x="440" y="295" class="we-label-muted">Steam generation</text>
+
+                <!-- Flow: Combustion -> Turbine (heat) -->
+                <path class="we-flow heat"
+                      d="M 700 415 C 760 415, 800 405, 850 410"/>
+
+                <!-- Stage 03: TURBINE -->
+                <g class="we-unit turbine" transform="translate(840, 310)">
+                  <polygon class="face-top"   points="0,45 110,-12 220,45 110,102"/>
+                  <polygon class="face-left"  points="0,45 0,170 110,225 110,102"/>
+                  <polygon class="face-right" points="220,45 220,170 110,225 110,102"/>
+                  <!-- Turbine fan circle on top face -->
+                  <ellipse class="face-top" cx="110" cy="45" rx="32" ry="14" style="fill: var(--bg); opacity: 0.5;"/>
+                </g>
+                <text x="830" y="300" class="we-label">03 · TURBINE</text>
+                <text x="830" y="315" class="we-label-muted">Generator + output</text>
+
+                <!-- Flow: Turbine -> Power output (animated multi-line) -->
+                <path class="we-flow output"
+                      d="M 1080 410 C 1110 410, 1130 380, 1150 360"/>
+                <path class="we-flow output"
+                      d="M 1080 420 C 1110 420, 1130 400, 1150 380"/>
+                <path class="we-flow output"
+                      d="M 1080 430 C 1110 430, 1130 420, 1150 400"/>
+
+                <!-- Output marker (to data center) -->
+                <text x="1075" y="345" class="we-label" style="fill: var(--accent);">→ COMPUTE</text>
+                <text x="1075" y="360" class="we-label-muted">MW to data centers</text>
+
+                <!-- Top-left metadata -->
+                <text x="40" y="40" class="we-label" fill="currentColor" style="fill: var(--muted);">EUROSTATE WTE · UNIT 01</text>
+                <text x="40" y="58" class="we-label-muted">CIRCULAR INFRASTRUCTURE</text>
+              </svg>
+            </div>
+
+            <p class="text-muted" style="margin-top: var(--sp-5); font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft);">
+              Hover any unit to inspect &middot; live flow particles indicate active operation
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ THE STORY ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">02 — The loop</span>
+          </aside>
+          <div>
+            <h2>Waste is the new feedstock for compute.</h2>
+            <div style="margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: var(--sp-5); max-width: 60ch;">
+              <p class="lede">
+                The AI build-out is constrained by power. The waste industry is
+                constrained by what to do with the material. Eurostate Strategy
+                solves both at once — taking the trash that costs municipalities
+                money to discard, and converting it to the electricity that AI
+                operators are paying premium prices to secure.
+              </p>
+              <p class="lede">
+                The economics work because both sides are paying us. Tipping
+                fees on the intake. Power purchase agreements on the output.
+                The data centers in between are ours.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ PROCESS ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">03 — Process</span>
+          </aside>
+          <div>
+            <h2>How the loop closes.</h2>
+
+            <ol class="timeline" aria-label="Waste-to-energy process steps">
+              <li class="timeline-step">
+                <span class="step-num">01</span>
+                <h3>Intake</h3>
+                <p>Municipal and industrial waste enters the facility. Sorted, dried, and prepared for thermal processing.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">02</span>
+                <h3>Conversion</h3>
+                <p>High-temperature combustion or gasification converts the feedstock to heat. Emissions are scrubbed to EU standards.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">03</span>
+                <h3>Generation</h3>
+                <p>Steam drives a turbine; the turbine drives a generator. Base-load electricity comes out the other side.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">04</span>
+                <h3>Compute</h3>
+                <p>Power is routed directly to Eurostate's adjacent AI data centers. No grid intermediary; no transmission loss.</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ CROSS-LINK ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">04 — Downstream</span>
+          </aside>
+          <div>
+            <h2>The compute that consumes it.</h2>
+            <div class="cross-link">
+              <div>
+                <h3>Where the kilowatts go.</h3>
+                <p>Our data centers consume what we generate. AI workloads — training, inference, sovereign EU compute — paid for by capacity contracts, powered by the loop you just saw.</p>
+              </div>
+              <a class="btn btn-primary" href="./data-centers.html">
+                Data Centers <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Eurostate Strategy LTD</span>
+      <span>Cyprus</span>
+      <span>AI Compute · Energy · Product Lab</span>
+      <span><a href="#" data-linkedin style="color: var(--accent);">LinkedIn</a></span>
+    </footer>
+
+    <script>
+      // Shared behavior
+      (function () {
+        var root = document.documentElement;
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (btn) btn.addEventListener("click", function () {
+          var current = root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          var next = current === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("es-theme", next); } catch (_) {}
+        });
+        var header = document.querySelector("[data-header]");
+        function onScroll() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          var ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          root.style.setProperty("--scroll-progress", String(ratio));
+          if (header) header.classList.toggle("scrolled", window.scrollY > 12);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        onScroll();
+      })();
+    </script>
+  </body>
+</html>

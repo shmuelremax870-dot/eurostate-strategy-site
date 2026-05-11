@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Data Centers — Eurostate Strategy</title>
+    <meta name="description" content="The compute backbone for the AI era. Eurostate Strategy is building data center capacity powered by waste-to-energy infrastructure." />
+    <meta name="theme-color" content="#06080a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="https://eurostatestrategy.com/data-centers.html" />
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("es-theme");
+          if (saved === "light" || saved === "dark") {
+            document.documentElement.setAttribute("data-theme", saved);
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="progress-bar" aria-hidden="true"><span></span></div>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="./" aria-label="Eurostate Strategy home">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <strong>Eurostate Strategy</strong>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="./">Lab</a>
+        <a href="./#architecture">Systems</a>
+        <a href="./#stack" class="active">Stack</a>
+        <a href="./data-centers.html" class="active">Data Centers</a>
+        <a href="./waste-to-energy.html">Waste-to-Energy</a>
+      </nav>
+      <div class="header-tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ============================ HERO ============================ -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-meta">
+            <div><span class="dot"></span> Pillar 02 / Compute</div>
+            <div>Eurostate Strategy</div>
+            <div>Data Center Operations</div>
+          </div>
+
+          <h1>
+            The compute <span class="accent">backbone</span> for the AI era.
+          </h1>
+
+          <div class="hero-deck">
+            <p class="hero-lede">
+              We are building dedicated data center capacity engineered for AI
+              workloads — high-density, liquid-ready, and powered by our own
+              waste-to-energy infrastructure. The ambition is to lead the
+              category for sovereign AI compute in the Mediterranean and EU.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#farm">
+                Floor plan <span class="arrow">→</span>
+              </a>
+              <a class="btn" href="./waste-to-energy.html">
+                See the power source
+              </a>
+            </div>
+          </div>
+
+          <dl class="hero-footnote">
+            <div>
+              <dt>Position</dt>
+              <dd>Sovereign AI compute infrastructure</dd>
+            </div>
+            <div>
+              <dt>Power</dt>
+              <dd>Vertically integrated · waste-to-energy</dd>
+            </div>
+            <div>
+              <dt>Geography</dt>
+              <dd>Cyprus · EU · MENA reach</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ============================ POSITION ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">01 — Position</span>
+          </aside>
+          <div>
+            <h2>Leading the market in vertically-integrated AI compute.</h2>
+            <div style="margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: var(--sp-5); max-width: 60ch;">
+              <p class="lede">
+                Most data centers buy power. We <em>generate</em> it. By owning
+                the energy layer — through our waste-to-energy program — we
+                control cost, reliability, and the carbon profile of every rack
+                we operate.
+              </p>
+              <p class="lede">
+                This is the foundation for a category-defining position:
+                European-sovereign AI compute, powered by circular-economy
+                infrastructure, sold to AI product companies that need
+                guaranteed capacity and a defensible energy story.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ FARM ============================ -->
+      <section class="section container" id="farm">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">02 — Floor</span>
+          </aside>
+          <div>
+            <h2>Floor schematic.</h2>
+            <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
+              Each rack on the floor is a live unit. Hover any rack to inspect
+              it; the floor reflows around the active cluster.
+            </p>
+
+            <div class="dc-stage" aria-label="Data center floor schematic">
+              <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
+                <!-- Floor grid (isometric) -->
+                <defs>
+                  <pattern id="dc-grid" width="60" height="34" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                    <path d="M 60 0 L 0 0 0 34" fill="none" class="dc-floor-grid" stroke-width="0.5"/>
+                  </pattern>
+                </defs>
+
+                <!-- Subtle floor -->
+                <rect x="0" y="280" width="1200" height="320" fill="url(#dc-grid)" opacity="0.4"/>
+
+                <!-- Server racks group — generated below in JS -->
+                <g id="dc-racks"></g>
+
+                <!-- Floor label -->
+                <text x="40" y="40" class="we-label" fill="currentColor" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; fill: var(--muted);">FLOOR 01 · ZONE A</text>
+                <text x="40" y="58" style="font-family: var(--font-mono); font-size: 10px; fill: var(--soft);">HIGH-DENSITY AI COMPUTE</text>
+              </svg>
+            </div>
+
+            <dl class="dc-readout">
+              <div>
+                <dt>Racks</dt>
+                <dd><b data-dc-total>0</b></dd>
+              </div>
+              <div>
+                <dt>Active</dt>
+                <dd><b data-dc-active>0</b></dd>
+              </div>
+              <div>
+                <dt>Inspecting</dt>
+                <dd data-dc-inspect>—</dd>
+              </div>
+              <div>
+                <dt>Power source</dt>
+                <dd><b>WtE · 100%</b></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ THESIS ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">03 — Thesis</span>
+          </aside>
+          <div>
+            <h2>Why we are the operator of choice.</h2>
+
+            <div class="row-grid">
+              <article class="row-item">
+                <span class="row-item-num">01</span>
+                <div>
+                  <h3>Sovereign by design</h3>
+                  <p>EU-domiciled, EU-operated, EU-regulated. AI workloads that cannot leave the bloc have a natural home with us.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">02</span>
+                <div>
+                  <h3>Owned power</h3>
+                  <p>Our waste-to-energy plants feed the racks directly. Fewer grid intermediaries means lower cost and a defensible carbon story.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">03</span>
+                <div>
+                  <h3>Built for AI density</h3>
+                  <p>Liquid-cooled cabinets, high-density power distribution, and a fabric optimized for training and inference clusters.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">04</span>
+                <div>
+                  <h3>Long-tenor contracts</h3>
+                  <p>Anchored by Eurostate's own AI product portfolio and offered to external operators under multi-year capacity agreements.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ CROSS-LINK ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">04 — Upstream</span>
+          </aside>
+          <div>
+            <h2>Powered by our waste-to-energy program.</h2>
+            <div class="cross-link">
+              <div>
+                <h3>The energy story is the data center story.</h3>
+                <p>Every kilowatt that runs an AI workload here starts as waste in our circular processing units. See how the power gets made.</p>
+              </div>
+              <a class="btn btn-primary" href="./waste-to-energy.html">
+                Waste-to-Energy <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Eurostate Strategy LTD</span>
+      <span>Cyprus</span>
+      <span>AI Compute · Energy · Product Lab</span>
+      <span><a href="#" data-linkedin style="color: var(--accent);">LinkedIn</a></span>
+    </footer>
+
+    <script>
+      // Theme toggle (shared behavior)
+      (function () {
+        var root = document.documentElement;
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (btn) btn.addEventListener("click", function () {
+          var current = root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          var next = current === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("es-theme", next); } catch (_) {}
+        });
+
+        // Scroll progress
+        var header = document.querySelector("[data-header]");
+        function onScroll() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          var ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          root.style.setProperty("--scroll-progress", String(ratio));
+          if (header) header.classList.toggle("scrolled", window.scrollY > 12);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        onScroll();
+      })();
+
+      // === Data Center floor SVG generation ===
+      (function () {
+        var svg = document.getElementById("dc-racks");
+        if (!svg) return;
+        var ns = "http://www.w3.org/2000/svg";
+
+        // Isometric grid: rows x cols of racks
+        var rows = 6;
+        var cols = 10;
+        var rackW = 44;   // top-face width (along x)
+        var rackD = 26;   // top-face depth (along y)
+        var rackH = 70;   // rack height
+        var gapX = 22;
+        var gapY = 14;
+        var originX = 130;
+        var originY = 200;
+
+        // Isometric projection: (gx, gy) on floor -> (sx, sy) on screen
+        function iso(gx, gy) {
+          return {
+            x: originX + (gx - gy) * 0.85,
+            y: originY + (gx + gy) * 0.48,
+          };
+        }
+
+        var total = 0;
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var x0 = c * (rackW + gapX);
+            var y0 = r * (rackD + gapY);
+            var p = iso(x0, y0);
+
+            // Compute the eight corners of the rack box in iso
+            var topW = rackW * 0.85;
+            var topD = rackD * 0.48;
+            // Top face corners
+            var tA = { x: p.x,           y: p.y };
+            var tB = { x: p.x + topW,    y: p.y - topD };
+            var tC = { x: p.x + topW + (rackW * 0.85), y: p.y + (rackD * 0.48 - topD) };
+            // Simpler approach: define box with width/depth/height directly.
+            var topFace = [
+              [p.x, p.y],
+              [p.x + rackW * 0.85, p.y - rackD * 0.48],
+              [p.x + rackW * 0.85 + rackD * 0.85, p.y - rackD * 0.48 + rackD * 0.48],
+              [p.x + rackD * 0.85, p.y + rackD * 0.48],
+            ];
+            // Use a simpler box model:
+            var ax = rackW * 0.85, ay = rackD * 0.48; // x-axis projection
+            var bx = rackD * 0.85, by = rackD * 0.48; // y-axis projection (depth)
+            // top face: 4 points
+            var top = [
+              [p.x,           p.y],
+              [p.x + ax,      p.y - ay],
+              [p.x + ax + bx, p.y - ay + by],
+              [p.x + bx,      p.y + by],
+            ];
+            // left face goes down by rackH
+            var left = [
+              [p.x,           p.y],
+              [p.x + bx,      p.y + by],
+              [p.x + bx,      p.y + by + rackH],
+              [p.x,           p.y + rackH],
+            ];
+            // right face
+            var right = [
+              [p.x + bx,      p.y + by],
+              [p.x + ax + bx, p.y - ay + by],
+              [p.x + ax + bx, p.y - ay + by + rackH],
+              [p.x + bx,      p.y + by + rackH],
+            ];
+
+            var g = document.createElementNS(ns, "g");
+            g.setAttribute("class", "dc-rack");
+            g.dataset.id = "R" + (r + 1) + "." + (c + 1).toString().padStart(2, "0");
+
+            // 30% are "pulsing" (active)
+            var isActive = Math.random() < 0.85;
+            if (isActive) g.classList.add("is-pulsing");
+
+            function poly(pts) {
+              var path = pts.map(function (pt) { return pt.join(","); }).join(" ");
+              var el = document.createElementNS(ns, "polygon");
+              el.setAttribute("points", path);
+              return el;
+            }
+            var lf = poly(left);  lf.setAttribute("class", "rack-face-l"); g.appendChild(lf);
+            var rf = poly(right); rf.setAttribute("class", "rack-face-r"); g.appendChild(rf);
+            var tf = poly(top);   tf.setAttribute("class", "rack-top");    g.appendChild(tf);
+
+            // LEDs on top face: 3 small rectangles
+            for (var k = 0; k < 3; k++) {
+              var led = document.createElementNS(ns, "rect");
+              var lx = p.x + (ax * 0.2) + k * (ax * 0.22);
+              var ly = p.y - (ay * 0.4) + k * (ay * 0.18);
+              led.setAttribute("x", lx);
+              led.setAttribute("y", ly);
+              led.setAttribute("width", 2.4);
+              led.setAttribute("height", 2.4);
+              led.setAttribute("class", "rack-led");
+              led.style.animationDelay = (Math.random() * 1.6) + "s";
+              g.appendChild(led);
+            }
+
+            svg.appendChild(g);
+            total++;
+          }
+        }
+
+        // Wire readouts
+        var totalEl    = document.querySelector("[data-dc-total]");
+        var activeEl   = document.querySelector("[data-dc-active]");
+        var inspectEl  = document.querySelector("[data-dc-inspect]");
+        var active = document.querySelectorAll(".dc-rack.is-pulsing").length;
+        if (totalEl)  totalEl.textContent  = total;
+        if (activeEl) activeEl.textContent = active;
+
+        var racks = document.querySelectorAll(".dc-rack");
+        racks.forEach(function (g) {
+          g.addEventListener("pointerenter", function () {
+            if (inspectEl) inspectEl.textContent = g.dataset.id;
+          });
+          g.addEventListener("pointerleave", function () {
+            if (inspectEl) inspectEl.textContent = "—";
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
