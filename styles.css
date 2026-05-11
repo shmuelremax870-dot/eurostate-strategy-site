@@ -1114,6 +1114,12 @@
     inset: 0;
     overflow: hidden;
     transition: opacity 600ms var(--ease-out);
+    /* CSS fallback only — never the main visual; shows if the image itself
+       fails to load. Approximates the dark industrial mood. */
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 80%, rgba(60, 40, 18, 0.4), transparent 65%),
+      radial-gradient(ellipse 90% 70% at 50% 30%, rgba(20, 30, 36, 0.5), transparent 60%),
+      linear-gradient(180deg, #0a1018 0%, #08121a 50%, #050a10 100%);
   }
   .stage-image img {
     width: 100%;
