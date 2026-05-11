@@ -571,14 +571,14 @@
       ctx.fill();
     }
 
-    // ===== Atmosphere halo (mint only, no indigo, no blue) =====
-    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.97, cx, cy, r * 1.4);
-    haloGrad.addColorStop(0,    hexToRgba(accent, 0.22 + heartbeat * 0.22));
-    haloGrad.addColorStop(0.45, hexToRgba(accent, 0.06));
+    // ===== Atmosphere halo — thinner, grounded =====
+    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.98, cx, cy, r * 1.28);
+    haloGrad.addColorStop(0,    hexToRgba(accent, 0.14 + heartbeat * 0.18));
+    haloGrad.addColorStop(0.5,  hexToRgba(accent, 0.04));
     haloGrad.addColorStop(1,    hexToRgba(accent, 0));
     ctx.fillStyle = haloGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 1.4, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r * 1.28, 0, Math.PI * 2);
     ctx.fill();
 
     // ===== Sphere base — dark green-black, NO blue tint =====
@@ -648,18 +648,18 @@
     ctx.fill();
     ctx.globalCompositeOperation = "source-over";
 
-    // ===== Real continents — high-contrast cream stroke + soft mint fill =====
+    // ===== Real continents — subtle earth tones, thin outline =====
     {
-      const beat = heartbeat * 0.15;
+      const beat = heartbeat * 0.10;
       for (const m of continentMeta) {
         const shade = shadeAt(m.centroid[0], m.centroid[1], rotation, tilt);
-        // Soft mint inner fill — gives the surface a subtle wash
-        const fillA = 0.10 + shade * 0.22 + beat * shade;
-        ctx.fillStyle = hexToRgba(accent, fillA);
-        // Cream outline — clearly visible like map paper on dark leather
-        const strokeA = 0.45 + shade * 0.45 + beat * 0.20;
+        // Warm sand fill — looks like real land, not glowing mint
+        const fillA = 0.04 + shade * 0.16 + beat * shade;
+        ctx.fillStyle = hexToRgba(accent2, fillA);
+        // Thin, restrained outline — barely there on the dark side
+        const strokeA = 0.10 + shade * 0.32 + beat * 0.10;
         ctx.strokeStyle = hexToRgba(palette.text, strokeA);
-        ctx.lineWidth = 1.1;
+        ctx.lineWidth = 0.6;
         drawClippedRing(ctx, m.ring, rotation, cx, cy, r, tilt);
       }
     }
@@ -678,8 +678,8 @@
       const color = sp.feature ? accent : palette.text;
       if (sp.feature) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, size * 2.6, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(accent, alpha * 0.22);
+        ctx.arc(p.x, p.y, size * 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = hexToRgba(accent, alpha * 0.18);
         ctx.fill();
       }
       ctx.beginPath();
