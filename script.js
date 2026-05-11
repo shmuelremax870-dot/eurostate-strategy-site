@@ -636,16 +636,30 @@
       ctx.stroke();
     }
 
-    // ===== Real continents (inline outlines, day/night shaded) =====
+    // ===== Day-side soft highlight pass (under continents — won't wash them out) =====
+    ctx.globalCompositeOperation = "screen";
+    const dayGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r);
+    dayGrad.addColorStop(0,   hexToRgba(accent, 0.08));
+    dayGrad.addColorStop(0.6, hexToRgba(accent, 0.02));
+    dayGrad.addColorStop(1,   "rgba(0,0,0,0)");
+    ctx.fillStyle = dayGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+
+    // ===== Real continents — high-contrast cream stroke + soft mint fill =====
     {
-      const beat = heartbeat * 0.18;
+      const beat = heartbeat * 0.15;
       for (const m of continentMeta) {
         const shade = shadeAt(m.centroid[0], m.centroid[1], rotation, tilt);
-        const fillA = 0.05 + shade * 0.26 + beat * shade;
-        const strokeA = 0.20 + shade * 0.50 + beat * 0.30;
+        // Soft mint inner fill — gives the surface a subtle wash
+        const fillA = 0.10 + shade * 0.22 + beat * shade;
         ctx.fillStyle = hexToRgba(accent, fillA);
-        ctx.strokeStyle = hexToRgba(accent, strokeA);
-        ctx.lineWidth = 0.8;
+        // Cream outline — clearly visible like map paper on dark leather
+        const strokeA = 0.45 + shade * 0.45 + beat * 0.20;
+        ctx.strokeStyle = hexToRgba(palette.text, strokeA);
+        ctx.lineWidth = 1.1;
         drawClippedRing(ctx, m.ring, rotation, cx, cy, r, tilt);
       }
     }
@@ -655,17 +669,14 @@
       const p = project(sp.lon, sp.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) continue;
       const shade = shadeAt(sp.lon, sp.lat, rotation, tilt);
-      // Sparkles fade out on the dark side (no light, no glow)
       if (shade < 0.18) continue;
       const twinkle = sp.steady
         ? 0.85
         : 0.4 + 0.6 * Math.pow((Math.sin(time * sp.rate + sp.phase) + 1) / 2, 2);
       const alpha = sp.baseAlpha * twinkle * (0.55 + shade * 0.45);
       const size  = sp.baseSize * (0.8 + twinkle * 0.5);
-      // Mostly warm white, occasional mint
       const color = sp.feature ? accent : palette.text;
       if (sp.feature) {
-        // Subtle halo for feature stars
         ctx.beginPath();
         ctx.arc(p.x, p.y, size * 2.6, 0, Math.PI * 2);
         ctx.fillStyle = hexToRgba(accent, alpha * 0.22);
@@ -676,18 +687,6 @@
       ctx.fillStyle = hexToRgba(color, alpha);
       ctx.fill();
     }
-
-    // ===== Day-side soft highlight pass =====
-    ctx.globalCompositeOperation = "screen";
-    const dayGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r);
-    dayGrad.addColorStop(0,   hexToRgba(accent, 0.10));
-    dayGrad.addColorStop(0.6, hexToRgba(accent, 0.02));
-    dayGrad.addColorStop(1,   "rgba(0,0,0,0)");
-    ctx.fillStyle = dayGrad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalCompositeOperation = "source-over";
 
     // ===== Arcs (mint primary, sand secondary; clipped inside sphere) =====
     arcTimer += 16;
