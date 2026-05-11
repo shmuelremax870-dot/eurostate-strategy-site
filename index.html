@@ -56,6 +56,7 @@
   </head>
 
   <body>
+    <a class="skip-link" href="#top">Skip to content</a>
     <div class="progress-bar" aria-hidden="true"><span></span></div>
 
     <header class="site-header" data-header>
@@ -63,7 +64,7 @@
         <span class="brand-mark" aria-hidden="true">E</span>
         <strong>Eurostate Strategy</strong>
       </a>
-      <nav class="site-nav" aria-label="Primary navigation">
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="#lab">Lab</a>
         <a href="#architecture">Systems</a>
         <a href="#stack">Stack</a>
@@ -71,7 +72,10 @@
         <a href="./waste-to-energy.html">Waste-to-Energy</a>
         <a href="#portfolio">Portfolio</a>
       </nav>
-      <div class="header-tools">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+        </button>
+        <div class="header-tools">
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>

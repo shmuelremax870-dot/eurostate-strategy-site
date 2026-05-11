@@ -34,6 +34,29 @@
   window.addEventListener("resize", onScroll);
   onScroll();
 
+  /* ----- Mobile nav drawer toggle ------------------------------------- */
+  const navToggle = document.querySelector("[data-nav-toggle]");
+  const siteNav = document.getElementById("site-nav");
+  if (navToggle && siteNav) {
+    const closeNav = () => {
+      siteNav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    };
+    navToggle.addEventListener("click", () => {
+      const open = siteNav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+    });
+    // Close after picking a destination
+    siteNav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeNav));
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNav();
+    });
+    // Close when viewport leaves the mobile breakpoint
+    const mq = matchMedia("(min-width: 861px)");
+    mq.addEventListener("change", (e) => { if (e.matches) closeNav(); });
+  }
+
   /* ----- Reveal on scroll --------------------------------------------- */
   const revealObserver = new IntersectionObserver(
     (entries) => {
