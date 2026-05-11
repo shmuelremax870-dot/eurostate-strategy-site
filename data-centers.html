@@ -156,17 +156,17 @@
               it all together.
             </p>
 
-            <div class="dc-stage" aria-label="AI compute hall — 3D render">
-              <canvas id="dc3d-canvas"></canvas>
-              <div class="render-fallback" data-dc-fallback hidden>
-                <span class="render-fallback-pill"><span class="render-fallback-dot"></span> 3D asset pending</span>
-                <div class="render-fallback-msg">
-                  <strong>AI compute hall render</strong>
-                  <p>This view loads a real CAD-grade GLB model. Place a glTF binary at</p>
-                  <code>/models/data-center-hall.glb</code>
-                  <p>and the scene will populate automatically. See <code>/models/README.md</code> for sourcing guidance.</p>
-                </div>
+            <div class="dc-stage" aria-label="AI compute hall">
+              <div class="stage-image" data-dc-image aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=2400&q=85&auto=format&fit=crop"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="stage-overlay"></div>
               </div>
+              <canvas id="dc3d-canvas" hidden></canvas>
             </div>
             </div>
 
@@ -373,8 +373,10 @@
         backWall.receiveShadow = true;
         scene.add(backWall);
 
-        // ===== Load real 3D model (GLB), with graceful fallback =====
-        let renderingDisabled = false;
+        // ===== Load 3D model (GLB) silently. The cinematic image stays
+        //       visible until a real model exists at /models/. No user-facing
+        //       debug messaging is ever rendered.
+        let renderingDisabled = true;
         import("three/addons/loaders/GLTFLoader.js").then(({ GLTFLoader }) => {
           const modelPath = "./models/data-center-hall.glb";
           const loader = new GLTFLoader();
@@ -397,9 +399,6 @@
               model.position.y -= box.min.y;
               scene.add(model);
 
-              const maxDim = Math.max(size.x, size.y, size.z);
-              const fitDist = maxDim / (2 * Math.tan((camera.fov * Math.PI) / 360));
-              // Interior camera: stand inside the hall
               camera.position.set(
                 center.x + size.x * 0.35,
                 size.y * 0.55,
@@ -415,18 +414,18 @@
               key.shadow.camera.bottom = -r;
               key.shadow.camera.far = r * 4;
               key.shadow.camera.updateProjectionMatrix();
+
+              canvas.hidden = false;
+              renderingDisabled = false;
+              const img = document.querySelector("[data-dc-image]");
+              if (img) img.style.opacity = "0";
+              setTimeout(() => { if (img) img.remove(); }, 800);
             },
             undefined,
-            (err) => {
-              console.warn(
-                "[DC] 3D model not found at",
-                modelPath,
-                "— showing fallback panel."
-              );
-              canvas.style.display = "none";
-              const fb = document.querySelector("[data-dc-fallback]");
-              if (fb) fb.hidden = false;
-              renderingDisabled = true;
+            () => {
+              // Silent: the cinematic image is already on screen.
+              // Engineering note: drop a GLB at /models/data-center-hall.glb
+              // to enable the 3D path.
             }
           );
         });

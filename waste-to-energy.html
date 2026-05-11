@@ -129,17 +129,17 @@
               pipe rack that ties it all together.
             </p>
 
-            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility — 3D render">
-              <canvas id="we3d-canvas"></canvas>
-              <div class="render-fallback" data-we-fallback hidden>
-                <span class="render-fallback-pill"><span class="render-fallback-dot"></span> 3D asset pending</span>
-                <div class="render-fallback-msg">
-                  <strong>Waste-to-energy facility render</strong>
-                  <p>This view loads a real CAD-grade GLB model. Place a glTF binary at</p>
-                  <code>/models/waste-industrial-plant.glb</code>
-                  <p>and the scene will populate automatically. See <code>/models/README.md</code> for sourcing guidance.</p>
-                </div>
+            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility">
+              <div class="stage-image" data-we-image aria-hidden="true">
+                <img
+                  src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=2400&q=85&auto=format&fit=crop"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="stage-overlay"></div>
               </div>
+              <canvas id="we3d-canvas" hidden></canvas>
             </div>
 
             <p class="text-muted" style="margin-top: var(--sp-5); font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft);">
@@ -333,7 +333,10 @@
         grid.material.opacity = 0.45;
         scene.add(grid);
 
-        // ===== Load real 3D model (GLB), with graceful fallback =====
+        // ===== Load 3D model (GLB) silently. The cinematic image stays
+        //       visible until a real model exists at /models/. No user-facing
+        //       debug messaging is ever rendered.
+        let renderingDisabled = true; // start paused; only animate when model loads
         import("three/addons/loaders/GLTFLoader.js").then(({ GLTFLoader }) => {
           const modelPath = "./models/waste-industrial-plant.glb";
           const loader = new GLTFLoader();
@@ -341,22 +344,18 @@
             modelPath,
             (gltf) => {
               const model = gltf.scene;
-              // Enable shadows on every mesh in the model
               model.traverse((c) => {
                 if (c.isMesh) {
                   c.castShadow = true;
                   c.receiveShadow = true;
-                  // Slight gentle tone correction for premium feel
                   if (c.material && "envMapIntensity" in c.material) {
                     c.material.envMapIntensity = 0.9;
                   }
                 }
               });
-              // Fit camera + controls to the model's bounding box
               const box = new THREE.Box3().setFromObject(model);
               const size = box.getSize(new THREE.Vector3());
               const center = box.getCenter(new THREE.Vector3());
-              // Re-anchor model so its base sits on y = 0
               model.position.y -= box.min.y;
               scene.add(model);
 
@@ -370,7 +369,6 @@
               controls.target.set(center.x, size.y * 0.35, center.z);
               controls.update();
 
-              // Tune sun shadow camera to model footprint
               const r = Math.max(size.x, size.z) * 0.8;
               sun.shadow.camera.left = -r;
               sun.shadow.camera.right = r;
@@ -378,24 +376,22 @@
               sun.shadow.camera.bottom = -r;
               sun.shadow.camera.far = r * 4;
               sun.shadow.camera.updateProjectionMatrix();
+
+              // Successful load: reveal the 3D canvas, retire the image.
+              canvas.hidden = false;
+              renderingDisabled = false;
+              const img = document.querySelector("[data-we-image]");
+              if (img) img.style.opacity = "0";
+              setTimeout(() => { if (img) img.remove(); }, 800);
             },
             undefined,
-            (err) => {
-              console.warn(
-                "[WtE] 3D model not found at",
-                modelPath,
-                "— showing fallback panel."
-              );
-              canvas.style.display = "none";
-              const fb = document.querySelector("[data-we-fallback]");
-              if (fb) fb.hidden = false;
-              // Stop the render loop — nothing to draw without the model
-              renderingDisabled = true;
+            () => {
+              // Silent: the cinematic image is already on screen. Production
+              // users see no debug state. Engineering note: drop a GLB at
+              // /models/waste-industrial-plant.glb to enable the 3D path.
             }
           );
         });
-
-        let renderingDisabled = false;
 
 
         const controls = new OrbitControls(camera, canvas);
