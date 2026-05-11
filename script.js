@@ -49,9 +49,14 @@
   document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
   /* ----- Nav active link ----------------------------------------------- */
+  // Only in-page hash links can be section-tracked; external page links are skipped.
   const navLinks = [...document.querySelectorAll(".site-nav a")];
   const navTargets = navLinks
-    .map((l) => document.querySelector(l.getAttribute("href")))
+    .map((l) => {
+      const href = l.getAttribute("href") || "";
+      if (!href.startsWith("#")) return null;
+      try { return document.querySelector(href); } catch (_) { return null; }
+    })
     .filter(Boolean);
   if (navTargets.length) {
     const navObserver = new IntersectionObserver(
