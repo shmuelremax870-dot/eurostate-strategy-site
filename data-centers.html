@@ -281,7 +281,7 @@
         const W = 2400, H = 1350;
         const vpX = W / 2;
         const vpY = H * 0.5;
-        const RACK_COUNT = 12;
+        const RACK_COUNT = 23;
         const lerp = (a, b, t) => a + (b - a) * t;
         const rngFrom = (seed) => {
           let s = (seed | 0) || 1;
@@ -304,7 +304,7 @@
             const xNear = W * 0.5 + side * W * 0.46;
             const xFar = vpX + side * 65;
             const x = lerp(xNear, xFar, depth);
-            const rw = lerp(105, 14, depth);
+            const rw = lerp(72, 9, depth);
             const rhTop = lerp(H * 0.42, vpY, depth * 0.95);
             const rhBot = lerp(H * 0.92, vpY + 10, depth * 0.95);
             const rackLeft = side === -1 ? x - rw : x;
