@@ -190,29 +190,53 @@
     return state;
   }
 
-  /* ----- Hero ambient: drifting mint particles ------------------------ */
+  /* ----- Hero ambient: liquid metaballs (Antigravity-style) ----------- */
   const heroCanvas = document.getElementById("heroCanvas");
   const heroState = setupCanvas(heroCanvas);
-  const dust = Array.from({ length: 70 }, () => ({
-    x: Math.random(),
-    y: Math.random(),
-    s: 0.4 + Math.random() * 1.1,
-    vy: 0.00015 + Math.random() * 0.0003,
-    a: 0.1 + Math.random() * 0.35,
-    phase: Math.random() * Math.PI * 2,
-  }));
+
+  // Floating blobs that drift slowly and merge optically via blur+contrast.
+  const blobs = [
+    { ax: 0.30, ay: 0.42, rx: 0.20, ry: 0.18, fx: 0.00012, fy: 0.00009, px: 0.0, py: 1.2, alpha: 0.55 },
+    { ax: 0.72, ay: 0.55, rx: 0.16, ry: 0.20, fx: 0.00015, fy: 0.00011, px: 2.1, py: 3.4, alpha: 0.50 },
+    { ax: 0.52, ay: 0.30, rx: 0.22, ry: 0.16, fx: 0.00010, fy: 0.00013, px: 4.2, py: 0.5, alpha: 0.45 },
+    { ax: 0.22, ay: 0.70, rx: 0.17, ry: 0.22, fx: 0.00018, fy: 0.00014, px: 1.5, py: 2.8, alpha: 0.50 },
+    { ax: 0.80, ay: 0.28, rx: 0.14, ry: 0.18, fx: 0.00013, fy: 0.00010, px: 3.7, py: 5.1, alpha: 0.45 },
+    { ax: 0.50, ay: 0.78, rx: 0.18, ry: 0.16, fx: 0.00011, fy: 0.00012, px: 2.9, py: 4.0, alpha: 0.40 },
+  ];
+
+  // Canvas 2D `filter` support detection (Safari < 18 lacks it)
+  const supportsCanvasFilter = (function () {
+    try {
+      const c = document.createElement("canvas").getContext("2d");
+      c.filter = "blur(1px)";
+      return c.filter === "blur(1px)";
+    } catch (_) { return false; }
+  })();
+
   function drawHero(time) {
     if (!heroState || !heroState.visible) return;
     const { ctx, w, h } = heroState;
     ctx.clearRect(0, 0, w, h);
-    for (const d of dust) {
-      const y = ((d.y + time * d.vy) % 1) * h;
-      const flicker = 0.6 + Math.sin(time * 0.0012 + d.phase) * 0.4;
+    const minDim = Math.min(w, h);
+
+    // Apply blur + contrast to make overlapping gradients read as liquid.
+    if (supportsCanvasFilter) {
+      ctx.filter = "blur(34px) contrast(10)";
+    }
+    for (const b of blobs) {
+      const x = (b.ax + Math.sin(time * b.fx + b.px) * 0.14) * w;
+      const y = (b.ay + Math.cos(time * b.fy + b.py) * 0.10) * h;
+      const radius = minDim * b.rx;
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+      grad.addColorStop(0,    hexToRgba(palette.accent, b.alpha));
+      grad.addColorStop(0.55, hexToRgba(palette.accent, b.alpha * 0.4));
+      grad.addColorStop(1,    hexToRgba(palette.accent, 0));
+      ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(d.x * w, y, d.s, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(palette.accent, d.a * flicker * 0.5);
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
     }
+    if (supportsCanvasFilter) ctx.filter = "none";
   }
 
   /* =========================================================================
@@ -221,19 +245,67 @@
   const globeCanvas = document.getElementById("globeCanvas");
   const globeState = setupCanvas(globeCanvas);
 
-  // Hub cities (anchor points only — for arcs and markers)
+  /* ----- Globe drag interaction (pointer + touch) --------------------- */
+  const drag = {
+    active: false,
+    lastX: 0,
+    lastY: 0,
+    userRot: 0,      // accumulated rotation offset (deg)
+    userTilt: 0,     // accumulated tilt offset (rad), clamped
+    velRot: 0,
+    velTilt: 0,
+    lastInteract: 0, // timestamp of last interaction
+  };
+  if (globeCanvas) {
+    globeCanvas.style.cursor = "grab";
+    globeCanvas.style.touchAction = "none"; // prevent scroll while dragging
+    globeCanvas.addEventListener("pointerdown", (e) => {
+      drag.active = true;
+      drag.lastX = e.clientX;
+      drag.lastY = e.clientY;
+      drag.velRot = 0;
+      drag.velTilt = 0;
+      drag.lastInteract = performance.now();
+      globeCanvas.setPointerCapture(e.pointerId);
+      globeCanvas.style.cursor = "grabbing";
+    });
+    globeCanvas.addEventListener("pointermove", (e) => {
+      if (!drag.active) return;
+      const dx = e.clientX - drag.lastX;
+      const dy = e.clientY - drag.lastY;
+      drag.userRot += dx * 0.35;
+      drag.userTilt = Math.max(-0.9, Math.min(0.6, drag.userTilt - dy * 0.005));
+      drag.velRot = dx * 0.35;
+      drag.velTilt = -dy * 0.005;
+      drag.lastX = e.clientX;
+      drag.lastY = e.clientY;
+      drag.lastInteract = performance.now();
+    });
+    const endDrag = (e) => {
+      if (!drag.active) return;
+      drag.active = false;
+      drag.lastInteract = performance.now();
+      try { globeCanvas.releasePointerCapture(e.pointerId); } catch (_) {}
+      globeCanvas.style.cursor = "grab";
+    };
+    globeCanvas.addEventListener("pointerup", endDrag);
+    globeCanvas.addEventListener("pointercancel", endDrag);
+  }
+
+
+  // Hub cities (anchor points + lab role tag)
   const hubs = [
-    { name: "Limassol", lon: 33.04, lat: 34.71, home: true },
-    { name: "London",   lon: -0.13, lat: 51.51 },
-    { name: "New York", lon: -74.0, lat: 40.71 },
-    { name: "San Francisco", lon: -122.42, lat: 37.77 },
-    { name: "Tokyo",    lon: 139.69, lat: 35.69 },
-    { name: "Singapore",lon: 103.82, lat: 1.35 },
-    { name: "Dubai",    lon: 55.27, lat: 25.20 },
-    { name: "São Paulo",lon: -46.63, lat: -23.55 },
-    { name: "Berlin",   lon: 13.4,  lat: 52.52 },
-    { name: "Bangalore",lon: 77.59, lat: 12.97 },
-    { name: "Sydney",   lon: 151.21, lat: -33.86 },
+    { name: "Limassol", lon: 33.04, lat: 34.71, home: true,         role: "LAB" },
+    { name: "London",   lon: -0.13, lat: 51.51,                    role: "AUDIT" },
+    { name: "New York", lon: -74.0, lat: 40.71,                    role: "MARKET" },
+    { name: "San Francisco", lon: -122.42, lat: 37.77,             role: "BUILD" },
+    { name: "Tokyo",    lon: 139.69, lat: 35.69,                   role: "SIGNAL" },
+    { name: "Singapore",lon: 103.82, lat: 1.35,                    role: "ROLLOUT" },
+    { name: "Dubai",    lon: 55.27, lat: 25.20,                    role: "CAPITAL" },
+    { name: "São Paulo",lon: -46.63, lat: -23.55,                  role: "OBSERVE" },
+    { name: "Berlin",   lon: 13.4,  lat: 52.52,                    role: "STUDIO" },
+    { name: "Bangalore",lon: 77.59, lat: 12.97,                    role: "ENGINE" },
+    { name: "Sydney",   lon: 151.21, lat: -33.86,                  role: "SCAN" },
   ];
   const arcDestinations = hubs.map((_, i) => i).filter((i) => !hubs[i].home);
 
@@ -543,8 +615,27 @@
     const cy = h / 2;
     // Sphere takes 38% of min dimension — proportional, never stretched
     const r = Math.min(w, h) * 0.38;
-    const tilt = -0.32 + Math.sin(time * 0.00012) * 0.025;
-    const rotation = (time * 0.0035) % 360;
+
+    // Decay drag momentum after release
+    if (!drag.active) {
+      if (Math.abs(drag.velRot)  > 0.01) {
+        drag.userRot  += drag.velRot;
+        drag.velRot   *= 0.94;
+      } else { drag.velRot = 0; }
+      if (Math.abs(drag.velTilt) > 0.0005) {
+        drag.userTilt = Math.max(-0.9, Math.min(0.6, drag.userTilt + drag.velTilt));
+        drag.velTilt  *= 0.94;
+      } else { drag.velTilt = 0; }
+    }
+
+    // Auto-rotation resumes 3.5s after the last user interaction
+    const sinceInteract = performance.now() - drag.lastInteract;
+    const userActive = drag.active || sinceInteract < 3500;
+    const autoOn = !userActive && drag.velRot === 0;
+    const autoRot = autoOn ? (time * 0.0035) % 360 : 0;
+
+    const tilt = -0.32 + (autoOn ? Math.sin(time * 0.00012) * 0.025 : 0) + drag.userTilt;
+    const rotation = (autoRot + drag.userRot) % 360;
     const accent  = palette.accent;
     const accent2 = palette.accent2;
 
@@ -591,9 +682,9 @@
     const ly = cy - lScreen.y * r * 0.7;
 
     const oceanGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r * 1.05);
-    oceanGrad.addColorStop(0,    "rgba(28, 50, 38, 0.85)");   // deep forest, sunlit
-    oceanGrad.addColorStop(0.45, "rgba(10, 22, 16, 0.92)");   // near-black green
-    oceanGrad.addColorStop(1,    "rgba(3, 8, 5, 0.97)");      // pure dark
+    oceanGrad.addColorStop(0,    "rgba(22, 38, 26, 0.90)");   // warm dark olive (sunlit)
+    oceanGrad.addColorStop(0.45, "rgba(8, 16, 10, 0.95)");    // near-black green
+    oceanGrad.addColorStop(1,    "rgba(2, 5, 3, 0.98)");      // pure dark
     ctx.fillStyle = oceanGrad;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -636,17 +727,7 @@
       ctx.stroke();
     }
 
-    // ===== Day-side soft highlight pass (under continents — won't wash them out) =====
-    ctx.globalCompositeOperation = "screen";
-    const dayGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r);
-    dayGrad.addColorStop(0,   hexToRgba(accent, 0.08));
-    dayGrad.addColorStop(0.6, hexToRgba(accent, 0.02));
-    dayGrad.addColorStop(1,   "rgba(0,0,0,0)");
-    ctx.fillStyle = dayGrad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalCompositeOperation = "source-over";
+    // (Day-side screen blend removed — was creating a chrome-blue glow)
 
     // ===== Real continents — subtle earth tones, thin outline =====
     {
@@ -749,7 +830,7 @@
 
     ctx.restore(); // end clip
 
-    // ===== Hub markers (over the clip) =====
+    // ===== Hub markers + lab role labels =====
     hubs.forEach((hub) => {
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) return;
@@ -772,12 +853,49 @@
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      if (hub.home) {
-        ctx.font = "500 11px 'JetBrains Mono', monospace";
-        ctx.fillStyle = hexToRgba(palette.text, 0.85);
-        ctx.fillText(hub.name.toUpperCase(), p.x + 10, p.y - 6);
+      // Lab role caption — only when hub is well within the visible hemisphere
+      if (hub.role && (p.z > 0.45 || hub.home)) {
+        const lx2 = p.x + 9;
+        const ly2 = p.y - 5;
+        // Thin connector line
+        ctx.beginPath();
+        ctx.moveTo(p.x + 1, p.y);
+        ctx.lineTo(p.x + 7, p.y - 3);
+        ctx.strokeStyle = hexToRgba(palette.muted, hub.home ? 0.7 : 0.30);
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+
+        ctx.font = "500 9.5px 'JetBrains Mono', monospace";
+        ctx.fillStyle = hexToRgba(palette.text, hub.home ? 0.9 : 0.55);
+        ctx.fillText(hub.role, lx2, ly2);
+        if (hub.home) {
+          ctx.font = "500 10.5px 'JetBrains Mono', monospace";
+          ctx.fillStyle = hexToRgba(accent, 0.95);
+          ctx.fillText(hub.name.toUpperCase(), lx2, ly2 + 13);
+        }
       }
     });
+
+    // ===== Scanning sweep — slow rotating line gives "active lab" feel =====
+    {
+      const scanAngle = (time * 0.00045) % (Math.PI * 2);
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(scanAngle);
+      const scanGrad = ctx.createLinearGradient(-r * 1.05, 0, r * 1.05, 0);
+      scanGrad.addColorStop(0,    hexToRgba(accent, 0));
+      scanGrad.addColorStop(0.5,  hexToRgba(accent, 0.30));
+      scanGrad.addColorStop(0.55, hexToRgba(accent, 0.60));
+      scanGrad.addColorStop(0.6,  hexToRgba(accent, 0.30));
+      scanGrad.addColorStop(1,    hexToRgba(accent, 0));
+      ctx.strokeStyle = scanGrad;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(-r * 1.05, 0);
+      ctx.lineTo(r * 1.05, 0);
+      ctx.stroke();
+      ctx.restore();
+    }
 
     // ===== Hub bursts =====
     for (let i = hubBursts.length - 1; i >= 0; i--) {
