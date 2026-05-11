@@ -676,160 +676,86 @@
     const autoOn = !userActive && drag.velRot === 0;
     const autoRot = autoOn ? (time * 0.0035) % 360 : 0;
 
-    const tilt = -0.32 + (autoOn ? Math.sin(time * 0.00012) * 0.025 : 0) + drag.userTilt;
-    const rotation = (autoRot + drag.userRot) % 360;
-    const accent  = palette.accent;
-    const accent2 = palette.accent2;
+    const tilt = -0.32 + (autoOn ? Math.sin(time * 0.00012) * 0.018 : 0) + drag.userTilt;
+    // Slower auto-rotation for premium, deliberate feel.
+    const rotation = (autoOn ? (time * 0.0018) % 360 : 0) + drag.userRot;
+    const accent = palette.accent;
 
-    // 7-second global heartbeat (gaussian bell)
-    const cycle = (time % 7000) / 7000;
-    const beatT = cycle - 0.12;
-    const heartbeat = Math.exp(-beatT * beatT * 28);
+    // (No heartbeat pulse, no sand color, no role labels, no hub bursts —
+    //  all decorative HUD effects have been removed for a calmer composition.)
 
-    // Readouts
-    const elNodes    = document.querySelector("[data-readout-nodes]");
-    const elArcs     = document.querySelector("[data-readout-arcs]");
-    const elRotation = document.querySelector("[data-readout-rotation]");
-    if (elNodes)    elNodes.textContent    = String(hubs.length);
-    if (elArcs)     elArcs.textContent     = String(liveArcs.length);
-    if (elRotation) elRotation.textContent = `${rotation.toFixed(1)}°`;
-
-    // ===== Starfield (static, neutral + sand) =====
+    // ===== Deep space background (subtle, static) =====
     for (const s of stars) {
-      const color = s.tier === "sand" ? accent2 : palette.text;
-      const alpha = s.a * (0.4 + heartbeat * 0.35);
       ctx.beginPath();
-      ctx.arc(s.x * w, s.y * h, s.s, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(color, alpha);
+      ctx.arc(s.x * w, s.y * h, s.s * 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = hexToRgba(palette.text, s.a * 0.35);
       ctx.fill();
     }
 
-    // ===== Atmosphere halo — thinner, grounded =====
-    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.98, cx, cy, r * 1.28);
-    haloGrad.addColorStop(0,    hexToRgba(accent, 0.14 + heartbeat * 0.18));
-    haloGrad.addColorStop(0.5,  hexToRgba(accent, 0.04));
-    haloGrad.addColorStop(1,    hexToRgba(accent, 0));
-    ctx.fillStyle = haloGrad;
+    // ===== Outer atmospheric scattering — soft emerald rim glow =====
+    const haloOuter = ctx.createRadialGradient(cx, cy, r * 0.99, cx, cy, r * 1.18);
+    haloOuter.addColorStop(0,    hexToRgba(accent, 0.22));
+    haloOuter.addColorStop(0.55, hexToRgba(accent, 0.05));
+    haloOuter.addColorStop(1,    hexToRgba(accent, 0));
+    ctx.fillStyle = haloOuter;
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 1.28, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r * 1.18, 0, Math.PI * 2);
     ctx.fill();
 
-    // ===== Sphere base — dark green-black, NO blue tint =====
-    // Lit position based on a fixed light direction projected on screen
+    // ===== Sphere body — deep black ocean with subtle emerald sub-solar wash =====
     const lightDir = { x: -0.45, y: 0.55, z: 0.7 };
     const lm = Math.hypot(lightDir.x, lightDir.y, lightDir.z);
     lightDir.x /= lm; lightDir.y /= lm; lightDir.z /= lm;
     const lScreen = rotateAndTilt(lightDir, 0, tilt);
-    const lx = cx + lScreen.x * r * 0.7;
-    const ly = cy - lScreen.y * r * 0.7;
+    const lx = cx + lScreen.x * r * 0.65;
+    const ly = cy - lScreen.y * r * 0.65;
 
-    const oceanGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r * 1.05);
-    oceanGrad.addColorStop(0,    "rgba(22, 38, 26, 0.90)");   // warm dark olive (sunlit)
-    oceanGrad.addColorStop(0.45, "rgba(8, 16, 10, 0.95)");    // near-black green
-    oceanGrad.addColorStop(1,    "rgba(2, 5, 3, 0.98)");      // pure dark
+    const oceanGrad = ctx.createRadialGradient(lx, ly, r * 0.05, cx, cy, r * 1.02);
+    oceanGrad.addColorStop(0,    "rgba(14, 26, 22, 0.96)");
+    oceanGrad.addColorStop(0.5,  "rgba(4, 10, 8, 0.98)");
+    oceanGrad.addColorStop(1,    "rgba(2, 4, 3, 1)");
     ctx.fillStyle = oceanGrad;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.fill();
 
-    // Clip to sphere
+    // Clip everything else inside the sphere
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.clip();
 
-    // ===== Graticule — clearer, mint at low alpha =====
-    // Parallels
-    ctx.lineWidth = 0.7;
-    for (let lat = -75; lat <= 75; lat += 15) {
-      const major = lat === 0;
-      ctx.strokeStyle = hexToRgba(accent, major ? 0.20 : 0.09);
-      ctx.beginPath();
-      let started = false;
-      for (let lon = -180; lon <= 180; lon += 5) {
-        const p = project(lon, lat, rotation, cx, cy, r, tilt);
-        if (!p.visible) { started = false; continue; }
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-        else ctx.lineTo(p.x, p.y);
-      }
-      ctx.stroke();
-    }
-    // Meridians
-    for (let lon = -180; lon < 180; lon += 15) {
-      const major = lon === 0 || lon === -180 || Math.abs(lon) === 90;
-      ctx.strokeStyle = hexToRgba(accent, major ? 0.18 : 0.07);
-      ctx.beginPath();
-      let started = false;
-      for (let lat = -82; lat <= 82; lat += 4) {
-        const p = project(lon, lat, rotation, cx, cy, r, tilt);
-        if (!p.visible) { started = false; continue; }
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-        else ctx.lineTo(p.x, p.y);
-      }
-      ctx.stroke();
+    // ===== Continents — crisp emerald outline, no fill warmth =====
+    for (const m of continentMeta) {
+      const shade = shadeAt(m.centroid[0], m.centroid[1], rotation, tilt);
+      // Very subtle emerald fill — visible only on lit side
+      const fillA = 0.025 + shade * 0.10;
+      ctx.fillStyle = hexToRgba(accent, fillA);
+      // Crisp, clean stroke — uniform emerald
+      const strokeA = 0.18 + shade * 0.36;
+      ctx.strokeStyle = hexToRgba(accent, strokeA);
+      ctx.lineWidth = 0.7;
+      drawClippedRing(ctx, m.ring, rotation, cx, cy, r, tilt);
     }
 
-    // (Day-side screen blend removed — was creating a chrome-blue glow)
-
-    // ===== Real continents — subtle earth tones, thin outline =====
-    {
-      const beat = heartbeat * 0.10;
-      for (const m of continentMeta) {
-        const shade = shadeAt(m.centroid[0], m.centroid[1], rotation, tilt);
-        // Warm sand fill — looks like real land, not glowing mint
-        const fillA = 0.04 + shade * 0.16 + beat * shade;
-        ctx.fillStyle = hexToRgba(accent2, fillA);
-        // Thin, restrained outline — barely there on the dark side
-        const strokeA = 0.10 + shade * 0.32 + beat * 0.10;
-        ctx.strokeStyle = hexToRgba(palette.text, strokeA);
-        ctx.lineWidth = 0.6;
-        drawClippedRing(ctx, m.ring, rotation, cx, cy, r, tilt);
-      }
-    }
-
-    // ===== Bentley starlight: dense twinkling stars on land =====
-    for (const sp of sparkles) {
-      const p = project(sp.lon, sp.lat, rotation, cx, cy, r, tilt);
-      if (!p.visible) continue;
-      const shade = shadeAt(sp.lon, sp.lat, rotation, tilt);
-      if (shade < 0.18) continue;
-      const twinkle = sp.steady
-        ? 0.85
-        : 0.4 + 0.6 * Math.pow((Math.sin(time * sp.rate + sp.phase) + 1) / 2, 2);
-      const alpha = sp.baseAlpha * twinkle * (0.55 + shade * 0.45);
-      const size  = sp.baseSize * (0.8 + twinkle * 0.5);
-      const color = sp.feature ? accent : palette.text;
-      if (sp.feature) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size * 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = hexToRgba(accent, alpha * 0.18);
-        ctx.fill();
-      }
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(color, alpha);
-      ctx.fill();
-    }
-
-    // ===== Arcs (mint primary, sand secondary; clipped inside sphere) =====
+    // ===== Sparse orbital arcs — at most one in flight =====
     arcTimer += 16;
-    if (arcTimer > 1600) { arcTimer = 0; spawnArc(); }
+    if (arcTimer > 3600 && liveArcs.length === 0) { arcTimer = 0; spawnArc(); }
 
     for (let i = liveArcs.length - 1; i >= 0; i--) {
       const arc = liveArcs[i];
       arc.t += arc.speed * 16;
       if (arc.t >= 1) {
-        arc.lifetime -= 0.02;
+        arc.lifetime -= 0.015;
         if (arc.lifetime <= 0) { liveArcs.splice(i, 1); continue; }
       }
-      const arcColor = arc.tier === "accent2" ? accent2 : accent;
 
       const a = unitVec(hubs[arc.from].lon, hubs[arc.from].lat);
       const b = unitVec(hubs[arc.to].lon,   hubs[arc.to].lat);
       const dot = Math.max(-1, Math.min(1, a.x*b.x + a.y*b.y + a.z*b.z));
       const dist = Math.acos(dot);
-      const maxBulge = 0.08 + dist * 0.14;
-      const samples = 32;
+      const maxBulge = 0.06 + dist * 0.10;
+      const samples = 36;
       const tProgress = Math.min(1, arc.t);
 
       ctx.beginPath();
@@ -846,13 +772,9 @@
         else ctx.lineTo(p.x, p.y);
         prevVisible = true;
       }
-      const alpha = 0.6 * arc.lifetime;
-      ctx.strokeStyle = hexToRgba(arcColor, alpha);
-      ctx.lineWidth = 1.3;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = hexToRgba(arcColor, 0.55);
+      ctx.strokeStyle = hexToRgba(accent, 0.45 * arc.lifetime);
+      ctx.lineWidth = 0.9;
       ctx.stroke();
-      ctx.shadowBlur = 0;
 
       if (tProgress < 1) {
         const v = slerp(a, b, tProgress);
@@ -860,87 +782,36 @@
         const p = projectVec(v, rotation, cx, cy, r, tilt, 1 + bulge);
         if (p.visible) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 2.6, 0, Math.PI * 2);
-          ctx.fillStyle = hexToRgba(arcColor, 0.95);
-          ctx.shadowBlur = 16;
-          ctx.shadowColor = hexToRgba(arcColor, 0.8);
+          ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = hexToRgba(accent, 0.9);
           ctx.fill();
-          ctx.shadowBlur = 0;
         }
       }
     }
 
-    ctx.restore(); // end clip
+    ctx.restore();
 
-    // ===== Hub markers + lab role labels =====
+    // ===== Hub node lights — small, uniform, no labels =====
     hubs.forEach((hub) => {
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) return;
-      const baseR = hub.home ? 3.6 : 2.0;
-
-      if (hub.home) {
-        const ringR = baseR + 6 + heartbeat * 14;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
-        ctx.strokeStyle = hexToRgba(accent, 0.35 + heartbeat * 0.35);
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-
+      const baseR = hub.home ? 2.4 : 1.5;
       ctx.beginPath();
       ctx.arc(p.x, p.y, baseR, 0, Math.PI * 2);
       ctx.fillStyle = hub.home ? hexToRgba(palette.text, 1) : hexToRgba(accent, 0.85);
-      ctx.shadowBlur = hub.home ? 20 : 8;
-      ctx.shadowColor = hexToRgba(accent, hub.home ? 0.9 : 0.5);
       ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Lab role caption — only when hub is well within the visible hemisphere
-      if (hub.role && (p.z > 0.45 || hub.home)) {
-        const lx2 = p.x + 9;
-        const ly2 = p.y - 5;
-        // Thin connector line
-        ctx.beginPath();
-        ctx.moveTo(p.x + 1, p.y);
-        ctx.lineTo(p.x + 7, p.y - 3);
-        ctx.strokeStyle = hexToRgba(palette.muted, hub.home ? 0.7 : 0.30);
-        ctx.lineWidth = 0.6;
-        ctx.stroke();
-
-        ctx.font = "500 9.5px 'JetBrains Mono', monospace";
-        ctx.fillStyle = hexToRgba(palette.text, hub.home ? 0.9 : 0.55);
-        ctx.fillText(hub.role, lx2, ly2);
-        if (hub.home) {
-          ctx.font = "500 10.5px 'JetBrains Mono', monospace";
-          ctx.fillStyle = hexToRgba(accent, 0.95);
-          ctx.fillText(hub.name.toUpperCase(), lx2, ly2 + 13);
-        }
+      // Only home gets a single understated label
+      if (hub.home) {
+        ctx.font = "500 10px 'JetBrains Mono', monospace";
+        ctx.fillStyle = hexToRgba(palette.text, 0.7);
+        ctx.fillText("LIMASSOL", p.x + 9, p.y - 4);
       }
     });
 
-    // (Scanning sweep removed — was an intrusive line across the sphere)
-
-    // ===== Hub bursts =====
-    for (let i = hubBursts.length - 1; i >= 0; i--) {
-      const burst = hubBursts[i];
-      burst.t += 0.012;
-      if (burst.t >= 1) { hubBursts.splice(i, 1); continue; }
-      const hub = hubs[burst.idx];
-      const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
-      if (!p.visible) continue;
-      const burstColor = burst.tier === "accent2" ? accent2 : accent;
-      const ringR = 6 + burst.t * 38;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
-      ctx.strokeStyle = hexToRgba(burstColor, 0.5 * (1 - burst.t));
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-    }
-
-    // ===== Sphere rim =====
+    // ===== Sphere edge — single crisp rim =====
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.strokeStyle = hexToRgba(accent, 0.35);
+    ctx.strokeStyle = hexToRgba(accent, 0.32);
     ctx.lineWidth = 0.8;
     ctx.stroke();
   }

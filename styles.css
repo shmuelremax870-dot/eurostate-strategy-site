@@ -603,8 +603,11 @@
     aspect-ratio: 1 / 1;
     min-height: clamp(360px, 50vw, 560px);
     max-height: 620px;
-    background: transparent;
-    overflow: visible;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.65) 100%),
+      #04060a;
+    overflow: hidden;
+    border-radius: 50%;
   }
   .system-stage canvas {
     position: absolute;
