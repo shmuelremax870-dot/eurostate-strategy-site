@@ -1010,6 +1010,17 @@
   }
   .we-stage svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
+  /* Wide industrial schematic — pulls outside the editorial column for breathing room */
+  .we-stage-wide {
+    aspect-ratio: 16 / 9;
+    max-height: none;
+    margin-inline: calc(var(--gutter) * -0.5);
+  }
+  @media (min-width: 1100px) {
+    .we-stage-wide { margin-inline: 0; }
+  }
+  .we-stage-wide svg { min-height: 480px; }
+
   .we-iso-grid { stroke: var(--line); }
   .we-unit {
     cursor: pointer;

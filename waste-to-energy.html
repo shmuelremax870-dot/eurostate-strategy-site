@@ -120,83 +120,461 @@
               the electrons that train tomorrow's AI models.
             </p>
 
-            <div class="we-stage" aria-label="Waste-to-energy plant schematic">
-              <svg viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet">
+            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy plant schematic">
+              <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                  <pattern id="we-iso-grid" width="48" height="28" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
-                    <path d="M 48 0 L 0 0 0 28" fill="none" class="we-iso-grid" stroke-width="0.5"/>
+                  <pattern id="we-iso-grid" width="64" height="36" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                    <path d="M 64 0 L 0 0 0 36" fill="none" stroke="var(--line)" stroke-width="0.4"/>
                   </pattern>
-                  <linearGradient id="energy-glow" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0"/>
-                    <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.6"/>
-                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+                  <linearGradient id="cyl-dark" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="rgba(6,14,10,0.96)"/>
+                    <stop offset="50%"  stop-color="rgba(22,38,28,0.95)"/>
+                    <stop offset="100%" stop-color="rgba(6,14,10,0.97)"/>
                   </linearGradient>
+                  <linearGradient id="cyl-hot" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="rgba(40,28,16,0.96)"/>
+                    <stop offset="50%"  stop-color="rgba(110,72,32,0.88)"/>
+                    <stop offset="100%" stop-color="rgba(40,28,16,0.97)"/>
+                  </linearGradient>
+                  <linearGradient id="cyl-steel" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="rgba(14,22,18,0.97)"/>
+                    <stop offset="50%"  stop-color="rgba(50,68,58,0.92)"/>
+                    <stop offset="100%" stop-color="rgba(14,22,18,0.97)"/>
+                  </linearGradient>
+                  <linearGradient id="cyl-cool" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="rgba(10,22,16,0.97)"/>
+                    <stop offset="50%"  stop-color="rgba(32,56,44,0.93)"/>
+                    <stop offset="100%" stop-color="rgba(10,22,16,0.97)"/>
+                  </linearGradient>
+                  <linearGradient id="hall-roof" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(34,52,42,0.96)"/>
+                    <stop offset="100%" stop-color="rgba(14,24,18,0.97)"/>
+                  </linearGradient>
+                  <symbol id="rivet">
+                    <circle r="1.2" fill="var(--line-strong)"/>
+                  </symbol>
                 </defs>
 
-                <!-- Ground plane -->
-                <rect x="0" y="430" width="1200" height="290" fill="url(#we-iso-grid)" opacity="0.35"/>
+                <!-- Iso ground plane -->
+                <rect x="0" y="500" width="1600" height="400" fill="url(#we-iso-grid)" opacity="0.45"/>
+                <!-- Subterranean section line -->
+                <line x1="0" y1="500" x2="1600" y2="500" stroke="var(--line-strong)" stroke-width="0.6" opacity="0.5"/>
+                <line x1="0" y1="660" x2="1600" y2="660" stroke="var(--line)" stroke-width="0.4" stroke-dasharray="2 6" opacity="0.6"/>
+                <text x="20" y="676" style="font-family: var(--font-mono); font-size: 9px; fill: var(--soft); letter-spacing: 0.06em;">SUBGRADE · UTILITY PLENUM</text>
 
-                <!-- Stage 01: INTAKE -->
-                <g class="we-unit intake" transform="translate(120, 320)">
-                  <!-- Building: rectangular volume in iso -->
-                  <polygon class="face-top"   points="0,40 100,-10 200,40 100,90"/>
-                  <polygon class="face-left"  points="0,40 0,160 100,210 100,90"/>
-                  <polygon class="face-right" points="200,40 200,160 100,210 100,90"/>
-                  <!-- Stack -->
-                  <polygon class="face-top"   points="60,-20 90,-35 120,-20 90,-5"/>
-                  <polygon class="face-left"  points="60,-20 60,40 90,55 90,-5"/>
-                  <polygon class="face-right" points="120,-20 120,40 90,55 90,-5"/>
+                <!-- Plant title -->
+                <text x="40" y="50" style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; fill: var(--text);">EUROSTATE WTE · FACILITY 01</text>
+                <text x="40" y="68" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--muted);">CIRCULAR THERMAL CONVERSION · BASE-LOAD 18 MW</text>
+                <text x="40" y="84" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; fill: var(--soft);">PROCESS LINE · LEFT → RIGHT</text>
+
+                <!-- ===================================================== -->
+                <!-- STAGE 01 — Intake bunker + truss conveyor             -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Conveyor truss (long ascending) -->
+                  <g stroke="var(--line-strong)" stroke-width="0.9" fill="none">
+                    <!-- Top chord -->
+                    <line x1="40" y1="540" x2="280" y2="408"/>
+                    <!-- Bottom chord -->
+                    <line x1="40" y1="560" x2="280" y2="428"/>
+                    <!-- Truss diagonals -->
+                    <line x1="50"  y1="555" x2="62"  y2="544"/>
+                    <line x1="78"  y1="540" x2="90"  y2="528"/>
+                    <line x1="106" y1="525" x2="118" y2="513"/>
+                    <line x1="134" y1="510" x2="146" y2="498"/>
+                    <line x1="162" y1="495" x2="174" y2="482"/>
+                    <line x1="190" y1="480" x2="202" y2="468"/>
+                    <line x1="218" y1="465" x2="230" y2="452"/>
+                    <line x1="246" y1="450" x2="258" y2="438"/>
+                    <!-- Cross verticals -->
+                    <line x1="62"  y1="555" x2="62"  y2="540"/>
+                    <line x1="90"  y1="540" x2="90"  y2="524"/>
+                    <line x1="118" y1="525" x2="118" y2="510"/>
+                    <line x1="146" y1="510" x2="146" y2="494"/>
+                    <line x1="174" y1="495" x2="174" y2="478"/>
+                    <line x1="202" y1="480" x2="202" y2="464"/>
+                    <line x1="230" y1="464" x2="230" y2="448"/>
+                    <line x1="258" y1="450" x2="258" y2="434"/>
+                    <!-- Truss support legs -->
+                    <line x1="56"  y1="558" x2="56"  y2="640"/>
+                    <line x1="56"  y1="640" x2="44"  y2="652"/>
+                    <line x1="56"  y1="640" x2="68"  y2="650"/>
+                    <line x1="156" y1="503" x2="156" y2="640"/>
+                    <line x1="156" y1="640" x2="144" y2="652"/>
+                    <line x1="156" y1="640" x2="168" y2="650"/>
+                  </g>
+                  <!-- Belt surface -->
+                  <polygon points="44,548 280,418 286,432 50,562" fill="rgba(14,22,18,0.92)" stroke="var(--line-strong)" stroke-width="0.6"/>
+                  <!-- Material chunks travelling on belt -->
+                  <g>
+                    <rect x="60" y="545" width="6" height="3" fill="var(--accent-2)" opacity="0.7">
+                      <animateTransform attributeName="transform" type="translate" from="0 0" to="220 -120" dur="6s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="58" y="542" width="5" height="3" fill="var(--accent-2)" opacity="0.6">
+                      <animateTransform attributeName="transform" type="translate" from="-40 22" to="180 -98" dur="6s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="58" y="546" width="7" height="3" fill="var(--accent-2)" opacity="0.65">
+                      <animateTransform attributeName="transform" type="translate" from="-90 50" to="130 -70" dur="6s" repeatCount="indefinite"/>
+                    </rect>
+                  </g>
+
+                  <!-- Intake bunker (large open-top box) -->
+                  <g>
+                    <polygon points="280,420 410,355 540,420 410,485" fill="rgba(22,38,28,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                    <polygon points="280,420 280,580 410,645 410,485" fill="rgba(10,22,16,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                    <polygon points="540,420 540,580 410,645 410,485" fill="rgba(6,14,10,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                    <!-- Open top inner darkness -->
+                    <polygon points="304,420 410,367 516,420 410,473" fill="rgba(2,5,3,0.95)" stroke="var(--line)" stroke-width="0.6"/>
+                    <!-- Material pile inside top -->
+                    <ellipse cx="410" cy="440" rx="80" ry="12" fill="var(--accent-2)" opacity="0.5"/>
+                    <!-- Beam framing on faces -->
+                    <line x1="280" y1="460" x2="410" y2="525" stroke="var(--line)" stroke-width="0.5"/>
+                    <line x1="280" y1="500" x2="410" y2="565" stroke="var(--line)" stroke-width="0.5"/>
+                    <line x1="280" y1="540" x2="410" y2="605" stroke="var(--line)" stroke-width="0.5"/>
+                    <line x1="540" y1="460" x2="410" y2="525" stroke="var(--line)" stroke-width="0.5"/>
+                    <line x1="540" y1="500" x2="410" y2="565" stroke="var(--line)" stroke-width="0.5"/>
+                    <line x1="540" y1="540" x2="410" y2="605" stroke="var(--line)" stroke-width="0.5"/>
+                  </g>
+                  <!-- Lower conveyor: bunker → reactor (underground) -->
+                  <path d="M 410 645 L 410 685 L 660 685 L 660 660" stroke="var(--line-strong)" stroke-width="1.4" fill="none"/>
+                  <path d="M 410 645 L 410 685 L 660 685 L 660 660" stroke="var(--accent)" stroke-width="0.8" fill="none" stroke-dasharray="3 6" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" values="0;-9" dur="1.4s" repeatCount="indefinite"/>
+                  </path>
+
+                  <!-- Labels -->
+                  <line x1="156" y1="510" x2="156" y2="345" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="160" y="340" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">01 · INTAKE</text>
+                  <text x="160" y="354" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">CONVEYOR C-101 · 240 t/h</text>
+                  <line x1="410" y1="350" x2="410" y2="290" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="414" y="284" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">BUNKER B-1</text>
+                  <text x="414" y="298" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">12,000 m³ · 36 h reserve</text>
                 </g>
-                <text x="100" y="290" class="we-label">01 · INTAKE</text>
-                <text x="100" y="305" class="we-label-muted">Sorting + drying</text>
 
-                <!-- Flow: Intake -> Combustion -->
-                <path class="we-flow"
-                      d="M 330 415 C 380 415, 420 405, 470 410"/>
-
-                <!-- Stage 02: COMBUSTION -->
-                <g class="we-unit combustion" transform="translate(450, 290)">
-                  <polygon class="face-top"   points="0,50 120,-15 240,50 120,115"/>
-                  <polygon class="face-left"  points="0,50 0,190 120,250 120,115"/>
-                  <polygon class="face-right" points="240,50 240,190 120,250 120,115"/>
-                  <!-- Heat indicator stack -->
-                  <polygon class="face-top"   points="80,-30 110,-50 140,-30 110,-10"/>
-                  <polygon class="face-left"  points="80,-30 80,50 110,70 110,-10"/>
-                  <polygon class="face-right" points="140,-30 140,50 110,70 110,-10"/>
+                <!-- ===================================================== -->
+                <!-- STAGE 02 — Reactor (vertical cylinder + framing)      -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Structural framing around reactor (steel cage) -->
+                  <g stroke="var(--line-strong)" stroke-width="0.7" fill="none">
+                    <rect x="600" y="280" width="160" height="370"/>
+                    <line x1="600" y1="370" x2="760" y2="370"/>
+                    <line x1="600" y1="460" x2="760" y2="460"/>
+                    <line x1="600" y1="550" x2="760" y2="550"/>
+                    <line x1="680" y1="280" x2="680" y2="650"/>
+                    <line x1="600" y1="280" x2="760" y2="320"/>
+                    <line x1="760" y1="280" x2="600" y2="320"/>
+                  </g>
+                  <!-- Reactor cylinder body -->
+                  <rect x="630" y="305" width="100" height="320" fill="url(#cyl-hot)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Cylinder top ellipse -->
+                  <ellipse cx="680" cy="305" rx="50" ry="14" fill="rgba(60,42,22,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Cylinder bottom ellipse (half visible) -->
+                  <path d="M 630 625 A 50 14 0 0 0 730 625" fill="rgba(30,20,12,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Reactor side details: viewport + bands -->
+                  <rect x="640" y="380" width="80" height="6" fill="rgba(2,5,3,0.92)" stroke="var(--line)" stroke-width="0.4"/>
+                  <rect x="640" y="450" width="80" height="6" fill="rgba(2,5,3,0.92)" stroke="var(--line)" stroke-width="0.4"/>
+                  <rect x="640" y="520" width="80" height="6" fill="rgba(2,5,3,0.92)" stroke="var(--line)" stroke-width="0.4"/>
+                  <!-- Heat glow inside (small accent strip) -->
+                  <rect x="660" y="430" width="40" height="100" fill="var(--accent-2)" opacity="0.18"/>
+                  <!-- Top connection pipes (to gas cleaning) -->
+                  <path d="M 680 305 L 680 250 L 820 250 L 820 290" stroke="var(--line-strong)" stroke-width="2" fill="none"/>
+                  <path d="M 680 305 L 680 250 L 820 250 L 820 290" stroke="var(--accent-2)" stroke-width="0.9" fill="none" stroke-dasharray="3 5" opacity="0.85">
+                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="1.0s" repeatCount="indefinite"/>
+                  </path>
+                  <!-- Side steam pipe (to turbine) -->
+                  <path d="M 730 420 L 880 420 L 880 480" stroke="var(--line-strong)" stroke-width="2" fill="none"/>
+                  <path d="M 730 420 L 880 420 L 880 480" stroke="var(--accent-2)" stroke-width="0.9" fill="none" stroke-dasharray="3 5" opacity="0.85">
+                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="0.9s" repeatCount="indefinite"/>
+                  </path>
+                  <!-- Label -->
+                  <line x1="680" y1="280" x2="680" y2="220" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="684" y="214" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">02 · REACTOR R-1</text>
+                  <text x="684" y="228" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">FLUIDIZED BED · 1100 °C</text>
+                  <!-- Catwalk hint from reactor frame -->
+                  <line x1="600" y1="370" x2="380" y2="370" stroke="var(--line-strong)" stroke-width="0.7"/>
+                  <line x1="600" y1="385" x2="380" y2="385" stroke="var(--line)" stroke-width="0.4"/>
+                  <line x1="430" y1="370" x2="430" y2="385" stroke="var(--line)" stroke-width="0.4"/>
+                  <line x1="490" y1="370" x2="490" y2="385" stroke="var(--line)" stroke-width="0.4"/>
+                  <line x1="550" y1="370" x2="550" y2="385" stroke="var(--line)" stroke-width="0.4"/>
                 </g>
-                <text x="440" y="280" class="we-label">02 · COMBUSTION</text>
-                <text x="440" y="295" class="we-label-muted">Steam generation</text>
 
-                <!-- Flow: Combustion -> Turbine (heat) -->
-                <path class="we-flow heat"
-                      d="M 700 415 C 760 415, 800 405, 850 410"/>
+                <!-- ===================================================== -->
+                <!-- STAGE 03 — Gas cleaning towers + tall stack           -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Scrubber tower 1 -->
+                  <rect x="790" y="290" width="60" height="335" fill="url(#cyl-steel)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="820" cy="290" rx="30" ry="9" fill="rgba(40,56,48,0.95)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <path d="M 790 625 A 30 9 0 0 0 850 625" fill="rgba(10,20,16,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Bands around scrubber -->
+                  <rect x="790" y="350" width="60" height="3" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="790" y="430" width="60" height="3" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="790" y="510" width="60" height="3" fill="var(--line-strong)" opacity="0.6"/>
+                  <use href="#rivet" x="803" y="357"/>
+                  <use href="#rivet" x="820" y="357"/>
+                  <use href="#rivet" x="837" y="357"/>
 
-                <!-- Stage 03: TURBINE -->
-                <g class="we-unit turbine" transform="translate(840, 310)">
-                  <polygon class="face-top"   points="0,45 110,-12 220,45 110,102"/>
-                  <polygon class="face-left"  points="0,45 0,170 110,225 110,102"/>
-                  <polygon class="face-right" points="220,45 220,170 110,225 110,102"/>
-                  <!-- Turbine fan circle on top face -->
-                  <ellipse class="face-top" cx="110" cy="45" rx="32" ry="14" style="fill: var(--bg); opacity: 0.5;"/>
+                  <!-- Connection between reactor pipe and scrubber top -->
+                  <!-- (handled above going to 820,290) -->
+
+                  <!-- Scrubber 2 (taller, behind, shifted) -->
+                  <rect x="880" y="240" width="56" height="380" fill="url(#cyl-steel)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="908" cy="240" rx="28" ry="8" fill="rgba(40,56,48,0.95)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <path d="M 880 620 A 28 8 0 0 0 936 620" fill="rgba(10,20,16,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <rect x="880" y="310" width="56" height="3" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="880" y="400" width="56" height="3" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="880" y="490" width="56" height="3" fill="var(--line-strong)" opacity="0.6"/>
+
+                  <!-- Cross pipe between scrubbers -->
+                  <path d="M 850 360 L 880 360" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+                  <path d="M 850 460 L 880 460" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+
+                  <!-- Tall stack/chimney -->
+                  <rect x="958" y="120" width="36" height="510" fill="url(#cyl-steel)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="976" cy="120" rx="18" ry="6" fill="rgba(50,68,58,0.95)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <path d="M 958 626 A 18 6 0 0 0 994 626" fill="rgba(10,20,16,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Stack bands -->
+                  <rect x="958" y="180" width="36" height="2.5" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="958" y="280" width="36" height="2.5" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="958" y="380" width="36" height="2.5" fill="var(--line-strong)" opacity="0.6"/>
+                  <rect x="958" y="480" width="36" height="2.5" fill="var(--line-strong)" opacity="0.6"/>
+                  <!-- Warning light on stack -->
+                  <circle cx="976" cy="115" r="3" fill="var(--accent)" opacity="0.9">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
+                  </circle>
+                  <!-- Stack-to-scrubber duct -->
+                  <path d="M 936 280 L 958 280" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+                  <!-- Emission plume hint -->
+                  <path d="M 976 120 Q 980 100 990 88 Q 1004 76 990 60" stroke="var(--text)" stroke-width="0.8" fill="none" opacity="0.18" stroke-dasharray="2 3"/>
+
+                  <!-- Labels -->
+                  <line x1="820" y1="290" x2="820" y2="200" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="700" y="194" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">03 · GAS CLEANING · SO₂ / NOₓ / PM</text>
+                  <text x="700" y="208" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">SCRUBBER S-1 / S-2 · CATALYTIC FILTER</text>
+                  <line x1="976" y1="118" x2="976" y2="95" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="980" y="88" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; fill: var(--text);">STACK · 75 m</text>
                 </g>
-                <text x="830" y="300" class="we-label">03 · TURBINE</text>
-                <text x="830" y="315" class="we-label-muted">Generator + output</text>
 
-                <!-- Flow: Turbine -> Power output (animated multi-line) -->
-                <path class="we-flow output"
-                      d="M 1080 410 C 1110 410, 1130 380, 1150 360"/>
-                <path class="we-flow output"
-                      d="M 1080 420 C 1110 420, 1130 400, 1150 380"/>
-                <path class="we-flow output"
-                      d="M 1080 430 C 1110 430, 1130 420, 1150 400"/>
+                <!-- ===================================================== -->
+                <!-- STAGE 04 — Turbine hall (long building, catwalks)     -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Turbine hall: long iso building -->
+                  <polygon points="850,500 1170,425 1200,440 880,515" fill="url(#hall-roof)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Roof ridge -->
+                  <line x1="852" y1="498" x2="1172" y2="423" stroke="var(--line)" stroke-width="0.5"/>
+                  <!-- Side wall (long) -->
+                  <polygon points="880,515 880,640 1200,640 1200,440" fill="rgba(14,22,18,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Front wall (small triangle) -->
+                  <polygon points="850,500 850,625 880,640 880,515" fill="rgba(6,14,10,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Hall vertical seams -->
+                  <line x1="940" y1="500" x2="940" y2="640" stroke="var(--line)" stroke-width="0.5"/>
+                  <line x1="1000" y1="486" x2="1000" y2="640" stroke="var(--line)" stroke-width="0.5"/>
+                  <line x1="1060" y1="472" x2="1060" y2="640" stroke="var(--line)" stroke-width="0.5"/>
+                  <line x1="1120" y1="458" x2="1120" y2="640" stroke="var(--line)" stroke-width="0.5"/>
+                  <!-- Windows row -->
+                  <rect x="900" y="540" width="290" height="14" fill="rgba(2,5,3,0.92)" opacity="0.8"/>
+                  <line x1="900" y1="540" x2="900" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="930" y1="540" x2="930" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="960" y1="540" x2="960" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="990" y1="540" x2="990" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1020" y1="540" x2="1020" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1050" y1="540" x2="1050" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1080" y1="540" x2="1080" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1110" y1="540" x2="1110" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1140" y1="540" x2="1140" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <line x1="1170" y1="540" x2="1170" y2="554" stroke="var(--line)" stroke-width="0.3"/>
+                  <!-- Door -->
+                  <rect x="1170" y="595" width="18" height="45" fill="rgba(2,5,3,0.92)" stroke="var(--line)" stroke-width="0.4"/>
 
-                <!-- Output marker (to data center) -->
-                <text x="1075" y="345" class="we-label" style="fill: var(--accent);">→ COMPUTE</text>
-                <text x="1075" y="360" class="we-label-muted">MW to data centers</text>
+                  <!-- Turbine cutaway hint on roof (visible rotating disk) -->
+                  <ellipse cx="1020" cy="466" rx="40" ry="12" fill="rgba(20,38,28,0.85)" stroke="var(--accent)" stroke-width="0.8" opacity="0.7"/>
+                  <ellipse cx="1020" cy="466" rx="24" ry="7" fill="rgba(8,16,12,0.95)" stroke="var(--accent)" stroke-width="0.6" opacity="0.8"/>
+                  <line x1="1020" y1="459" x2="1020" y2="473" stroke="var(--accent)" stroke-width="0.6" opacity="0.6">
+                    <animateTransform attributeName="transform" type="rotate" from="0 1020 466" to="360 1020 466" dur="2s" repeatCount="indefinite"/>
+                  </line>
 
-                <!-- Top-left metadata -->
-                <text x="40" y="40" class="we-label" fill="currentColor" style="fill: var(--muted);">EUROSTATE WTE · UNIT 01</text>
-                <text x="40" y="58" class="we-label-muted">CIRCULAR INFRASTRUCTURE</text>
+                  <!-- Steam pipe coming in -->
+                  <path d="M 880 480 L 880 500" stroke="var(--line-strong)" stroke-width="2" fill="none"/>
+                  <!-- Condensate return underground -->
+                  <path d="M 1180 640 L 1180 700 L 1250 700 L 1250 680" stroke="var(--line)" stroke-width="0.7" fill="none" stroke-dasharray="2 4"/>
+
+                  <!-- Catwalk on top of hall -->
+                  <line x1="852" y1="498" x2="1172" y2="423" stroke="var(--accent)" stroke-width="0.5" opacity="0.4"/>
+                  <line x1="1020" y1="467" x2="1020" y2="430" stroke="var(--line)" stroke-width="0.4"/>
+
+                  <!-- Generator cable bundle (out the side) -->
+                  <path d="M 1200 540 L 1250 540 L 1250 600 L 1300 600" stroke="var(--accent)" stroke-width="1.4" fill="none"/>
+                  <path d="M 1200 545 L 1255 545 L 1255 605 L 1300 605" stroke="var(--accent)" stroke-width="1.4" fill="none" opacity="0.7"/>
+                  <path d="M 1200 550 L 1260 550 L 1260 610 L 1300 610" stroke="var(--accent)" stroke-width="1.4" fill="none" opacity="0.5"/>
+
+                  <!-- Label -->
+                  <line x1="1020" y1="425" x2="1020" y2="380" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="1024" y="374" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">04 · TURBINE HALL · T-1</text>
+                  <text x="1024" y="388" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">STEAM TURBINE + GEN · 12 MWₑ</text>
+                </g>
+
+                <!-- ===================================================== -->
+                <!-- STAGE 05 — Cooling towers (hyperboloid silhouettes)   -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Cooling tower 1 -->
+                  <path d="M 1218 460
+                           Q 1192 540 1218 620
+                           L 1276 620
+                           Q 1302 540 1276 460 Z"
+                        fill="url(#cyl-cool)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="1247" cy="460" rx="30" ry="8" fill="rgba(28,52,40,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="1247" cy="464" rx="22" ry="5" fill="rgba(2,5,3,0.95)"/>
+                  <!-- Vapor hint -->
+                  <path d="M 1247 460 Q 1244 440 1252 425 Q 1260 410 1252 392" stroke="var(--text)" stroke-width="0.7" fill="none" opacity="0.18"/>
+
+                  <!-- Cooling tower 2 -->
+                  <path d="M 1296 490
+                           Q 1272 555 1296 620
+                           L 1346 620
+                           Q 1370 555 1346 490 Z"
+                        fill="url(#cyl-cool)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="1321" cy="490" rx="25" ry="7" fill="rgba(28,52,40,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <ellipse cx="1321" cy="493" rx="18" ry="4" fill="rgba(2,5,3,0.95)"/>
+                  <path d="M 1321 490 Q 1318 472 1326 458 Q 1334 444 1326 428" stroke="var(--text)" stroke-width="0.7" fill="none" opacity="0.18"/>
+
+                  <!-- Water return line -->
+                  <path d="M 1200 460 L 1218 460" stroke="var(--line-strong)" stroke-width="1.4" fill="none"/>
+
+                  <!-- Label -->
+                  <line x1="1247" y1="455" x2="1247" y2="420" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="1190" y="414" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">05 · COOLING C-1 / C-2</text>
+                </g>
+
+                <!-- ===================================================== -->
+                <!-- STAGE 06 — Transformers + switchyard                 -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- Transformer A -->
+                  <g transform="translate(1300,570)">
+                    <polygon points="0,10 36,-6 72,10 36,26" fill="rgba(20,38,28,0.95)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="0,10 0,60 36,76 36,26" fill="rgba(10,22,16,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="72,10 72,60 36,76 36,26" fill="rgba(6,14,10,0.97)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <!-- Bushings on top -->
+                    <rect x="10"  y="-18" width="3" height="12" fill="var(--accent)" opacity="0.7"/>
+                    <rect x="30"  y="-22" width="3" height="16" fill="var(--accent)" opacity="0.7"/>
+                    <rect x="50"  y="-18" width="3" height="12" fill="var(--accent)" opacity="0.7"/>
+                    <!-- Cooling fins -->
+                    <line x1="0"  y1="22" x2="0"  y2="58" stroke="var(--line)" stroke-width="0.3"/>
+                    <line x1="-3" y1="25" x2="-3" y2="55" stroke="var(--line)" stroke-width="0.3"/>
+                    <line x1="-6" y1="28" x2="-6" y2="52" stroke="var(--line)" stroke-width="0.3"/>
+                  </g>
+                  <!-- Transformer B -->
+                  <g transform="translate(1390,580)">
+                    <polygon points="0,10 32,-5 64,10 32,25" fill="rgba(20,38,28,0.95)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="0,10 0,55 32,70 32,25" fill="rgba(10,22,16,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="64,10 64,55 32,70 32,25" fill="rgba(6,14,10,0.97)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <rect x="10" y="-15" width="3" height="11" fill="var(--accent)" opacity="0.7"/>
+                    <rect x="28" y="-18" width="3" height="14" fill="var(--accent)" opacity="0.7"/>
+                    <rect x="44" y="-15" width="3" height="11" fill="var(--accent)" opacity="0.7"/>
+                  </g>
+
+                  <!-- Switchyard lattice tower -->
+                  <g stroke="var(--line-strong)" stroke-width="0.6" fill="none">
+                    <line x1="1380" y1="540" x2="1380" y2="420"/>
+                    <line x1="1410" y1="540" x2="1410" y2="420"/>
+                    <line x1="1380" y1="540" x2="1410" y2="540"/>
+                    <line x1="1380" y1="420" x2="1410" y2="420"/>
+                    <line x1="1380" y1="540" x2="1410" y2="510"/>
+                    <line x1="1410" y1="540" x2="1380" y2="510"/>
+                    <line x1="1380" y1="510" x2="1410" y2="510"/>
+                    <line x1="1380" y1="480" x2="1410" y2="480"/>
+                    <line x1="1380" y1="480" x2="1410" y2="450"/>
+                    <line x1="1410" y1="480" x2="1380" y2="450"/>
+                    <line x1="1380" y1="450" x2="1410" y2="450"/>
+                  </g>
+                  <!-- Insulator strings & lines from tower -->
+                  <circle cx="1395" cy="426" r="2" fill="var(--accent)" opacity="0.7"/>
+                  <circle cx="1395" cy="438" r="2" fill="var(--accent)" opacity="0.6"/>
+                  <!-- HV cable from tower → data center -->
+                  <path d="M 1395 426 Q 1450 440 1500 460" stroke="var(--accent)" stroke-width="0.9" fill="none"/>
+                  <path d="M 1395 438 Q 1450 452 1500 472" stroke="var(--accent)" stroke-width="0.9" fill="none" opacity="0.75"/>
+                  <!-- Cable from transformer A to tower -->
+                  <path d="M 1336 562 Q 1360 540 1395 540" stroke="var(--accent)" stroke-width="0.9" fill="none" opacity="0.6"/>
+
+                  <!-- Label -->
+                  <line x1="1380" y1="420" x2="1380" y2="380" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="1290" y="374" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--text);">06 · TRANSFORMERS · 33 kV → 400 kV</text>
+                  <text x="1290" y="388" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">SWITCHYARD SS-1 · INSULATED OUTPUT</text>
+                </g>
+
+                <!-- ===================================================== -->
+                <!-- STAGE 07 — AI Data Center (terminus)                  -->
+                <!-- ===================================================== -->
+                <g class="we-stage-group">
+                  <!-- DC building body -->
+                  <polygon points="1480,490 1560,450 1600,470 1520,510" fill="rgba(22,38,28,0.95)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <polygon points="1480,490 1480,620 1520,640 1520,510" fill="rgba(10,22,16,0.96)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <polygon points="1600,470 1600,600 1520,640 1520,510" fill="rgba(6,14,10,0.97)" stroke="var(--line-strong)" stroke-width="0.9"/>
+                  <!-- Rack hint inside (small interior racks visible) -->
+                  <g opacity="0.7">
+                    <rect x="1530" y="540" width="6" height="42" fill="rgba(2,5,3,0.95)" stroke="var(--accent)" stroke-width="0.4"/>
+                    <rect x="1546" y="540" width="6" height="42" fill="rgba(2,5,3,0.95)" stroke="var(--accent)" stroke-width="0.4"/>
+                    <rect x="1562" y="540" width="6" height="42" fill="rgba(2,5,3,0.95)" stroke="var(--accent)" stroke-width="0.4"/>
+                    <rect x="1578" y="540" width="6" height="42" fill="rgba(2,5,3,0.95)" stroke="var(--accent)" stroke-width="0.4"/>
+                    <!-- LEDs -->
+                    <rect x="1531" y="544" width="2" height="2" fill="var(--accent)">
+                      <animate attributeName="opacity" values="0.4;1;0.4" dur="1.4s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="1547" y="548" width="2" height="2" fill="var(--accent)">
+                      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.7s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="1563" y="544" width="2" height="2" fill="var(--accent)">
+                      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="1579" y="548" width="2" height="2" fill="var(--accent)">
+                      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/>
+                    </rect>
+                  </g>
+                  <!-- Door -->
+                  <rect x="1502" y="600" width="14" height="34" fill="rgba(2,5,3,0.92)" stroke="var(--line)" stroke-width="0.4"/>
+
+                  <!-- HV cable entering DC (continues from switchyard) -->
+                  <path d="M 1500 460 L 1530 460 L 1530 490" stroke="var(--accent)" stroke-width="0.9" fill="none"/>
+                  <path d="M 1500 472 L 1532 472 L 1532 490" stroke="var(--accent)" stroke-width="0.9" fill="none" opacity="0.75"/>
+
+                  <!-- Label + final annotation -->
+                  <line x1="1540" y1="448" x2="1540" y2="410" stroke="var(--line-strong)" stroke-width="0.5"/>
+                  <text x="1430" y="404" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.10em; fill: var(--accent);">07 · AI COMPUTE NODE</text>
+                  <text x="1430" y="418" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">SOVEREIGN EU · 8 MW INTAKE</text>
+                </g>
+
+                <!-- ===================================================== -->
+                <!-- PROCESS FLOW LEGEND (top-right)                       -->
+                <!-- ===================================================== -->
+                <g transform="translate(1240, 50)">
+                  <text x="0" y="0" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; fill: var(--soft);">PROCESS FLOW</text>
+                  <line x1="0"  y1="14" x2="40" y2="14" stroke="var(--accent-2)" stroke-width="1.4" stroke-dasharray="3 5"/>
+                  <text x="48" y="17" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">FEEDSTOCK / HEAT</text>
+                  <line x1="0"  y1="30" x2="40" y2="30" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 5"/>
+                  <text x="48" y="33" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">STEAM / WATER</text>
+                  <line x1="0"  y1="46" x2="40" y2="46" stroke="var(--accent)" stroke-width="1"/>
+                  <text x="48" y="49" style="font-family: var(--font-mono); font-size: 9px; fill: var(--muted);">ELECTRICAL ROUTING</text>
+                </g>
+
+                <!-- Caption bottom -->
+                <text x="40" y="780" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; fill: var(--soft);">SECTION A-A · NORTH ELEVATION · NOT TO SCALE</text>
+                <text x="40" y="794" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.04em; fill: var(--soft);">CONFIGURATION: REFERENCE PLANT · MOD-A · 18 MWₑ NET</text>
+                <text x="40" y="808" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.04em; fill: var(--soft);">DOC. EUR-WTE-001 · REV. 0.4</text>
+
+                <!-- Footer scale bar -->
+                <g transform="translate(1380, 800)">
+                  <line x1="0" y1="0" x2="180" y2="0" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  <line x1="0" y1="-4" x2="0" y2="4" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  <line x1="45" y1="-3" x2="45" y2="3" stroke="var(--line-strong)" stroke-width="0.6"/>
+                  <line x1="90" y1="-3" x2="90" y2="3" stroke="var(--line-strong)" stroke-width="0.6"/>
+                  <line x1="135" y1="-3" x2="135" y2="3" stroke="var(--line-strong)" stroke-width="0.6"/>
+                  <line x1="180" y1="-4" x2="180" y2="4" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  <text x="0"   y="16" style="font-family: var(--font-mono); font-size: 8px; fill: var(--soft);">0</text>
+                  <text x="78"  y="16" style="font-family: var(--font-mono); font-size: 8px; fill: var(--soft);">50 m</text>
+                  <text x="166" y="16" style="font-family: var(--font-mono); font-size: 8px; fill: var(--soft);">100 m</text>
+                </g>
               </svg>
             </div>
 
