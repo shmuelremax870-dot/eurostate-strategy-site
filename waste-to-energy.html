@@ -106,1044 +106,1020 @@
         </div>
       </section>
 
-      <!-- ============================ PLANT 3D ============================ -->
+      <!-- ============================ PLANT — INDUSTRIAL RENDER ============================ -->
       <section class="section container" id="plant">
         <div class="editorial">
           <aside class="editorial-aside">
-            <span class="kicker">01 — Plant</span>
+            <span class="kicker">01 — Facility</span>
           </aside>
           <div>
-            <h2>The facility, end to end.</h2>
+            <h2>The megafacility.</h2>
             <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
-              A single connected industrial system: intake hall, bunker,
-              reactor tower, gas cleaning train, turbine hall, gasholders,
-              cooling, substation, and the AI compute node it powers. Every
-              component is wired into the next.
+              A single physical plant: intake hall, reactor block, gas
+              cleaning train, turbine hall, cooling, switchyard, and the
+              pipe rack that ties it all together.
             </p>
 
-            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy facility — full plant render">
+            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility — physical render">
               <svg viewBox="0 0 2200 1100" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                  <!-- Iso ground grid -->
-                  <pattern id="iso-floor-fine" width="56" height="32" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
-                    <path d="M 56 0 L 0 0 0 32" fill="none" stroke="rgba(120,140,130,0.10)" stroke-width="0.4"/>
-                  </pattern>
-                  <pattern id="iso-floor-coarse" width="280" height="160" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
-                    <path d="M 280 0 L 0 0 0 160" fill="none" stroke="rgba(120,160,140,0.18)" stroke-width="0.6"/>
-                  </pattern>
+                  <!-- ============================== SKY / ATMOSPHERE ============================== -->
+                  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#06090c"/>
+                    <stop offset="55%"  stop-color="#0a1118"/>
+                    <stop offset="85%"  stop-color="#101820"/>
+                    <stop offset="100%" stop-color="#121a1f"/>
+                  </linearGradient>
+                  <linearGradient id="horizon-glow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"  stop-color="rgba(0,0,0,0)"/>
+                    <stop offset="80%" stop-color="rgba(120,90,40,0.08)"/>
+                    <stop offset="100%" stop-color="rgba(140,100,50,0.18)"/>
+                  </linearGradient>
+                  <radialGradient id="moon-light" cx="0.7" cy="0.15" r="0.6">
+                    <stop offset="0%" stop-color="rgba(160,180,200,0.18)"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                  </radialGradient>
 
-                  <!-- Body gradients -->
-                  <linearGradient id="grad-graphite" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0b1410"/>
-                    <stop offset="42%"  stop-color="#1f2c25"/>
-                    <stop offset="58%"  stop-color="#26342c"/>
-                    <stop offset="100%" stop-color="#080f0c"/>
+                  <!-- ============================== MATERIALS ============================== -->
+                  <!-- Concrete (warm gray, weathered) -->
+                  <linearGradient id="mat-concrete-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#1f2724"/>
+                    <stop offset="30%"  stop-color="#1a221f"/>
+                    <stop offset="70%"  stop-color="#141c18"/>
+                    <stop offset="100%" stop-color="#0c1411"/>
                   </linearGradient>
-                  <linearGradient id="grad-steel" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0d1714"/>
-                    <stop offset="50%"  stop-color="#384a40"/>
-                    <stop offset="100%" stop-color="#0a1310"/>
+                  <linearGradient id="mat-concrete-side" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#161e1b"/>
+                    <stop offset="100%" stop-color="#080e0b"/>
                   </linearGradient>
-                  <linearGradient id="grad-reactor-skin" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0c1814"/>
-                    <stop offset="35%"  stop-color="#1c2a22"/>
-                    <stop offset="55%"  stop-color="#2a3a30"/>
-                    <stop offset="100%" stop-color="#080f0c"/>
+                  <linearGradient id="mat-concrete-roof" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#2a342f"/>
+                    <stop offset="100%" stop-color="#0e1612"/>
                   </linearGradient>
-                  <radialGradient id="grad-reactor-heat" cx="0.5" cy="0.6" r="0.65">
-                    <stop offset="0%"   stop-color="#ffb45e" stop-opacity="0.8"/>
-                    <stop offset="50%"  stop-color="#d76a18" stop-opacity="0.45"/>
-                    <stop offset="100%" stop-color="#3a1404" stop-opacity="0"/>
-                  </radialGradient>
-                  <linearGradient id="grad-hall-roof" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#22322a"/>
-                    <stop offset="100%" stop-color="#0a1310"/>
-                  </linearGradient>
-                  <linearGradient id="grad-hall-side" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#162018"/>
-                    <stop offset="100%" stop-color="#070d0a"/>
-                  </linearGradient>
-                  <linearGradient id="grad-sphere" cx="0.35" cy="0.30">
-                    <stop offset="0%"   stop-color="#2e4238"/>
-                    <stop offset="55%"  stop-color="#0f1814"/>
-                    <stop offset="100%" stop-color="#040806"/>
-                  </linearGradient>
-                  <radialGradient id="grad-sphere-r" cx="0.35" cy="0.30">
-                    <stop offset="0%"   stop-color="#2e4238"/>
-                    <stop offset="55%"  stop-color="#0f1814"/>
-                    <stop offset="100%" stop-color="#040806"/>
-                  </radialGradient>
-                  <linearGradient id="grad-cool" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0a1612"/>
-                    <stop offset="50%"  stop-color="#28403a"/>
-                    <stop offset="100%" stop-color="#080f0c"/>
-                  </linearGradient>
-                  <linearGradient id="grad-trans" x1="0" y1="0" x2="1" y2="0">
+
+                  <!-- Corrugated steel cladding (cool, vertical sheen) -->
+                  <linearGradient id="mat-steel-side" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%"   stop-color="#0c1612"/>
-                    <stop offset="50%"  stop-color="#22302a"/>
+                    <stop offset="25%"  stop-color="#1a2620"/>
+                    <stop offset="50%"  stop-color="#28342e"/>
+                    <stop offset="75%"  stop-color="#1a2620"/>
+                    <stop offset="100%" stop-color="#080e0b"/>
+                  </linearGradient>
+                  <linearGradient id="mat-steel-roof" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#1f2c25"/>
+                    <stop offset="100%" stop-color="#0a1310"/>
+                  </linearGradient>
+
+                  <!-- Cylindrical vessels (radial-light wrap) -->
+                  <linearGradient id="mat-cyl-cool" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#060d0a"/>
+                    <stop offset="35%"  stop-color="#1a2620"/>
+                    <stop offset="55%"  stop-color="#2a3a32"/>
+                    <stop offset="100%" stop-color="#06100d"/>
+                  </linearGradient>
+                  <linearGradient id="mat-cyl-steel" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#080e0b"/>
+                    <stop offset="40%"  stop-color="#1e2a24"/>
+                    <stop offset="55%"  stop-color="#34443c"/>
+                    <stop offset="70%"  stop-color="#1c2822"/>
                     <stop offset="100%" stop-color="#070c0a"/>
                   </linearGradient>
+                  <linearGradient id="mat-cyl-warm" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#0a0e0c"/>
+                    <stop offset="35%"  stop-color="#2a221c"/>
+                    <stop offset="55%"  stop-color="#403228"/>
+                    <stop offset="100%" stop-color="#080d0a"/>
+                  </linearGradient>
 
-                  <!-- Filters -->
-                  <filter id="electrical-glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="1.6"/>
-                    <feComponentTransfer>
-                      <feFuncA type="linear" slope="1.4"/>
-                    </feComponentTransfer>
+                  <!-- Reactor interior glow -->
+                  <radialGradient id="reactor-heat-interior" cx="0.5" cy="0.65" r="0.6">
+                    <stop offset="0%"   stop-color="#ffb45e" stop-opacity="0.95"/>
+                    <stop offset="55%"  stop-color="#d76a18" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#3a1404" stop-opacity="0"/>
+                  </radialGradient>
+
+                  <!-- Sodium spotlight glow at base of buildings -->
+                  <radialGradient id="sodium" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0%"   stop-color="rgba(220,150,60,0.30)"/>
+                    <stop offset="60%"  stop-color="rgba(180,100,40,0.10)"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                  </radialGradient>
+
+                  <!-- Ground / concrete pad -->
+                  <linearGradient id="mat-ground" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#0a1310"/>
+                    <stop offset="30%"  stop-color="#0e1814"/>
+                    <stop offset="100%" stop-color="#040806"/>
+                  </linearGradient>
+
+                  <!-- Haze layers -->
+                  <linearGradient id="haze-far" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(40,52,46,0.65)"/>
+                    <stop offset="100%" stop-color="rgba(40,52,46,0)"/>
+                  </linearGradient>
+                  <linearGradient id="haze-mid" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(28,38,32,0.35)"/>
+                    <stop offset="100%" stop-color="rgba(28,38,32,0)"/>
+                  </linearGradient>
+
+                  <!-- Electrical glow -->
+                  <linearGradient id="hv-cable" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="rgba(100,255,218,0.0)"/>
+                    <stop offset="50%"  stop-color="rgba(100,255,218,0.4)"/>
+                    <stop offset="100%" stop-color="rgba(100,255,218,0.0)"/>
+                  </linearGradient>
+
+                  <!-- ============================== FILTERS ============================== -->
+                  <filter id="distance-blur" x="-10%" y="-10%" width="120%" height="120%">
+                    <feGaussianBlur stdDeviation="4"/>
                   </filter>
-                  <filter id="heat-bloom" x="-30%" y="-30%" width="160%" height="160%">
+                  <filter id="far-distance-blur" x="-10%" y="-10%" width="120%" height="120%">
+                    <feGaussianBlur stdDeviation="9"/>
+                  </filter>
+                  <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="14"/>
+                  </filter>
+                  <filter id="cool-glow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="2"/>
+                  </filter>
+                  <filter id="vapor-blur" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="5"/>
+                  </filter>
+                  <filter id="warm-glow" x="-30%" y="-30%" width="160%" height="160%">
                     <feGaussianBlur stdDeviation="6"/>
                   </filter>
 
-                  <!-- Reusable: rivet, ladder rung, beam joint -->
-                  <symbol id="riv" overflow="visible">
-                    <circle r="1.1" fill="#465a4e"/>
-                  </symbol>
-                  <symbol id="rung" overflow="visible">
-                    <line x1="0" y1="0" x2="6" y2="0" stroke="#3a5046" stroke-width="0.7"/>
-                  </symbol>
-
-                  <!-- Vignette overlay -->
-                  <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.7">
-                    <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
-                    <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
+                  <!-- Vignette -->
+                  <radialGradient id="vignette" cx="0.5" cy="0.55" r="0.75">
+                    <stop offset="50%" stop-color="rgba(0,0,0,0)"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0.7)"/>
                   </radialGradient>
                 </defs>
 
-                <!-- ============================================ -->
-                <!-- BACKGROUND: ground, CAD lines, faint horizon -->
-                <!-- ============================================ -->
-                <rect x="0" y="0" width="2200" height="1100" fill="#06080a"/>
-                <rect x="0" y="820" width="2200" height="280" fill="url(#iso-floor-fine)" opacity="0.7"/>
-                <rect x="0" y="820" width="2200" height="280" fill="url(#iso-floor-coarse)" opacity="0.55"/>
-                <!-- horizon hairline -->
-                <line x1="0" y1="820" x2="2200" y2="820" stroke="#22302a" stroke-width="0.8"/>
-                <line x1="0" y1="820" x2="2200" y2="820" stroke="rgba(100,255,218,0.10)" stroke-width="0.4"/>
-                <!-- subgrade -->
-                <line x1="0" y1="990" x2="2200" y2="990" stroke="#1a241e" stroke-width="0.4" stroke-dasharray="3 7"/>
-                <text x="40" y="1010" style="font-family: var(--font-mono); font-size: 9px; fill: #4a5e52; letter-spacing: 0.08em;">SUBGRADE · UTILITY PLENUM · –4.0 m</text>
+                <!-- =================================================================== -->
+                <!-- L0 — SKY + ATMOSPHERIC GLOW                                          -->
+                <!-- =================================================================== -->
+                <rect x="0" y="0" width="2200" height="1100" fill="url(#sky)"/>
+                <rect x="0" y="400" width="2200" height="120" fill="url(#horizon-glow)"/>
+                <rect x="0" y="0" width="2200" height="600" fill="url(#moon-light)"/>
 
-                <!-- CAD construction lines (faint vanishing hints) -->
-                <g stroke="rgba(100,255,218,0.06)" stroke-width="0.4" fill="none">
-                  <line x1="0" y1="600" x2="2200" y2="600"/>
-                  <line x1="0" y1="400" x2="2200" y2="400"/>
-                  <line x1="0" y1="200" x2="2200" y2="200"/>
+                <!-- =================================================================== -->
+                <!-- L1 — DISTANT SKYLINE (heavy blur, low contrast silhouettes)         -->
+                <!-- =================================================================== -->
+                <g filter="url(#far-distance-blur)" opacity="0.55">
+                  <!-- Distant cooling tower silhouettes -->
+                  <path d="M 100 540
+                           Q 80 600 100 700
+                           L 180 700
+                           Q 200 600 180 540 Z" fill="#1a2520"/>
+                  <path d="M 220 560
+                           Q 204 612 220 700
+                           L 280 700
+                           Q 296 612 280 560 Z" fill="#172220"/>
+                  <!-- Distant stacks -->
+                  <rect x="340" y="420" width="20" height="280" fill="#1c2824"/>
+                  <rect x="386" y="450" width="16" height="250" fill="#1a2522"/>
+                  <!-- Distant warehouse silhouettes -->
+                  <polygon points="430,560 600,540 600,700 430,700" fill="#161f1c"/>
+                  <polygon points="600,540 600,580 750,564 750,540" fill="#1a2522"/>
+                  <rect x="600" y="580" width="150" height="120" fill="#141d1a"/>
+                  <!-- Far city block right -->
+                  <rect x="1900" y="540" width="200" height="160" fill="#161f1c"/>
+                  <rect x="1860" y="580" width="40" height="120" fill="#1a2522"/>
+                  <rect x="2100" y="560" width="40" height="140" fill="#1a2522"/>
+                  <!-- More distant cooling towers far right -->
+                  <path d="M 1700 560
+                           Q 1684 612 1700 700
+                           L 1760 700
+                           Q 1776 612 1760 560 Z" fill="#172220"/>
                 </g>
 
-                <!-- Soft cast shadows on ground (per major structure) -->
-                <g opacity="0.65">
-                  <ellipse cx="220"  cy="828" rx="180" ry="14" fill="#000"/>
-                  <ellipse cx="600"  cy="828" rx="80"  ry="10" fill="#000"/>
-                  <ellipse cx="840"  cy="828" rx="180" ry="14" fill="#000"/>
-                  <ellipse cx="1160" cy="828" rx="220" ry="14" fill="#000"/>
-                  <ellipse cx="1530" cy="828" rx="200" ry="13" fill="#000"/>
-                  <ellipse cx="1800" cy="828" rx="80"  ry="10" fill="#000"/>
-                  <ellipse cx="1940" cy="828" rx="80"  ry="10" fill="#000"/>
-                  <ellipse cx="2080" cy="828" rx="60"  ry="9"  fill="#000"/>
+                <!-- Distant point lights (city, plant) -->
+                <g opacity="0.7">
+                  <circle cx="120" cy="560" r="1.4" fill="rgba(220,150,60,0.7)"/>
+                  <circle cx="180" cy="580" r="1.2" fill="rgba(220,150,60,0.6)"/>
+                  <circle cx="350" cy="498" r="1.6" fill="rgba(220,150,60,0.8)"><animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/></circle>
+                  <circle cx="395" cy="510" r="1.4" fill="rgba(220,150,60,0.6)"/>
+                  <circle cx="500" cy="600" r="1.4" fill="rgba(220,150,60,0.5)"/>
+                  <circle cx="640" cy="630" r="1.4" fill="rgba(220,150,60,0.6)"/>
+                  <circle cx="1920" cy="610" r="1.4" fill="rgba(220,150,60,0.6)"/>
+                  <circle cx="2040" cy="620" r="1.4" fill="rgba(220,150,60,0.7)"/>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- A. TRUCK BAY + INTAKE HALL (x 60–420)                  -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="intake-hall">
-                  <!-- Hall roof (long iso parallelogram) -->
-                  <polygon points="60,640 360,560 420,580 120,660" fill="url(#grad-hall-roof)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Roof truss zigzag (visible on top edge) -->
-                  <g stroke="#3a5046" stroke-width="0.6" fill="none">
-                    <line x1="80" y1="635" x2="100" y2="630"/>
-                    <line x1="100" y1="630" x2="100" y2="640"/>
-                    <line x1="100" y1="640" x2="120" y2="635"/>
-                    <line x1="120" y1="635" x2="120" y2="645"/>
-                    <line x1="120" y1="645" x2="140" y2="640"/>
-                    <line x1="140" y1="640" x2="140" y2="650"/>
-                    <line x1="140" y1="650" x2="160" y2="645"/>
-                    <line x1="160" y1="645" x2="160" y2="655"/>
-                    <line x1="160" y1="655" x2="180" y2="650"/>
-                    <line x1="180" y1="650" x2="180" y2="660"/>
-                    <line x1="180" y1="660" x2="200" y2="655"/>
-                    <line x1="200" y1="655" x2="200" y2="665"/>
-                    <line x1="200" y1="665" x2="220" y2="660"/>
-                    <line x1="220" y1="660" x2="220" y2="670"/>
-                    <line x1="220" y1="670" x2="240" y2="665"/>
-                    <line x1="240" y1="665" x2="240" y2="675"/>
-                    <line x1="240" y1="675" x2="260" y2="670"/>
-                    <line x1="260" y1="670" x2="260" y2="680"/>
-                    <line x1="260" y1="680" x2="280" y2="675"/>
-                    <line x1="280" y1="675" x2="280" y2="685"/>
-                    <line x1="280" y1="685" x2="300" y2="680"/>
-                    <line x1="300" y1="680" x2="300" y2="690"/>
-                    <line x1="300" y1="690" x2="320" y2="685"/>
-                    <line x1="320" y1="685" x2="320" y2="695"/>
-                    <line x1="320" y1="695" x2="340" y2="690"/>
-                    <line x1="340" y1="690" x2="340" y2="700"/>
-                  </g>
-                  <!-- Hall front face (parallelogram with open bay) -->
-                  <polygon points="120,660 360,580 360,820 120,820" fill="url(#grad-hall-side)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Hall end wall (narrow on left) -->
-                  <polygon points="60,640 120,660 120,820 60,820" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Vertical panel seams on side -->
-                  <g stroke="#1a2620" stroke-width="0.5">
-                    <line x1="140" y1="667" x2="140" y2="820"/>
-                    <line x1="170" y1="660" x2="170" y2="820"/>
-                    <line x1="200" y1="652" x2="200" y2="820"/>
-                    <line x1="230" y1="645" x2="230" y2="820"/>
-                    <line x1="260" y1="638" x2="260" y2="820"/>
-                    <line x1="290" y1="630" x2="290" y2="820"/>
-                    <line x1="320" y1="623" x2="320" y2="820"/>
-                    <line x1="340" y1="617" x2="340" y2="820"/>
-                  </g>
-                  <!-- Window strip -->
-                  <rect x="140" y="710" width="200" height="14" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="160" y1="710" x2="160" y2="724"/>
-                    <line x1="180" y1="710" x2="180" y2="724"/>
-                    <line x1="200" y1="710" x2="200" y2="724"/>
-                    <line x1="220" y1="710" x2="220" y2="724"/>
-                    <line x1="240" y1="710" x2="240" y2="724"/>
-                    <line x1="260" y1="710" x2="260" y2="724"/>
-                    <line x1="280" y1="710" x2="280" y2="724"/>
-                    <line x1="300" y1="710" x2="300" y2="724"/>
-                    <line x1="320" y1="710" x2="320" y2="724"/>
-                  </g>
-                  <!-- Truck bay opening (large dark rectangle on side) -->
-                  <polygon points="220,720 300,710 300,820 220,820" fill="#020404" stroke="#2c3a32" stroke-width="0.6"/>
-                  <!-- Truck silhouette inside the bay -->
-                  <g transform="translate(230, 760)" fill="#1a2620" stroke="#3a5046" stroke-width="0.5">
-                    <!-- Cab -->
-                    <polygon points="0,0 18,-6 30,-6 32,12 0,12"/>
-                    <!-- Trailer -->
-                    <polygon points="32,-2 70,-8 70,12 32,12"/>
-                    <!-- Wheels (4 small) -->
-                    <circle cx="10" cy="14" r="3" fill="#0a1410"/>
-                    <circle cx="42" cy="12" r="3" fill="#0a1410"/>
-                    <circle cx="60" cy="12" r="3" fill="#0a1410"/>
-                  </g>
-                  <!-- Hall door (open) -->
-                  <line x1="220" y1="720" x2="220" y2="820" stroke="#2c3a32" stroke-width="0.7"/>
-                  <line x1="300" y1="710" x2="300" y2="820" stroke="#2c3a32" stroke-width="0.7"/>
-                  <!-- Beam columns on facade -->
-                  <line x1="160" y1="668" x2="160" y2="820" stroke="#3a5046" stroke-width="1"/>
-                  <line x1="260" y1="638" x2="260" y2="820" stroke="#3a5046" stroke-width="1"/>
-                  <line x1="350" y1="615" x2="350" y2="820" stroke="#3a5046" stroke-width="1"/>
+                <!-- Far haze layer (between distant skyline and mid) -->
+                <rect x="0" y="440" width="2200" height="280" fill="url(#haze-far)"/>
+
+                <!-- =================================================================== -->
+                <!-- L2 — MID-BACKGROUND: smaller plant silhouettes + smoke              -->
+                <!-- =================================================================== -->
+                <g filter="url(#distance-blur)" opacity="0.78">
+                  <!-- Mid-back gas cleaning bay silhouette -->
+                  <rect x="1480" y="410" width="180" height="280" fill="#1a2522"/>
+                  <polygon points="1480,410 1660,410 1700,400 1480,400" fill="#1c2826"/>
+                  <!-- Mid-back stack -->
+                  <rect x="1530" y="220" width="22" height="200" fill="#1c2826"/>
+                  <!-- Mid-back tank cluster -->
+                  <ellipse cx="1750" cy="500" rx="36" ry="8" fill="#1c2826"/>
+                  <rect x="1714" y="500" width="72" height="220" fill="#1a2522"/>
+                  <path d="M 1714 720 A 36 8 0 0 0 1786 720" fill="#161f1c"/>
+                  <ellipse cx="1820" cy="520" rx="28" ry="6" fill="#1c2826"/>
+                  <rect x="1792" y="520" width="56" height="200" fill="#1a2522"/>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- B. CONVEYOR TRUSS (intake hall → bunker)               -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="conveyor">
-                  <!-- Truss top + bottom chords -->
-                  <g stroke="#3a5046" stroke-width="0.9" fill="none">
-                    <line x1="360" y1="600" x2="540" y2="455"/>
-                    <line x1="360" y1="620" x2="540" y2="475"/>
-                    <!-- diagonals -->
-                    <line x1="370" y1="615" x2="384" y2="600"/>
-                    <line x1="398" y1="590" x2="412" y2="575"/>
-                    <line x1="426" y1="565" x2="440" y2="550"/>
-                    <line x1="454" y1="540" x2="468" y2="525"/>
-                    <line x1="482" y1="515" x2="496" y2="500"/>
-                    <line x1="510" y1="490" x2="524" y2="475"/>
-                    <!-- verticals -->
-                    <line x1="384" y1="615" x2="384" y2="595"/>
-                    <line x1="412" y1="592" x2="412" y2="572"/>
-                    <line x1="440" y1="567" x2="440" y2="547"/>
-                    <line x1="468" y1="542" x2="468" y2="522"/>
-                    <line x1="496" y1="517" x2="496" y2="497"/>
-                    <line x1="524" y1="492" x2="524" y2="472"/>
-                    <!-- truss legs -->
-                    <line x1="385" y1="617" x2="385" y2="820"/>
-                    <line x1="385" y1="820" x2="372" y2="833"/>
-                    <line x1="385" y1="820" x2="398" y2="830"/>
-                    <line x1="460" y1="555" x2="460" y2="820"/>
-                    <line x1="460" y1="820" x2="447" y2="833"/>
-                    <line x1="460" y1="820" x2="473" y2="830"/>
-                  </g>
-                  <!-- Belt surface -->
-                  <polygon points="362,610 540,468 548,484 370,626" fill="#0a1410" stroke="#2c3a32" stroke-width="0.6"/>
-                  <!-- Belt center stripe -->
-                  <line x1="365" y1="618" x2="544" y2="476" stroke="#1a2620" stroke-width="0.4"/>
-                  <!-- Material chunks travelling (animated) -->
-                  <g>
-                    <rect x="370" y="612" width="6" height="3" fill="#b8814a" opacity="0.8">
-                      <animateTransform attributeName="transform" type="translate" from="0 0" to="170 -136" dur="6s" repeatCount="indefinite"/>
-                    </rect>
-                    <rect x="368" y="608" width="5" height="3" fill="#9c6e3e" opacity="0.7">
-                      <animateTransform attributeName="transform" type="translate" from="-35 28" to="135 -108" dur="6s" repeatCount="indefinite"/>
-                    </rect>
-                    <rect x="368" y="614" width="7" height="3" fill="#b8814a" opacity="0.85">
-                      <animateTransform attributeName="transform" type="translate" from="-78 62" to="92 -74" dur="6s" repeatCount="indefinite"/>
-                    </rect>
-                    <rect x="370" y="611" width="6" height="2.5" fill="#a07a48" opacity="0.7">
-                      <animateTransform attributeName="transform" type="translate" from="-120 96" to="50 -40" dur="6s" repeatCount="indefinite"/>
-                    </rect>
-                  </g>
+                <!-- Slow rising smoke from mid-back stack -->
+                <g opacity="0.35" filter="url(#vapor-blur)">
+                  <path d="M 1541 220 Q 1530 180 1545 140 Q 1565 100 1545 60 Q 1525 28 1545 0" stroke="rgba(180,200,200,0.7)" stroke-width="3" fill="none"/>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- C. BUNKER (vertical, X-braced exterior, open top)      -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="bunker">
-                  <!-- Roof bracket -->
-                  <polygon points="540,455 670,400 700,415 570,470" fill="#1c2a22" stroke="#2c3a32" stroke-width="0.8"/>
-                  <!-- Bunker body — front face -->
-                  <polygon points="540,455 700,415 700,820 540,820" fill="url(#grad-graphite)" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Bunker — side face (right, narrower) -->
-                  <polygon points="700,415 720,425 720,820 700,820" fill="#0a1310" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Cross-bracing X pattern -->
-                  <g stroke="#3a5046" stroke-width="0.7" opacity="0.85">
-                    <line x1="540" y1="500" x2="700" y2="460"/>
-                    <line x1="540" y1="460" x2="700" y2="500"/>
-                    <line x1="540" y1="600" x2="700" y2="560"/>
-                    <line x1="540" y1="560" x2="700" y2="600"/>
-                    <line x1="540" y1="700" x2="700" y2="660"/>
-                    <line x1="540" y1="660" x2="700" y2="700"/>
-                    <line x1="540" y1="800" x2="700" y2="760"/>
-                    <line x1="540" y1="760" x2="700" y2="800"/>
-                  </g>
-                  <!-- Horizontal stiffener rings -->
-                  <g stroke="#3a5046" stroke-width="0.9">
-                    <line x1="540" y1="500" x2="700" y2="460"/>
-                    <line x1="540" y1="600" x2="700" y2="560"/>
-                    <line x1="540" y1="700" x2="700" y2="660"/>
-                  </g>
-                  <!-- Open top — material pile visible inside -->
-                  <polygon points="556,463 660,427 690,438 586,478" fill="#020404" stroke="#1a2620" stroke-width="0.5"/>
-                  <ellipse cx="624" cy="453" rx="48" ry="8" fill="#9c6e3e" opacity="0.55"/>
-                  <ellipse cx="612" cy="450" rx="22" ry="4" fill="#b8814a" opacity="0.45"/>
-                  <!-- Ladder + cage on side face -->
-                  <g stroke="#3a5046" stroke-width="0.6" fill="none">
-                    <line x1="708" y1="430" x2="708" y2="800"/>
-                    <line x1="716" y1="432" x2="716" y2="800"/>
-                  </g>
-                  <use href="#rung" x="708" y="460"/>
-                  <use href="#rung" x="708" y="490"/>
-                  <use href="#rung" x="708" y="520"/>
-                  <use href="#rung" x="708" y="550"/>
-                  <use href="#rung" x="708" y="580"/>
-                  <use href="#rung" x="708" y="610"/>
-                  <use href="#rung" x="708" y="640"/>
-                  <use href="#rung" x="708" y="670"/>
-                  <use href="#rung" x="708" y="700"/>
-                  <use href="#rung" x="708" y="730"/>
-                  <use href="#rung" x="708" y="760"/>
-                  <use href="#rung" x="708" y="790"/>
-                  <!-- Discharge chute to reactor -->
-                  <path d="M 700 800 L 760 800 L 760 820" stroke="#3a5046" stroke-width="1.4" fill="none"/>
-                  <path d="M 700 805 L 760 805 L 760 820" stroke="#b8814a" stroke-width="0.7" fill="none" stroke-dasharray="3 5">
-                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="1.4s" repeatCount="indefinite"/>
-                  </path>
+                <!-- =================================================================== -->
+                <!-- L3 — MAIN FACILITY MID-GROUND                                       -->
+                <!-- =================================================================== -->
+
+                <!-- Sodium glow pools at base of main facility (warm ambient) -->
+                <g>
+                  <ellipse cx="800"  cy="780" rx="240" ry="40" fill="url(#sodium)"/>
+                  <ellipse cx="1150" cy="780" rx="220" ry="40" fill="url(#sodium)"/>
+                  <ellipse cx="1450" cy="780" rx="200" ry="40" fill="url(#sodium)"/>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- D. REACTOR ZONE (steel frame + reactor + ash silo)     -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="reactor">
-                  <!-- Steel framing cage (multi-level) -->
-                  <g stroke="#3a5046" stroke-width="0.7" fill="none">
-                    <!-- Outer frame rectangle -->
-                    <rect x="750" y="180" width="230" height="640"/>
-                    <!-- Inner columns -->
-                    <line x1="820" y1="180" x2="820" y2="820"/>
-                    <line x1="900" y1="180" x2="900" y2="820"/>
-                    <!-- Horizontal levels (catwalks) -->
-                    <line x1="750" y1="280" x2="980" y2="280"/>
-                    <line x1="750" y1="400" x2="980" y2="400"/>
-                    <line x1="750" y1="520" x2="980" y2="520"/>
-                    <line x1="750" y1="640" x2="980" y2="640"/>
-                    <line x1="750" y1="760" x2="980" y2="760"/>
-                    <!-- Cross-bracing -->
-                    <line x1="750" y1="280" x2="820" y2="220"/>
-                    <line x1="820" y1="280" x2="750" y2="220"/>
-                    <line x1="900" y1="280" x2="980" y2="220"/>
-                    <line x1="980" y1="280" x2="900" y2="220"/>
-                    <line x1="750" y1="400" x2="820" y2="340"/>
-                    <line x1="820" y1="400" x2="750" y2="340"/>
-                    <line x1="900" y1="400" x2="980" y2="340"/>
-                    <line x1="980" y1="400" x2="900" y2="340"/>
-                    <line x1="750" y1="520" x2="820" y2="460"/>
-                    <line x1="820" y1="520" x2="750" y2="460"/>
-                    <line x1="900" y1="520" x2="980" y2="460"/>
-                    <line x1="980" y1="520" x2="900" y2="460"/>
-                    <line x1="750" y1="640" x2="820" y2="580"/>
-                    <line x1="820" y1="640" x2="750" y2="580"/>
-                    <line x1="900" y1="640" x2="980" y2="580"/>
-                    <line x1="980" y1="640" x2="900" y2="580"/>
-                    <line x1="750" y1="760" x2="820" y2="700"/>
-                    <line x1="820" y1="760" x2="750" y2="700"/>
-                    <line x1="900" y1="760" x2="980" y2="700"/>
-                    <line x1="980" y1="760" x2="900" y2="700"/>
+                <!-- =================== TURBINE HALL (mid-ground, behind everything) =================== -->
+                <g>
+                  <!-- Roof -->
+                  <polygon points="1080,440 1480,420 1530,440 1130,460" fill="url(#mat-steel-roof)" stroke="#2c3a32" stroke-width="0.5"/>
+                  <!-- Visible side wall (corrugated steel) -->
+                  <polygon points="1130,460 1130,800 1530,820 1530,440" fill="url(#mat-steel-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                  <!-- End wall (narrow, dark) -->
+                  <polygon points="1080,440 1130,460 1130,800 1080,780" fill="#070d0a" stroke="#2c3a32" stroke-width="0.6"/>
+                  <!-- Vertical panel seams (corrugated) -->
+                  <g stroke="#0d1612" stroke-width="0.5" opacity="0.85">
+                    <line x1="1170" y1="458" x2="1170" y2="804"/>
+                    <line x1="1210" y1="455" x2="1210" y2="808"/>
+                    <line x1="1250" y1="453" x2="1250" y2="812"/>
+                    <line x1="1290" y1="451" x2="1290" y2="814"/>
+                    <line x1="1330" y1="449" x2="1330" y2="816"/>
+                    <line x1="1370" y1="447" x2="1370" y2="818"/>
+                    <line x1="1410" y1="445" x2="1410" y2="820"/>
+                    <line x1="1450" y1="443" x2="1450" y2="822"/>
+                    <line x1="1490" y1="441" x2="1490" y2="822"/>
                   </g>
-                  <!-- Catwalk railings (top rails on each level) -->
-                  <g stroke="#4a5e52" stroke-width="0.4" fill="none">
-                    <line x1="750" y1="276" x2="980" y2="276"/>
-                    <line x1="750" y1="396" x2="980" y2="396"/>
-                    <line x1="750" y1="516" x2="980" y2="516"/>
-                    <line x1="750" y1="636" x2="980" y2="636"/>
-                  </g>
-                  <!-- Reactor cylinder body -->
-                  <rect x="822" y="220" width="96" height="580" fill="url(#grad-reactor-skin)" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Reactor top cap -->
-                  <ellipse cx="870" cy="220" rx="48" ry="14" fill="#1c2a22" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Reactor bottom -->
-                  <path d="M 822 800 A 48 14 0 0 0 918 800" fill="#0a1310" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Refractory bands -->
-                  <g>
-                    <rect x="822" y="300" width="96" height="4" fill="#3a5046"/>
-                    <rect x="822" y="420" width="96" height="4" fill="#3a5046"/>
-                    <rect x="822" y="540" width="96" height="4" fill="#3a5046"/>
-                    <rect x="822" y="660" width="96" height="4" fill="#3a5046"/>
-                    <rect x="822" y="780" width="96" height="4" fill="#3a5046"/>
-                  </g>
-                  <!-- Heat glow window -->
-                  <g filter="url(#heat-bloom)">
-                    <rect x="838" y="500" width="64" height="200" fill="url(#grad-reactor-heat)" opacity="0.9">
-                      <animate attributeName="opacity" values="0.55;0.9;0.55" dur="3.6s" repeatCount="indefinite"/>
-                    </rect>
-                  </g>
-                  <!-- Viewport slot showing fire -->
-                  <rect x="852" y="600" width="36" height="14" fill="#3a1404" stroke="#2c3a32" stroke-width="0.6"/>
-                  <rect x="854" y="602" width="32" height="10" fill="#ff8a2a" opacity="0.85">
-                    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
-                  </rect>
-                  <!-- Viewport at lower level -->
-                  <rect x="852" y="720" width="36" height="10" fill="#3a1404" stroke="#2c3a32" stroke-width="0.6"/>
-                  <rect x="854" y="722" width="32" height="6" fill="#ff8a2a" opacity="0.7">
-                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.6s" repeatCount="indefinite"/>
-                  </rect>
-                  <!-- Top access platform with crane hook -->
-                  <rect x="836" y="200" width="68" height="6" fill="#3a5046"/>
-                  <line x1="868" y1="200" x2="868" y2="160" stroke="#3a5046" stroke-width="0.7"/>
-                  <line x1="868" y1="160" x2="900" y2="160" stroke="#3a5046" stroke-width="0.7"/>
-                  <line x1="900" y1="160" x2="900" y2="180" stroke="#3a5046" stroke-width="0.7"/>
-                  <rect x="897" y="178" width="6" height="4" fill="#465a4e"/>
-                  <!-- Ladder up the reactor side -->
-                  <g stroke="#3a5046" stroke-width="0.5">
-                    <line x1="922" y1="240" x2="922" y2="790"/>
-                    <line x1="928" y1="240" x2="928" y2="790"/>
-                  </g>
-                  <use href="#rung" x="922" y="260"/>
-                  <use href="#rung" x="922" y="290"/>
-                  <use href="#rung" x="922" y="320"/>
-                  <use href="#rung" x="922" y="350"/>
-                  <use href="#rung" x="922" y="380"/>
-                  <use href="#rung" x="922" y="410"/>
-                  <use href="#rung" x="922" y="440"/>
-                  <use href="#rung" x="922" y="470"/>
-                  <use href="#rung" x="922" y="500"/>
-                  <use href="#rung" x="922" y="530"/>
-                  <use href="#rung" x="922" y="560"/>
-                  <use href="#rung" x="922" y="590"/>
-                  <use href="#rung" x="922" y="620"/>
-                  <use href="#rung" x="922" y="650"/>
-                  <use href="#rung" x="922" y="680"/>
-                  <use href="#rung" x="922" y="710"/>
-                  <use href="#rung" x="922" y="740"/>
-                  <use href="#rung" x="922" y="770"/>
-                  <!-- Rivets on reactor banding -->
-                  <use href="#riv" x="838" y="302"/><use href="#riv" x="858" y="302"/><use href="#riv" x="878" y="302"/><use href="#riv" x="898" y="302"/>
-                  <use href="#riv" x="838" y="422"/><use href="#riv" x="858" y="422"/><use href="#riv" x="878" y="422"/><use href="#riv" x="898" y="422"/>
-                  <use href="#riv" x="838" y="542"/><use href="#riv" x="858" y="542"/><use href="#riv" x="878" y="542"/><use href="#riv" x="898" y="542"/>
-                  <use href="#riv" x="838" y="662"/><use href="#riv" x="858" y="662"/><use href="#riv" x="878" y="662"/><use href="#riv" x="898" y="662"/>
-
-                  <!-- Ash silo at base (separate cylinder) -->
-                  <ellipse cx="780" cy="700" rx="22" ry="6" fill="#1a2620" stroke="#2c3a32" stroke-width="0.7"/>
-                  <rect x="758" y="700" width="44" height="100" fill="url(#grad-graphite)" stroke="#2c3a32" stroke-width="0.7"/>
-                  <path d="M 758 800 A 22 6 0 0 0 802 800" fill="#0a1310" stroke="#2c3a32" stroke-width="0.7"/>
-                  <!-- silo bands -->
-                  <line x1="758" y1="730" x2="802" y2="730" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="758" y1="760" x2="802" y2="760" stroke="#3a5046" stroke-width="0.5"/>
-                  <!-- silo discharge -->
-                  <path d="M 780 800 L 780 820" stroke="#3a5046" stroke-width="0.9"/>
-
-                  <!-- Top duct out of reactor → gas cleaning -->
-                  <path d="M 870 220 L 870 170 L 1100 170 L 1100 240" stroke="#3a5046" stroke-width="3" fill="none"/>
-                  <path d="M 870 220 L 870 170 L 1100 170 L 1100 240" stroke="#d76a18" stroke-width="1" fill="none" stroke-dasharray="3 5" opacity="0.85">
-                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="1.0s" repeatCount="indefinite"/>
-                  </path>
-                  <!-- Flange joints on duct -->
-                  <rect x="866" y="195" width="8" height="4" fill="#465a4e"/>
-                  <rect x="966" y="166" width="4" height="8" fill="#465a4e"/>
-                  <rect x="1098" y="200" width="4" height="8" fill="#465a4e"/>
-
-                  <!-- Steam pipe out side to turbine -->
-                  <path d="M 918 380 L 1340 380 L 1340 510" stroke="#3a5046" stroke-width="3" fill="none"/>
-                  <path d="M 918 380 L 1340 380 L 1340 510" stroke="#d76a18" stroke-width="1" fill="none" stroke-dasharray="3 5" opacity="0.85">
-                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="0.85s" repeatCount="indefinite"/>
-                  </path>
-                  <!-- Valve on steam pipe -->
-                  <g transform="translate(1180,374)">
-                    <rect x="-4" y="0" width="8" height="12" fill="#3a5046"/>
-                    <line x1="0" y1="0" x2="0" y2="-10" stroke="#3a5046" stroke-width="0.9"/>
-                    <circle cx="0" cy="-12" r="4" fill="none" stroke="#3a5046" stroke-width="0.7"/>
-                  </g>
-                  <!-- Pipe support brackets -->
-                  <line x1="1000" y1="380" x2="1000" y2="400" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="1080" y1="380" x2="1080" y2="400" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="1240" y1="380" x2="1240" y2="400" stroke="#3a5046" stroke-width="0.6"/>
-                </g>
-
-                <!-- ===================================================== -->
-                <!-- E. GAS CLEANING TRAIN (scrubber + SCR + bag + stack)   -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="gas-cleaning">
-                  <!-- Scrubber tower S-1 -->
-                  <ellipse cx="1070" cy="240" rx="32" ry="10" fill="#28403a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <rect x="1038" y="240" width="64" height="560" fill="url(#grad-steel)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <path d="M 1038 800 A 32 10 0 0 0 1102 800" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Bands -->
-                  <g stroke="#3a5046" stroke-width="0.8">
-                    <line x1="1038" y1="300" x2="1102" y2="300"/>
-                    <line x1="1038" y1="380" x2="1102" y2="380"/>
-                    <line x1="1038" y1="460" x2="1102" y2="460"/>
-                    <line x1="1038" y1="540" x2="1102" y2="540"/>
-                    <line x1="1038" y1="620" x2="1102" y2="620"/>
-                    <line x1="1038" y1="700" x2="1102" y2="700"/>
-                  </g>
-                  <!-- Rivets -->
-                  <use href="#riv" x="1048" y="302"/><use href="#riv" x="1068" y="302"/><use href="#riv" x="1088" y="302"/>
-                  <use href="#riv" x="1048" y="462"/><use href="#riv" x="1068" y="462"/><use href="#riv" x="1088" y="462"/>
-                  <use href="#riv" x="1048" y="622"/><use href="#riv" x="1068" y="622"/><use href="#riv" x="1088" y="622"/>
-                  <!-- Ladder + cage -->
-                  <g stroke="#3a5046" stroke-width="0.5">
-                    <line x1="1108" y1="260" x2="1108" y2="780"/>
-                    <line x1="1114" y1="260" x2="1114" y2="780"/>
-                  </g>
-                  <!-- SCR vessel (mid-height, wider middle) -->
-                  <ellipse cx="1170" cy="320" rx="32" ry="9" fill="#22302a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <rect x="1138" y="320" width="64" height="480" fill="url(#grad-graphite)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <path d="M 1138 800 A 32 9 0 0 0 1202 800" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <g stroke="#3a5046" stroke-width="0.7">
-                    <line x1="1138" y1="380" x2="1202" y2="380"/>
-                    <line x1="1138" y1="460" x2="1202" y2="460"/>
-                    <line x1="1138" y1="540" x2="1202" y2="540"/>
-                    <line x1="1138" y1="620" x2="1202" y2="620"/>
-                    <line x1="1138" y1="700" x2="1202" y2="700"/>
-                  </g>
-                  <!-- Inlet/outlet flanges -->
-                  <rect x="1102" y="350" width="36" height="6" fill="#3a5046"/>
-                  <rect x="1202" y="430" width="36" height="6" fill="#3a5046"/>
-                  <!-- Cross pipes between vessels -->
-                  <path d="M 1102 360 L 1138 360" stroke="#3a5046" stroke-width="2"/>
-                  <path d="M 1202 440 L 1240 440 L 1240 500" stroke="#3a5046" stroke-width="2" fill="none"/>
-
-                  <!-- Bag filter (boxy with cooling fins on top) -->
-                  <polygon points="1238,540 1308,500 1346,520 1276,560" fill="#1c2a22" stroke="#2c3a32" stroke-width="0.9"/>
-                  <polygon points="1238,540 1276,560 1276,800 1238,800" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <polygon points="1346,520 1346,780 1276,800 1276,560" fill="#070d0a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Fin tubes on top -->
-                  <g stroke="#3a5046" stroke-width="0.5">
-                    <line x1="1248" y1="535" x2="1258" y2="530"/>
-                    <line x1="1258" y1="530" x2="1258" y2="540"/>
-                    <line x1="1268" y1="525" x2="1278" y2="520"/>
-                    <line x1="1278" y1="520" x2="1278" y2="530"/>
-                    <line x1="1288" y1="515" x2="1298" y2="510"/>
-                    <line x1="1298" y1="510" x2="1298" y2="520"/>
-                  </g>
-                  <!-- Panel seams on side -->
+                  <!-- Eave shadow line (depth) -->
+                  <rect x="1130" y="460" width="400" height="8" fill="#040806" opacity="0.7"/>
+                  <!-- Industrial window band (long horizontal) -->
+                  <rect x="1170" y="600" width="340" height="32" fill="#020404" stroke="#2c3a32" stroke-width="0.5"/>
                   <g stroke="#1a2620" stroke-width="0.4">
-                    <line x1="1290" y1="552" x2="1290" y2="790"/>
-                    <line x1="1310" y1="546" x2="1310" y2="786"/>
-                    <line x1="1330" y1="540" x2="1330" y2="782"/>
+                    <line x1="1210" y1="600" x2="1210" y2="632"/>
+                    <line x1="1250" y1="600" x2="1250" y2="632"/>
+                    <line x1="1290" y1="600" x2="1290" y2="632"/>
+                    <line x1="1330" y1="600" x2="1330" y2="632"/>
+                    <line x1="1370" y1="600" x2="1370" y2="632"/>
+                    <line x1="1410" y1="600" x2="1410" y2="632"/>
+                    <line x1="1450" y1="600" x2="1450" y2="632"/>
                   </g>
-                  <!-- Door + window -->
-                  <rect x="1300" y="730" width="14" height="40" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                  <rect x="1284" y="660" width="50" height="8" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
-
-                  <!-- Stack (very tall chimney behind the others) -->
-                  <rect x="1192" y="80" width="46" height="730" fill="url(#grad-steel)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <ellipse cx="1215" cy="80" rx="23" ry="7" fill="#28403a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <path d="M 1192 810 A 23 7 0 0 0 1238 810" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Bands every 60px -->
-                  <g stroke="#3a5046" stroke-width="0.7">
-                    <line x1="1192" y1="140" x2="1238" y2="140"/>
-                    <line x1="1192" y1="200" x2="1238" y2="200"/>
-                    <line x1="1192" y1="260" x2="1238" y2="260"/>
-                    <line x1="1192" y1="320" x2="1238" y2="320"/>
-                    <line x1="1192" y1="380" x2="1238" y2="380"/>
-                    <line x1="1192" y1="440" x2="1238" y2="440"/>
-                    <line x1="1192" y1="500" x2="1238" y2="500"/>
-                    <line x1="1192" y1="560" x2="1238" y2="560"/>
-                    <line x1="1192" y1="620" x2="1238" y2="620"/>
-                    <line x1="1192" y1="680" x2="1238" y2="680"/>
-                    <line x1="1192" y1="740" x2="1238" y2="740"/>
-                  </g>
-                  <!-- Top viewing platform on stack -->
-                  <rect x="1186" y="130" width="58" height="4" fill="#3a5046"/>
-                  <line x1="1190" y1="130" x2="1190" y2="118" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="1240" y1="130" x2="1240" y2="118" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="1186" y1="118" x2="1244" y2="118" stroke="#3a5046" stroke-width="0.4"/>
-                  <!-- Stack warning lights -->
-                  <circle cx="1215" cy="74" r="3" fill="#64ffda" opacity="0.9">
-                    <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="1215" cy="200" r="2" fill="#64ffda" opacity="0.7">
-                    <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.4s" repeatCount="indefinite"/>
-                  </circle>
-                  <!-- Emission plume hint -->
-                  <path d="M 1215 80 Q 1220 50 1230 30 Q 1244 8 1230 -10" stroke="#f1f3f5" stroke-width="1" fill="none" opacity="0.16" stroke-dasharray="2 3"/>
-                  <!-- Pipe gallery on top connecting scrubber-SCR-bag-stack -->
-                  <line x1="1070" y1="240" x2="1192" y2="240" stroke="#3a5046" stroke-width="2"/>
-                  <line x1="1170" y1="320" x2="1192" y2="320" stroke="#3a5046" stroke-width="2"/>
-                </g>
-
-                <!-- ===================================================== -->
-                <!-- F. TURBINE HALL (long building, truss roof, generator) -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="turbine-hall">
-                  <!-- Hall roof iso parallelogram -->
-                  <polygon points="1380,520 1700,440 1740,460 1420,540" fill="url(#grad-hall-roof)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Roof truss zigzag -->
-                  <g stroke="#3a5046" stroke-width="0.6" fill="none">
-                    <line x1="1390" y1="518" x2="1410" y2="513"/>
-                    <line x1="1410" y1="513" x2="1410" y2="523"/>
-                    <line x1="1410" y1="523" x2="1430" y2="518"/>
-                    <line x1="1430" y1="518" x2="1430" y2="508"/>
-                    <line x1="1430" y1="508" x2="1450" y2="503"/>
-                    <line x1="1450" y1="503" x2="1450" y2="513"/>
-                    <line x1="1450" y1="513" x2="1470" y2="508"/>
-                    <line x1="1470" y1="508" x2="1470" y2="498"/>
-                    <line x1="1470" y1="498" x2="1490" y2="493"/>
-                    <line x1="1490" y1="493" x2="1490" y2="503"/>
-                    <line x1="1490" y1="503" x2="1510" y2="498"/>
-                    <line x1="1510" y1="498" x2="1510" y2="488"/>
-                    <line x1="1510" y1="488" x2="1530" y2="483"/>
-                    <line x1="1530" y1="483" x2="1530" y2="493"/>
-                    <line x1="1530" y1="493" x2="1550" y2="488"/>
-                    <line x1="1550" y1="488" x2="1550" y2="478"/>
-                    <line x1="1550" y1="478" x2="1570" y2="473"/>
-                    <line x1="1570" y1="473" x2="1570" y2="483"/>
-                    <line x1="1570" y1="483" x2="1590" y2="478"/>
-                    <line x1="1590" y1="478" x2="1590" y2="468"/>
-                    <line x1="1590" y1="468" x2="1610" y2="463"/>
-                    <line x1="1610" y1="463" x2="1610" y2="473"/>
-                    <line x1="1610" y1="473" x2="1630" y2="468"/>
-                    <line x1="1630" y1="468" x2="1630" y2="458"/>
-                    <line x1="1630" y1="458" x2="1650" y2="453"/>
-                    <line x1="1650" y1="453" x2="1650" y2="463"/>
-                    <line x1="1650" y1="463" x2="1670" y2="458"/>
-                    <line x1="1670" y1="458" x2="1670" y2="448"/>
-                    <line x1="1670" y1="448" x2="1690" y2="443"/>
-                    <line x1="1690" y1="443" x2="1690" y2="453"/>
-                  </g>
-                  <!-- Hall side wall -->
-                  <polygon points="1420,540 1740,460 1740,820 1420,820" fill="url(#grad-hall-side)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Hall end wall (left, narrow) -->
-                  <polygon points="1380,520 1420,540 1420,820 1380,820" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Panel seams -->
-                  <g stroke="#1a2620" stroke-width="0.4">
-                    <line x1="1460" y1="530" x2="1460" y2="820"/>
-                    <line x1="1500" y1="520" x2="1500" y2="820"/>
-                    <line x1="1540" y1="510" x2="1540" y2="820"/>
-                    <line x1="1580" y1="500" x2="1580" y2="820"/>
-                    <line x1="1620" y1="490" x2="1620" y2="820"/>
-                    <line x1="1660" y1="480" x2="1660" y2="820"/>
-                    <line x1="1700" y1="470" x2="1700" y2="820"/>
-                  </g>
-                  <!-- Windows -->
-                  <rect x="1440" y="600" width="290" height="22" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
+                  <!-- Faint interior light through windows -->
+                  <rect x="1172" y="601" width="338" height="30" fill="rgba(220,180,90,0.06)"/>
+                  <!-- Roll-up doors -->
+                  <rect x="1450" y="700" width="60" height="120" fill="#020404" stroke="#2c3a32" stroke-width="0.5"/>
                   <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="1470" y1="600" x2="1470" y2="622"/>
-                    <line x1="1500" y1="600" x2="1500" y2="622"/>
-                    <line x1="1530" y1="600" x2="1530" y2="622"/>
-                    <line x1="1560" y1="600" x2="1560" y2="622"/>
-                    <line x1="1590" y1="600" x2="1590" y2="622"/>
-                    <line x1="1620" y1="600" x2="1620" y2="622"/>
-                    <line x1="1650" y1="600" x2="1650" y2="622"/>
-                    <line x1="1680" y1="600" x2="1680" y2="622"/>
-                    <line x1="1710" y1="600" x2="1710" y2="622"/>
+                    <line x1="1450" y1="720" x2="1510" y2="720"/>
+                    <line x1="1450" y1="740" x2="1510" y2="740"/>
+                    <line x1="1450" y1="760" x2="1510" y2="760"/>
+                    <line x1="1450" y1="780" x2="1510" y2="780"/>
+                    <line x1="1450" y1="800" x2="1510" y2="800"/>
                   </g>
-                  <!-- Roll-up door -->
-                  <rect x="1700" y="710" width="36" height="105" fill="#040806" stroke="#2c3a32" stroke-width="0.5"/>
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="1700" y1="725" x2="1736" y2="725"/>
-                    <line x1="1700" y1="740" x2="1736" y2="740"/>
-                    <line x1="1700" y1="755" x2="1736" y2="755"/>
-                    <line x1="1700" y1="770" x2="1736" y2="770"/>
-                    <line x1="1700" y1="785" x2="1736" y2="785"/>
-                    <line x1="1700" y1="800" x2="1736" y2="800"/>
-                  </g>
-                  <!-- Generator block visible through cutaway -->
-                  <ellipse cx="1530" cy="490" rx="60" ry="14" fill="#1a2620" stroke="#64ffda" stroke-width="0.8" opacity="0.85"/>
-                  <ellipse cx="1530" cy="490" rx="34" ry="8" fill="#040806" stroke="#64ffda" stroke-width="0.6" opacity="0.85"/>
-                  <line x1="1530" y1="482" x2="1530" y2="498" stroke="#64ffda" stroke-width="0.6" opacity="0.7">
-                    <animateTransform attributeName="transform" type="rotate" from="0 1530 490" to="360 1530 490" dur="2.4s" repeatCount="indefinite"/>
-                  </line>
-                  <!-- Crane rail on roof -->
-                  <g stroke="#3a5046" stroke-width="0.5">
-                    <line x1="1410" y1="513" x2="1700" y2="445"/>
-                    <line x1="1530" y1="486" x2="1530" y2="448"/>
-                    <rect x="1525" y="446" width="10" height="4" fill="#3a5046"/>
-                  </g>
-
-                  <!-- Generator cable bundle to substation -->
-                  <g filter="url(#electrical-glow)">
-                    <path d="M 1740 580 L 1830 580 L 1830 700 L 1880 700" stroke="#64ffda" stroke-width="1.6" fill="none"/>
-                    <path d="M 1740 590 L 1834 590 L 1834 706 L 1880 706" stroke="#64ffda" stroke-width="1.6" fill="none" opacity="0.8"/>
-                    <path d="M 1740 600 L 1838 600 L 1838 712 L 1880 712" stroke="#64ffda" stroke-width="1.6" fill="none" opacity="0.65"/>
-                  </g>
+                  <!-- Cast shadow under hall -->
+                  <ellipse cx="1300" cy="822" rx="240" ry="14" fill="#000" filter="url(#soft-shadow)" opacity="0.7"/>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- G. GASHOLDER SPHERES + STORAGE TANK                    -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="gasholders">
-                  <!-- Gasholder sphere 1 -->
-                  <circle cx="1790" cy="600" r="50" fill="url(#grad-sphere-r)" stroke="#2c3a32" stroke-width="1"/>
-                  <!-- Sphere equatorial band -->
-                  <ellipse cx="1790" cy="600" rx="50" ry="8" fill="none" stroke="#3a5046" stroke-width="0.6"/>
-                  <!-- Sphere meridians -->
-                  <ellipse cx="1790" cy="600" rx="20" ry="50" fill="none" stroke="#3a5046" stroke-width="0.4"/>
-                  <ellipse cx="1790" cy="600" rx="40" ry="50" fill="none" stroke="#3a5046" stroke-width="0.4"/>
-                  <!-- Support legs -->
-                  <g stroke="#3a5046" stroke-width="0.8">
-                    <line x1="1760" y1="640" x2="1750" y2="820"/>
-                    <line x1="1790" y1="650" x2="1790" y2="820"/>
-                    <line x1="1820" y1="640" x2="1830" y2="820"/>
-                    <line x1="1760" y1="640" x2="1820" y2="640"/>
-                  </g>
-                  <!-- Inlet pipe from above -->
-                  <line x1="1790" y1="550" x2="1790" y2="520" stroke="#3a5046" stroke-width="2"/>
-                  <line x1="1790" y1="520" x2="1860" y2="520" stroke="#3a5046" stroke-width="2"/>
-                  <!-- Ladder -->
-                  <g stroke="#3a5046" stroke-width="0.5">
-                    <line x1="1842" y1="600" x2="1842" y2="820"/>
-                    <line x1="1848" y1="600" x2="1848" y2="820"/>
-                  </g>
-                  <use href="#rung" x="1842" y="640"/>
-                  <use href="#rung" x="1842" y="680"/>
-                  <use href="#rung" x="1842" y="720"/>
-                  <use href="#rung" x="1842" y="760"/>
-                  <use href="#rung" x="1842" y="800"/>
-
-                  <!-- Sphere 2 (smaller, in background slightly higher) -->
-                  <circle cx="1900" cy="560" r="34" fill="url(#grad-sphere-r)" stroke="#2c3a32" stroke-width="1"/>
-                  <ellipse cx="1900" cy="560" rx="34" ry="5" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <ellipse cx="1900" cy="560" rx="14" ry="34" fill="none" stroke="#3a5046" stroke-width="0.4"/>
-                  <g stroke="#3a5046" stroke-width="0.7">
-                    <line x1="1878" y1="590" x2="1872" y2="700"/>
-                    <line x1="1900" y1="594" x2="1900" y2="700"/>
-                    <line x1="1922" y1="590" x2="1928" y2="700"/>
-                  </g>
-                  <!-- Horizontal storage tank (lying down) -->
-                  <ellipse cx="1810" cy="730" rx="14" ry="32" fill="#28403a" stroke="#2c3a32" stroke-width="0.7"/>
-                  <rect x="1796" y="730" width="120" height="64" fill="url(#grad-cool)" stroke="#2c3a32" stroke-width="0.8"/>
-                  <ellipse cx="1916" cy="762" rx="14" ry="32" fill="#0a1310" stroke="#2c3a32" stroke-width="0.7"/>
-                  <line x1="1810" y1="730" x2="1810" y2="794" stroke="#3a5046" stroke-width="0.4"/>
-                  <line x1="1840" y1="730" x2="1840" y2="794" stroke="#3a5046" stroke-width="0.4"/>
-                  <line x1="1870" y1="730" x2="1870" y2="794" stroke="#3a5046" stroke-width="0.4"/>
-                </g>
-
-                <!-- ===================================================== -->
-                <!-- H. COOLING TOWERS                                       -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="cooling">
-                  <!-- Cooling tower 1 (hyperboloid) -->
-                  <path d="M 1960 480
-                           Q 1928 580 1960 720
-                           L 2032 720
-                           Q 2064 580 2032 480 Z"
-                        fill="url(#grad-cool)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <ellipse cx="1996" cy="480" rx="36" ry="9" fill="#28403a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <ellipse cx="1996" cy="484" rx="26" ry="5" fill="#040806"/>
+                <!-- =================== COOLING TOWERS (behind transformer yard) =================== -->
+                <g>
+                  <path d="M 1540 380
+                           Q 1500 480 1540 700
+                           L 1640 720
+                           Q 1680 500 1640 380 Z" fill="url(#mat-cyl-cool)" stroke="#2c3a32" stroke-width="0.7"/>
+                  <ellipse cx="1590" cy="380" rx="50" ry="11" fill="#1a2620" stroke="#2c3a32" stroke-width="0.7"/>
+                  <ellipse cx="1590" cy="383" rx="38" ry="7" fill="#04080a"/>
                   <!-- Banding rings -->
-                  <ellipse cx="1996" cy="560" rx="32" ry="6" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <ellipse cx="1996" cy="640" rx="34" ry="7" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <ellipse cx="1996" cy="700" rx="36" ry="8" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <!-- Vapor -->
-                  <path d="M 1996 480 Q 1990 460 2000 440 Q 2010 420 2000 400 Q 1990 384 1996 370" stroke="#f1f3f5" stroke-width="0.8" fill="none" opacity="0.18"/>
-                  <!-- Cooling tower 2 -->
-                  <path d="M 2060 510
-                           Q 2032 590 2060 720
-                           L 2120 720
-                           Q 2148 590 2120 510 Z"
-                        fill="url(#grad-cool)" stroke="#2c3a32" stroke-width="0.9"/>
-                  <ellipse cx="2090" cy="510" rx="30" ry="8" fill="#28403a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <ellipse cx="2090" cy="513" rx="22" ry="4" fill="#040806"/>
-                  <ellipse cx="2090" cy="580" rx="26" ry="5" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <ellipse cx="2090" cy="650" rx="28" ry="6" fill="none" stroke="#3a5046" stroke-width="0.5"/>
-                  <path d="M 2090 510 Q 2086 490 2094 472 Q 2102 454 2094 438" stroke="#f1f3f5" stroke-width="0.8" fill="none" opacity="0.18"/>
-                  <!-- Water lines under -->
-                  <line x1="1960" y1="720" x2="1960" y2="760" stroke="#3a5046" stroke-width="1.2"/>
-                  <line x1="2060" y1="720" x2="2060" y2="760" stroke="#3a5046" stroke-width="1.2"/>
-                  <line x1="1960" y1="760" x2="2060" y2="760" stroke="#3a5046" stroke-width="1"/>
-                </g>
-
-                <!-- ===================================================== -->
-                <!-- I. SUBSTATION (transformers + lattice tower)           -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="substation">
-                  <!-- Transformer A -->
-                  <g transform="translate(1870,720)">
-                    <polygon points="0,12 40,-4 80,12 40,28" fill="#22302a" stroke="#2c3a32" stroke-width="0.8"/>
-                    <polygon points="0,12 0,68 40,84 40,28" fill="url(#grad-trans)" stroke="#2c3a32" stroke-width="0.8"/>
-                    <polygon points="80,12 80,68 40,84 40,28" fill="#070d0a" stroke="#2c3a32" stroke-width="0.8"/>
-                    <!-- HV bushings -->
-                    <g filter="url(#electrical-glow)">
-                      <rect x="10" y="-22" width="4" height="16" fill="#64ffda"/>
-                      <rect x="34" y="-30" width="4" height="24" fill="#64ffda"/>
-                      <rect x="58" y="-22" width="4" height="16" fill="#64ffda"/>
-                    </g>
-                    <!-- Cooling fins -->
-                    <g stroke="#3a5046" stroke-width="0.3">
-                      <line x1="0"  y1="22" x2="0"  y2="64"/>
-                      <line x1="-3" y1="26" x2="-3" y2="60"/>
-                      <line x1="-6" y1="30" x2="-6" y2="56"/>
-                      <line x1="80"  y1="22" x2="80"  y2="64"/>
-                      <line x1="83"  y1="26" x2="83"  y2="60"/>
-                      <line x1="86"  y1="30" x2="86"  y2="56"/>
-                    </g>
-                    <!-- Top oil-tank cap -->
-                    <ellipse cx="40" cy="-4" rx="8" ry="3" fill="#3a5046"/>
+                  <ellipse cx="1590" cy="470" rx="48" ry="8" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <ellipse cx="1590" cy="560" rx="52" ry="9" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <ellipse cx="1590" cy="660" rx="56" ry="10" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <!-- Drift -->
+                  <g opacity="0.4" filter="url(#vapor-blur)">
+                    <path d="M 1590 380 Q 1574 320 1596 270 Q 1620 210 1602 160 Q 1582 110 1604 60" stroke="rgba(180,200,200,0.85)" stroke-width="9" fill="none"/>
                   </g>
-                  <!-- Transformer B -->
-                  <g transform="translate(1962,732)">
-                    <polygon points="0,10 32,-4 64,10 32,24" fill="#22302a" stroke="#2c3a32" stroke-width="0.8"/>
-                    <polygon points="0,10 0,58 32,72 32,24" fill="url(#grad-trans)" stroke="#2c3a32" stroke-width="0.8"/>
-                    <polygon points="64,10 64,58 32,72 32,24" fill="#070d0a" stroke="#2c3a32" stroke-width="0.8"/>
-                    <g filter="url(#electrical-glow)">
-                      <rect x="8" y="-18" width="4" height="14" fill="#64ffda"/>
-                      <rect x="28" y="-22" width="4" height="18" fill="#64ffda"/>
-                      <rect x="48" y="-18" width="4" height="14" fill="#64ffda"/>
-                    </g>
-                  </g>
-                  <!-- Lattice switchyard tower -->
-                  <g stroke="#3a5046" stroke-width="0.6" fill="none">
-                    <line x1="2030" y1="720" x2="2030" y2="540"/>
-                    <line x1="2068" y1="720" x2="2068" y2="540"/>
-                    <line x1="2030" y1="720" x2="2068" y2="720"/>
-                    <line x1="2030" y1="540" x2="2068" y2="540"/>
-                    <!-- Cross-bracing -->
-                    <line x1="2030" y1="720" x2="2068" y2="690"/>
-                    <line x1="2068" y1="720" x2="2030" y2="690"/>
-                    <line x1="2030" y1="690" x2="2068" y2="690"/>
-                    <line x1="2030" y1="660" x2="2068" y2="660"/>
-                    <line x1="2030" y1="660" x2="2068" y2="630"/>
-                    <line x1="2068" y1="660" x2="2030" y2="630"/>
-                    <line x1="2030" y1="630" x2="2068" y2="630"/>
-                    <line x1="2030" y1="600" x2="2068" y2="600"/>
-                    <line x1="2030" y1="600" x2="2068" y2="570"/>
-                    <line x1="2068" y1="600" x2="2030" y2="570"/>
-                    <line x1="2030" y1="570" x2="2068" y2="570"/>
-                    <!-- Crossarms (where insulator strings hang) -->
-                    <line x1="2010" y1="550" x2="2088" y2="550"/>
-                    <line x1="2010" y1="540" x2="2010" y2="555"/>
-                    <line x1="2088" y1="540" x2="2088" y2="555"/>
-                    <line x1="2010" y1="580" x2="2088" y2="580"/>
-                    <line x1="2010" y1="570" x2="2010" y2="585"/>
-                    <line x1="2088" y1="570" x2="2088" y2="585"/>
-                  </g>
-                  <!-- Insulator strings hanging from crossarms -->
-                  <g filter="url(#electrical-glow)">
-                    <circle cx="2026" cy="556" r="2" fill="#64ffda"/>
-                    <circle cx="2072" cy="556" r="2" fill="#64ffda"/>
-                    <circle cx="2026" cy="586" r="2" fill="#64ffda"/>
-                    <circle cx="2072" cy="586" r="2" fill="#64ffda"/>
-                  </g>
-                  <!-- Cables from transformers to tower -->
-                  <g filter="url(#electrical-glow)">
-                    <path d="M 1908 696 Q 1960 670 2026 580" stroke="#64ffda" stroke-width="1.4" fill="none" opacity="0.85"/>
-                    <path d="M 1994 730 Q 2010 700 2072 580" stroke="#64ffda" stroke-width="1.4" fill="none" opacity="0.8"/>
+                  <!-- Second tower -->
+                  <path d="M 1660 400
+                           Q 1626 488 1660 700
+                           L 1740 720
+                           Q 1772 500 1740 400 Z" fill="url(#mat-cyl-cool)" stroke="#2c3a32" stroke-width="0.7"/>
+                  <ellipse cx="1700" cy="400" rx="40" ry="9" fill="#1a2620" stroke="#2c3a32" stroke-width="0.7"/>
+                  <ellipse cx="1700" cy="402" rx="30" ry="6" fill="#04080a"/>
+                  <ellipse cx="1700" cy="490" rx="38" ry="7" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <ellipse cx="1700" cy="570" rx="42" ry="7" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <ellipse cx="1700" cy="660" rx="45" ry="8" fill="none" stroke="#22302a" stroke-width="0.5"/>
+                  <g opacity="0.35" filter="url(#vapor-blur)">
+                    <path d="M 1700 400 Q 1684 340 1706 290 Q 1730 230 1712 180 Q 1692 130 1714 90" stroke="rgba(180,200,200,0.8)" stroke-width="8" fill="none"/>
                   </g>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- J. AI DATA CENTER BLOCK (terminus)                     -->
-                <!-- ===================================================== -->
-                <g class="we-piece" data-name="data-center">
-                  <!-- HV transmission line from switchyard -->
-                  <g filter="url(#electrical-glow)">
-                    <path d="M 2026 556 Q 2080 560 2110 600" stroke="#64ffda" stroke-width="1.5" fill="none"/>
-                    <path d="M 2072 556 Q 2100 564 2128 604" stroke="#64ffda" stroke-width="1.5" fill="none" opacity="0.85"/>
+                <!-- =================== REACTOR BUILDING (the heavy concrete mass) =================== -->
+                <g>
+                  <!-- Cast shadow -->
+                  <ellipse cx="700" cy="800" rx="220" ry="16" fill="#000" filter="url(#soft-shadow)" opacity="0.7"/>
+
+                  <!-- Building mass — concrete cube -->
+                  <!-- Top -->
+                  <polygon points="500,260 880,200 940,228 560,288" fill="url(#mat-concrete-roof)" stroke="#1f2c25" stroke-width="0.7"/>
+                  <!-- Front face -->
+                  <polygon points="560,288 940,228 940,800 560,820" fill="url(#mat-concrete-front)" stroke="#1f2c25" stroke-width="0.8"/>
+                  <!-- Side face -->
+                  <polygon points="500,260 560,288 560,820 500,800" fill="url(#mat-concrete-side)" stroke="#1f2c25" stroke-width="0.8"/>
+                  <!-- Roof rim -->
+                  <line x1="500" y1="260" x2="880" y2="200" stroke="#384a40" stroke-width="0.6"/>
+
+                  <!-- Roof equipment stack (small ventilation cubes) -->
+                  <polygon points="640,228 700,218 700,238 640,248" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
+                  <polygon points="700,218 720,224 720,244 700,238" fill="#0e1612" stroke="#384a40" stroke-width="0.5"/>
+                  <polygon points="640,248 700,238 720,244 660,256" fill="#161e1b" stroke="#384a40" stroke-width="0.5"/>
+
+                  <polygon points="760,212 820,202 820,222 760,232" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
+                  <polygon points="820,202 840,208 840,228 820,222" fill="#0e1612" stroke="#384a40" stroke-width="0.5"/>
+
+                  <!-- Concrete panel divisions (subtle vertical seams + horizontal expansion joints) -->
+                  <g stroke="#101714" stroke-width="0.4" opacity="0.85">
+                    <line x1="630"  y1="277" x2="630"  y2="813"/>
+                    <line x1="700"  y1="266" x2="700"  y2="809"/>
+                    <line x1="770"  y1="255" x2="770"  y2="805"/>
+                    <line x1="840"  y1="244" x2="840"  y2="801"/>
+                    <line x1="560"  y1="430" x2="940"  y2="370"/>
+                    <line x1="560"  y1="570" x2="940"  y2="510"/>
+                    <line x1="560"  y1="710" x2="940"  y2="650"/>
                   </g>
-                  <!-- Pylon (intermediate) -->
-                  <g stroke="#3a5046" stroke-width="0.6" fill="none">
-                    <line x1="2110" y1="660" x2="2110" y2="820"/>
-                    <line x1="2118" y1="660" x2="2118" y2="820"/>
-                    <line x1="2110" y1="700" x2="2118" y2="700"/>
-                    <line x1="2110" y1="740" x2="2118" y2="740"/>
-                    <line x1="2110" y1="780" x2="2118" y2="780"/>
-                    <line x1="2100" y1="640" x2="2128" y2="640"/>
+                  <!-- Weathering streaks (vertical, subtle) -->
+                  <g opacity="0.30">
+                    <rect x="612"  y="296" width="3" height="500" fill="#06090a"/>
+                    <rect x="688"  y="282" width="2" height="500" fill="#06090a"/>
+                    <rect x="762"  y="268" width="3" height="500" fill="#06090a"/>
+                    <rect x="826"  y="252" width="2" height="500" fill="#06090a"/>
+                    <rect x="900"  y="236" width="3" height="500" fill="#06090a"/>
                   </g>
-                  <!-- Data Center building (modular, iso) -->
-                  <polygon points="2056,620 2150,580 2200,602 2106,642" fill="#22302a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <polygon points="2056,620 2056,810 2106,830 2106,642" fill="#0a1310" stroke="#2c3a32" stroke-width="0.9"/>
-                  <polygon points="2200,602 2200,790 2106,830 2106,642" fill="#070d0a" stroke="#2c3a32" stroke-width="0.9"/>
-                  <!-- Roof seams + AC units -->
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="2076" y1="612" x2="2126" y2="632"/>
-                    <line x1="2096" y1="604" x2="2146" y2="624"/>
-                    <line x1="2116" y1="596" x2="2166" y2="616"/>
-                    <line x1="2136" y1="588" x2="2186" y2="608"/>
+
+                  <!-- Side face seams -->
+                  <g stroke="#0a0f0d" stroke-width="0.4" opacity="0.8">
+                    <line x1="500" y1="420" x2="560" y2="450"/>
+                    <line x1="500" y1="580" x2="560" y2="610"/>
+                    <line x1="500" y1="740" x2="560" y2="765"/>
                   </g>
-                  <rect x="2080" y="600" width="14" height="6" fill="#3a5046"/>
-                  <rect x="2110" y="592" width="14" height="6" fill="#3a5046"/>
-                  <rect x="2140" y="584" width="14" height="6" fill="#3a5046"/>
-                  <!-- Side seams -->
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="2076" y1="630" x2="2076" y2="815"/>
-                    <line x1="2090" y1="635" x2="2090" y2="820"/>
-                  </g>
-                  <!-- Visible rack windows (4 rows) -->
+
+                  <!-- Internal heat visible through windows (warm glow) -->
                   <g>
-                    <rect x="2120" y="680" width="60" height="14" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                    <rect x="2120" y="700" width="60" height="14" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                    <rect x="2120" y="720" width="60" height="14" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                    <rect x="2120" y="740" width="60" height="14" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                    <!-- Rack hint inside each window: 3 rack columns -->
-                    <g opacity="0.85">
-                      <rect x="2126" y="682" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2142" y="682" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2158" y="682" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2174" y="682" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2126" y="702" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2142" y="702" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2158" y="702" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2174" y="702" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2126" y="722" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2142" y="722" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2158" y="722" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2174" y="722" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2126" y="742" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2142" y="742" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2158" y="742" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <rect x="2174" y="742" width="4" height="10" fill="#1a2620" stroke="#64ffda" stroke-width="0.3"/>
-                      <!-- LEDs on outer column -->
-                      <rect x="2128" y="685" width="1.5" height="1.5" fill="#64ffda">
-                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.4s" repeatCount="indefinite"/>
-                      </rect>
-                      <rect x="2160" y="688" width="1.5" height="1.5" fill="#64ffda">
-                        <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.7s" repeatCount="indefinite"/>
-                      </rect>
-                      <rect x="2144" y="705" width="1.5" height="1.5" fill="#64ffda">
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/>
-                      </rect>
-                      <rect x="2176" y="725" width="1.5" height="1.5" fill="#64ffda">
-                        <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/>
-                      </rect>
+                    <!-- Slit windows reveal interior glow -->
+                    <rect x="608" y="340" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.85"/>
+                    <rect x="608" y="340" width="6" height="120" fill="#ff8a2a" opacity="0.5"/>
+                    <rect x="608" y="340" width="6" height="120" fill="#040806" opacity="0.0"/>
+                    <rect x="680" y="330" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.7"/>
+                    <rect x="680" y="330" width="6" height="120" fill="#ff8a2a" opacity="0.45"/>
+                    <rect x="752" y="320" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.8"/>
+                    <rect x="752" y="320" width="6" height="120" fill="#ff8a2a" opacity="0.5"/>
+                    <rect x="824" y="310" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.65"/>
+                    <rect x="824" y="310" width="6" height="120" fill="#ff8a2a" opacity="0.4"/>
+
+                    <!-- Inspection window at mid -->
+                    <rect x="640" y="510" width="60" height="22" fill="#040806" stroke="#1a2620" stroke-width="0.5"/>
+                    <rect x="642" y="512" width="56" height="18" fill="url(#reactor-heat-interior)" opacity="0.95"/>
+                    <rect x="642" y="512" width="56" height="18" fill="#ff8a2a" opacity="0.7">
+                      <animate attributeName="opacity" values="0.55;0.85;0.55" dur="2.4s" repeatCount="indefinite"/>
+                    </rect>
+                  </g>
+
+                  <!-- External stair tower attached to side -->
+                  <g>
+                    <rect x="488" y="350" width="14" height="450" fill="#0e1612" stroke="#1f2c25" stroke-width="0.5"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <line x1="488" y1="400" x2="502" y2="402"/>
+                      <line x1="488" y1="440" x2="502" y2="442"/>
+                      <line x1="488" y1="480" x2="502" y2="482"/>
+                      <line x1="488" y1="520" x2="502" y2="522"/>
+                      <line x1="488" y1="560" x2="502" y2="562"/>
+                      <line x1="488" y1="600" x2="502" y2="602"/>
+                      <line x1="488" y1="640" x2="502" y2="642"/>
+                      <line x1="488" y1="680" x2="502" y2="682"/>
+                      <line x1="488" y1="720" x2="502" y2="722"/>
+                      <line x1="488" y1="760" x2="502" y2="762"/>
                     </g>
                   </g>
-                  <!-- Door -->
-                  <rect x="2070" y="770" width="16" height="42" fill="#040806" stroke="#2c3a32" stroke-width="0.4"/>
-                  <!-- Connection of HV cable into DC -->
-                  <g filter="url(#electrical-glow)">
-                    <path d="M 2110 660 L 2110 620 L 2128 620" stroke="#64ffda" stroke-width="1.4" fill="none"/>
-                    <path d="M 2118 660 L 2118 624 L 2128 624" stroke="#64ffda" stroke-width="1.4" fill="none" opacity="0.75"/>
+                </g>
+
+                <!-- =================== TALL STACK + VENT SILOS on reactor roof =================== -->
+                <g>
+                  <!-- Tall main stack (cylinder rising from rear roof) -->
+                  <rect x="870" y="100" width="38" height="180" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.7"/>
+                  <ellipse cx="889" cy="100" rx="19" ry="6" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
+                  <!-- Stack bands -->
+                  <g stroke="#384a40" stroke-width="0.5">
+                    <line x1="870" y1="150" x2="908" y2="150"/>
+                    <line x1="870" y1="200" x2="908" y2="200"/>
+                    <line x1="870" y1="250" x2="908" y2="250"/>
+                  </g>
+                  <!-- Stack continues into reactor mass -->
+                  <rect x="870" y="280" width="38" height="50" fill="url(#mat-cyl-steel)" opacity="0.9"/>
+                  <!-- Stack warning light -->
+                  <circle cx="889" cy="95" r="2.4" fill="#ff5a3a" opacity="0.9">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/>
+                  </circle>
+                  <!-- Smoke trail -->
+                  <g opacity="0.4" filter="url(#vapor-blur)">
+                    <path d="M 889 100 Q 880 70 900 40 Q 928 6 904 -20" stroke="rgba(190,200,200,0.8)" stroke-width="9" fill="none"/>
+                  </g>
+
+                  <!-- Secondary smaller stack -->
+                  <rect x="820" y="160" width="20" height="120" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.5"/>
+                  <ellipse cx="830" cy="160" rx="10" ry="3" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
+
+                  <!-- Vent silo / scrubber on roof (cylinder) -->
+                  <ellipse cx="710" cy="180" rx="28" ry="7" fill="#22302a" stroke="#384a40" stroke-width="0.6"/>
+                  <rect x="682" y="180" width="56" height="76" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.6"/>
+                  <line x1="682" y1="220" x2="738" y2="220" stroke="#384a40" stroke-width="0.4"/>
+                </g>
+
+                <!-- =================== GAS CLEANING TRAIN (between reactor and turbine hall) =================== -->
+                <g>
+                  <!-- Cast shadow -->
+                  <ellipse cx="1020" cy="800" rx="120" ry="14" fill="#000" filter="url(#soft-shadow)" opacity="0.65"/>
+
+                  <!-- Tall scrubber 1 -->
+                  <rect x="960"  y="280" width="60" height="510" fill="url(#mat-cyl-warm)" stroke="#1f2c25" stroke-width="0.7"/>
+                  <ellipse cx="990" cy="280" rx="30" ry="9" fill="#2a221c" stroke="#1f2c25" stroke-width="0.7"/>
+                  <path d="M 960 790 A 30 9 0 0 0 1020 790" fill="#06090a" stroke="#1f2c25" stroke-width="0.7"/>
+                  <!-- Banding -->
+                  <g stroke="#384a40" stroke-width="0.5">
+                    <line x1="960" y1="340" x2="1020" y2="340"/>
+                    <line x1="960" y1="410" x2="1020" y2="410"/>
+                    <line x1="960" y1="480" x2="1020" y2="480"/>
+                    <line x1="960" y1="550" x2="1020" y2="550"/>
+                    <line x1="960" y1="620" x2="1020" y2="620"/>
+                    <line x1="960" y1="690" x2="1020" y2="690"/>
+                  </g>
+                  <!-- Insulation jacket seam (one stripe heavier) -->
+                  <rect x="960" y="408" width="60" height="4" fill="#384a40"/>
+                  <!-- Side ladder -->
+                  <g stroke="#384a40" stroke-width="0.4">
+                    <line x1="1024" y1="300" x2="1024" y2="770"/>
+                    <line x1="1030" y1="300" x2="1030" y2="770"/>
+                    <line x1="1024" y1="340" x2="1030" y2="340"/>
+                    <line x1="1024" y1="370" x2="1030" y2="370"/>
+                    <line x1="1024" y1="400" x2="1030" y2="400"/>
+                    <line x1="1024" y1="430" x2="1030" y2="430"/>
+                    <line x1="1024" y1="460" x2="1030" y2="460"/>
+                    <line x1="1024" y1="490" x2="1030" y2="490"/>
+                    <line x1="1024" y1="520" x2="1030" y2="520"/>
+                    <line x1="1024" y1="550" x2="1030" y2="550"/>
+                    <line x1="1024" y1="580" x2="1030" y2="580"/>
+                    <line x1="1024" y1="610" x2="1030" y2="610"/>
+                    <line x1="1024" y1="640" x2="1030" y2="640"/>
+                    <line x1="1024" y1="670" x2="1030" y2="670"/>
+                    <line x1="1024" y1="700" x2="1030" y2="700"/>
+                    <line x1="1024" y1="730" x2="1030" y2="730"/>
+                  </g>
+
+                  <!-- Scrubber 2 (shorter, larger diameter) -->
+                  <rect x="1040" y="380" width="74" height="410" fill="url(#mat-cyl-steel)" stroke="#1f2c25" stroke-width="0.7"/>
+                  <ellipse cx="1077" cy="380" rx="37" ry="11" fill="#22302a" stroke="#1f2c25" stroke-width="0.7"/>
+                  <path d="M 1040 790 A 37 11 0 0 0 1114 790" fill="#06090a" stroke="#1f2c25" stroke-width="0.7"/>
+                  <g stroke="#384a40" stroke-width="0.5">
+                    <line x1="1040" y1="430" x2="1114" y2="430"/>
+                    <line x1="1040" y1="500" x2="1114" y2="500"/>
+                    <line x1="1040" y1="570" x2="1114" y2="570"/>
+                    <line x1="1040" y1="640" x2="1114" y2="640"/>
+                    <line x1="1040" y1="710" x2="1114" y2="710"/>
+                  </g>
+                  <!-- Insp doors -->
+                  <rect x="1062" y="630" width="30" height="50" fill="#06090a" stroke="#1f2c25" stroke-width="0.5"/>
+                  <!-- Top fan housing -->
+                  <ellipse cx="1077" cy="378" rx="22" ry="6" fill="#0e1612"/>
+                  <ellipse cx="1077" cy="378" rx="12" ry="3" fill="#06090a"/>
+
+                  <!-- Inlet duct (large, joins reactor to scrubber 1) -->
+                  <path d="M 940 360 L 960 360" stroke="#384a40" stroke-width="14"/>
+                  <path d="M 940 360 L 960 360" stroke="#1a2620" stroke-width="11"/>
+                  <!-- Outlet duct between scrubbers -->
+                  <path d="M 1020 460 L 1040 460" stroke="#384a40" stroke-width="10"/>
+                  <path d="M 1020 460 L 1040 460" stroke="#1a2620" stroke-width="8"/>
+                  <!-- Flange joints -->
+                  <rect x="942" y="354" width="4" height="14" fill="#384a40"/>
+                  <rect x="956" y="354" width="4" height="14" fill="#384a40"/>
+                  <rect x="1018" y="456" width="4" height="10" fill="#384a40"/>
+                  <rect x="1036" y="456" width="4" height="10" fill="#384a40"/>
+                </g>
+
+                <!-- =================== HEAVY OVERHEAD PIPE RACK (continuous, ties everything) =================== -->
+                <g>
+                  <!-- Pipe rack horizontal beam — full width across mid-ground -->
+                  <rect x="200" y="380" width="1500" height="14" fill="#0e1612" stroke="#1f2c25" stroke-width="0.7"/>
+                  <line x1="200" y1="380" x2="1700" y2="380" stroke="#384a40" stroke-width="0.4"/>
+                  <line x1="200" y1="394" x2="1700" y2="394" stroke="#384a40" stroke-width="0.4"/>
+                  <!-- Underside truss (zigzag) -->
+                  <g stroke="#22302a" stroke-width="0.6" fill="none">
+                    <line x1="200" y1="394" x2="240" y2="412"/>
+                    <line x1="240" y1="412" x2="280" y2="394"/>
+                    <line x1="280" y1="394" x2="320" y2="412"/>
+                    <line x1="320" y1="412" x2="360" y2="394"/>
+                    <line x1="360" y1="394" x2="400" y2="412"/>
+                    <line x1="400" y1="412" x2="440" y2="394"/>
+                    <line x1="440" y1="394" x2="480" y2="412"/>
+                    <line x1="480" y1="412" x2="520" y2="394"/>
+                    <line x1="520" y1="394" x2="560" y2="412"/>
+                    <line x1="560" y1="412" x2="600" y2="394"/>
+                    <line x1="600" y1="394" x2="640" y2="412"/>
+                    <line x1="640" y1="412" x2="680" y2="394"/>
+                    <line x1="680" y1="394" x2="720" y2="412"/>
+                    <line x1="720" y1="412" x2="760" y2="394"/>
+                    <line x1="760" y1="394" x2="800" y2="412"/>
+                    <line x1="800" y1="412" x2="840" y2="394"/>
+                    <line x1="840" y1="394" x2="880" y2="412"/>
+                    <line x1="880" y1="412" x2="920" y2="394"/>
+                    <line x1="920" y1="394" x2="960" y2="412"/>
+                    <line x1="960" y1="412" x2="1000" y2="394"/>
+                    <line x1="1000" y1="394" x2="1040" y2="412"/>
+                    <line x1="1040" y1="412" x2="1080" y2="394"/>
+                    <line x1="1080" y1="394" x2="1120" y2="412"/>
+                    <line x1="1120" y1="412" x2="1160" y2="394"/>
+                    <line x1="1160" y1="394" x2="1200" y2="412"/>
+                    <line x1="1200" y1="412" x2="1240" y2="394"/>
+                    <line x1="1240" y1="394" x2="1280" y2="412"/>
+                    <line x1="1280" y1="412" x2="1320" y2="394"/>
+                    <line x1="1320" y1="394" x2="1360" y2="412"/>
+                    <line x1="1360" y1="412" x2="1400" y2="394"/>
+                    <line x1="1400" y1="394" x2="1440" y2="412"/>
+                    <line x1="1440" y1="412" x2="1480" y2="394"/>
+                    <line x1="1480" y1="394" x2="1520" y2="412"/>
+                    <line x1="1520" y1="412" x2="1560" y2="394"/>
+                    <line x1="1560" y1="394" x2="1600" y2="412"/>
+                    <line x1="1600" y1="412" x2="1640" y2="394"/>
+                    <line x1="1640" y1="394" x2="1680" y2="412"/>
+                    <line x1="1680" y1="412" x2="1700" y2="402"/>
+                  </g>
+                  <!-- Pipe rack vertical supports (heavy columns reaching to ground) -->
+                  <g fill="#0e1612" stroke="#1f2c25" stroke-width="0.6">
+                    <rect x="206" y="394" width="14" height="430"/>
+                    <rect x="200" y="820" width="26" height="8"/>
+                    <rect x="456" y="394" width="14" height="430"/>
+                    <rect x="450" y="820" width="26" height="8"/>
+                    <rect x="1180" y="394" width="14" height="430"/>
+                    <rect x="1174" y="820" width="26" height="8"/>
+                    <rect x="1430" y="394" width="14" height="430"/>
+                    <rect x="1424" y="820" width="26" height="8"/>
+                    <rect x="1680" y="394" width="14" height="430"/>
+                    <rect x="1674" y="820" width="26" height="8"/>
+                  </g>
+                  <!-- Brace diagonals -->
+                  <g stroke="#22302a" stroke-width="0.5">
+                    <line x1="220" y1="394" x2="320" y2="500"/>
+                    <line x1="220" y1="500" x2="320" y2="394"/>
+                    <line x1="470" y1="394" x2="570" y2="500"/>
+                    <line x1="470" y1="500" x2="570" y2="394"/>
+                  </g>
+
+                  <!-- Pipes running along the rack (parallel cylinders, varied diameters and tints) -->
+                  <g>
+                    <!-- Steam line (large, warm) -->
+                    <rect x="200" y="356" width="1500" height="14" fill="url(#mat-cyl-warm)" stroke="#1f2c25" stroke-width="0.5"/>
+                    <ellipse cx="200" cy="363" rx="4" ry="7" fill="#3a2820"/>
+                    <ellipse cx="1700" cy="363" rx="4" ry="7" fill="#3a2820"/>
+                    <!-- Water/cooling line -->
+                    <rect x="200" y="338" width="1500" height="10" fill="url(#mat-cyl-cool)" stroke="#1f2c25" stroke-width="0.5"/>
+                    <!-- Two smaller utility pipes -->
+                    <rect x="200" y="324" width="1500" height="6" fill="#22302a" stroke="#1f2c25" stroke-width="0.4"/>
+                    <rect x="200" y="314" width="1500" height="6" fill="#1a2620" stroke="#1f2c25" stroke-width="0.4"/>
+                  </g>
+                  <!-- Pipe hangers (small brackets every 250 px) -->
+                  <g stroke="#22302a" stroke-width="0.4" fill="none">
+                    <path d="M 450 314 L 450 380"/>
+                    <path d="M 700 314 L 700 380"/>
+                    <path d="M 950 314 L 950 380"/>
+                    <path d="M 1200 314 L 1200 380"/>
+                    <path d="M 1450 314 L 1450 380"/>
+                  </g>
+                  <!-- Insulation collar at major joints -->
+                  <rect x="780" y="350" width="20" height="26" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
+                  <rect x="1280" y="350" width="20" height="26" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
+                </g>
+
+                <!-- =================== FOREGROUND: INTAKE BUILDING (left, heavy mass) =================== -->
+                <g>
+                  <!-- Cast shadow -->
+                  <ellipse cx="270" cy="900" rx="280" ry="20" fill="#000" filter="url(#soft-shadow)" opacity="0.6"/>
+
+                  <!-- Intake building (long, steel-clad, large door) -->
+                  <!-- Roof -->
+                  <polygon points="60,580 480,520 530,548 90,610" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.7"/>
+                  <!-- Roof truss zigzag visible on top -->
+                  <g stroke="#22302a" stroke-width="0.5" fill="none" opacity="0.8">
+                    <line x1="80" y1="578" x2="100" y2="572"/>
+                    <line x1="100" y1="572" x2="100" y2="584"/>
+                    <line x1="100" y1="584" x2="120" y2="578"/>
+                    <line x1="120" y1="578" x2="120" y2="568"/>
+                    <line x1="120" y1="568" x2="140" y2="564"/>
+                    <line x1="140" y1="564" x2="140" y2="574"/>
+                    <line x1="140" y1="574" x2="160" y2="568"/>
+                    <line x1="160" y1="568" x2="160" y2="558"/>
+                    <line x1="160" y1="558" x2="180" y2="554"/>
+                    <line x1="180" y1="554" x2="180" y2="564"/>
+                    <line x1="180" y1="564" x2="200" y2="558"/>
+                    <line x1="200" y1="558" x2="200" y2="548"/>
+                    <line x1="200" y1="548" x2="220" y2="544"/>
+                    <line x1="220" y1="544" x2="220" y2="554"/>
+                    <line x1="220" y1="554" x2="240" y2="548"/>
+                    <line x1="240" y1="548" x2="240" y2="538"/>
+                    <line x1="240" y1="538" x2="260" y2="534"/>
+                    <line x1="260" y1="534" x2="260" y2="544"/>
+                    <line x1="260" y1="544" x2="280" y2="538"/>
+                    <line x1="280" y1="538" x2="280" y2="528"/>
+                    <line x1="280" y1="528" x2="300" y2="524"/>
+                    <line x1="300" y1="524" x2="300" y2="534"/>
+                    <line x1="300" y1="534" x2="320" y2="528"/>
+                    <line x1="320" y1="528" x2="320" y2="518"/>
+                    <line x1="320" y1="518" x2="340" y2="514"/>
+                    <line x1="340" y1="514" x2="340" y2="524"/>
+                    <line x1="340" y1="524" x2="360" y2="518"/>
+                    <line x1="360" y1="518" x2="360" y2="508"/>
+                    <line x1="360" y1="508" x2="380" y2="504"/>
+                    <line x1="380" y1="504" x2="380" y2="514"/>
+                    <line x1="380" y1="514" x2="400" y2="508"/>
+                    <line x1="400" y1="508" x2="400" y2="498"/>
+                    <line x1="400" y1="498" x2="420" y2="494"/>
+                    <line x1="420" y1="494" x2="420" y2="504"/>
+                    <line x1="420" y1="504" x2="440" y2="498"/>
+                    <line x1="440" y1="498" x2="440" y2="488"/>
+                    <line x1="440" y1="488" x2="460" y2="484"/>
+                    <line x1="460" y1="484" x2="460" y2="494"/>
+                  </g>
+
+                  <!-- Side wall -->
+                  <polygon points="90,610 530,548 530,880 90,920" fill="url(#mat-steel-side)" stroke="#1f2c25" stroke-width="0.8"/>
+                  <!-- End wall -->
+                  <polygon points="60,580 90,610 90,920 60,890" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
+                  <!-- Eave shadow -->
+                  <rect x="90" y="610" width="440" height="8" fill="#040806" opacity="0.7"/>
+
+                  <!-- Corrugated vertical seams -->
+                  <g stroke="#0a1310" stroke-width="0.5" opacity="0.85">
+                    <line x1="130" y1="604" x2="130" y2="918"/>
+                    <line x1="170" y1="598" x2="170" y2="915"/>
+                    <line x1="210" y1="592" x2="210" y2="912"/>
+                    <line x1="250" y1="586" x2="250" y2="908"/>
+                    <line x1="290" y1="580" x2="290" y2="906"/>
+                    <line x1="330" y1="574" x2="330" y2="902"/>
+                    <line x1="370" y1="568" x2="370" y2="898"/>
+                    <line x1="410" y1="562" x2="410" y2="894"/>
+                    <line x1="450" y1="556" x2="450" y2="890"/>
+                    <line x1="490" y1="552" x2="490" y2="886"/>
+                  </g>
+
+                  <!-- Large roll-up door (truck bay) -->
+                  <rect x="280" y="730" width="120" height="180" fill="#040806" stroke="#1f2c25" stroke-width="0.7"/>
+                  <g stroke="#1a2620" stroke-width="0.4">
+                    <line x1="280" y1="750" x2="400" y2="750"/>
+                    <line x1="280" y1="770" x2="400" y2="770"/>
+                    <line x1="280" y1="790" x2="400" y2="790"/>
+                    <line x1="280" y1="810" x2="400" y2="810"/>
+                    <line x1="280" y1="830" x2="400" y2="830"/>
+                    <line x1="280" y1="850" x2="400" y2="850"/>
+                    <line x1="280" y1="870" x2="400" y2="870"/>
+                    <line x1="280" y1="890" x2="400" y2="890"/>
+                  </g>
+                  <!-- Door frame yellow safety markings -->
+                  <rect x="278" y="730" width="4" height="180" fill="#3a3020" opacity="0.9"/>
+                  <rect x="400" y="728" width="4" height="180" fill="#3a3020" opacity="0.9"/>
+
+                  <!-- Truck silhouette inside the bay (heavy presence) -->
+                  <g>
+                    <polygon points="296,810 310,800 324,800 326,820 296,820" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
+                    <polygon points="326,802 380,790 380,820 326,820" fill="#1a2620" stroke="#384a40" stroke-width="0.5"/>
+                    <circle cx="304" cy="824" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
+                    <circle cx="346" cy="820" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
+                    <circle cx="368" cy="820" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
+                    <!-- Truck headlight (warm) -->
+                    <circle cx="296" cy="810" r="1.4" fill="rgba(220,180,90,0.85)"/>
+                  </g>
+
+                  <!-- Window strip (clerestory) -->
+                  <rect x="120" y="660" width="380" height="14" fill="#040806" stroke="#1f2c25" stroke-width="0.5"/>
+                  <rect x="122" y="661" width="376" height="12" fill="rgba(220,180,90,0.10)"/>
+                  <g stroke="#1a2620" stroke-width="0.3">
+                    <line x1="160" y1="660" x2="160" y2="674"/>
+                    <line x1="200" y1="660" x2="200" y2="674"/>
+                    <line x1="240" y1="660" x2="240" y2="674"/>
+                    <line x1="280" y1="660" x2="280" y2="674"/>
+                    <line x1="320" y1="660" x2="320" y2="674"/>
+                    <line x1="360" y1="660" x2="360" y2="674"/>
+                    <line x1="400" y1="660" x2="400" y2="674"/>
+                    <line x1="440" y1="660" x2="440" y2="674"/>
+                    <line x1="480" y1="660" x2="480" y2="674"/>
+                  </g>
+                  <!-- Service door -->
+                  <rect x="466" y="820" width="22" height="64" fill="#040806" stroke="#1f2c25" stroke-width="0.5"/>
+                  <rect x="482" y="844" width="3" height="6" fill="#384a40"/>
+
+                  <!-- Connection conveyor coming out of intake top -> bunker (rises right) -->
+                  <g>
+                    <!-- Truss conveyor (more detailed than before, big foreground element) -->
+                    <polygon points="500,560 690,460 700,478 510,578" fill="#0a1310" stroke="#1f2c25" stroke-width="0.6"/>
+                    <!-- Truss chords -->
+                    <line x1="500" y1="558" x2="690" y2="458" stroke="#384a40" stroke-width="0.8"/>
+                    <line x1="510" y1="578" x2="700" y2="478" stroke="#384a40" stroke-width="0.8"/>
+                    <!-- Diagonals -->
+                    <g stroke="#22302a" stroke-width="0.5">
+                      <line x1="520" y1="572" x2="540" y2="552"/>
+                      <line x1="540" y1="552" x2="540" y2="572"/>
+                      <line x1="540" y1="572" x2="560" y2="552"/>
+                      <line x1="560" y1="552" x2="560" y2="568"/>
+                      <line x1="560" y1="568" x2="580" y2="548"/>
+                      <line x1="580" y1="548" x2="580" y2="564"/>
+                      <line x1="580" y1="564" x2="600" y2="544"/>
+                      <line x1="600" y1="544" x2="600" y2="560"/>
+                      <line x1="600" y1="560" x2="620" y2="540"/>
+                      <line x1="620" y1="540" x2="620" y2="556"/>
+                      <line x1="620" y1="556" x2="640" y2="536"/>
+                      <line x1="640" y1="536" x2="640" y2="552"/>
+                      <line x1="640" y1="552" x2="660" y2="532"/>
+                      <line x1="660" y1="532" x2="660" y2="548"/>
+                      <line x1="660" y1="548" x2="680" y2="528"/>
+                      <line x1="680" y1="528" x2="680" y2="544"/>
+                    </g>
+                    <!-- Belt center stripe -->
+                    <line x1="503" y1="568" x2="693" y2="468" stroke="#1a2620" stroke-width="0.4"/>
+                    <!-- Material chunks moving up the conveyor -->
+                    <g>
+                      <rect x="510" y="566" width="7" height="3" fill="#b8814a" opacity="0.85">
+                        <animateTransform attributeName="transform" type="translate" from="0 0" to="170 -94" dur="7s" repeatCount="indefinite"/>
+                      </rect>
+                      <rect x="510" y="568" width="6" height="3" fill="#9c6e3e" opacity="0.7">
+                        <animateTransform attributeName="transform" type="translate" from="-50 26" to="120 -68" dur="7s" repeatCount="indefinite"/>
+                      </rect>
+                      <rect x="510" y="566" width="8" height="3" fill="#b8814a" opacity="0.8">
+                        <animateTransform attributeName="transform" type="translate" from="-110 60" to="60 -34" dur="7s" repeatCount="indefinite"/>
+                      </rect>
+                    </g>
+                    <!-- Conveyor head pulley housing -->
+                    <ellipse cx="697" cy="468" rx="14" ry="10" fill="#0e1612" stroke="#1f2c25" stroke-width="0.5"/>
+                  </g>
+
+                  <!-- Bunker (vertical mass) intake target -->
+                  <g>
+                    <!-- Bunker body — concrete mass, tall -->
+                    <polygon points="660,440 760,400 820,420 720,460" fill="url(#mat-concrete-roof)" stroke="#1f2c25" stroke-width="0.6"/>
+                    <polygon points="720,460 820,420 820,830 720,860" fill="url(#mat-concrete-front)" stroke="#1f2c25" stroke-width="0.7"/>
+                    <polygon points="660,440 720,460 720,860 660,830" fill="url(#mat-concrete-side)" stroke="#1f2c25" stroke-width="0.7"/>
+                    <!-- Open top revealing material -->
+                    <polygon points="678,442 754,412 800,428 724,458" fill="#020404" stroke="#1a2620" stroke-width="0.5"/>
+                    <ellipse cx="740" cy="438" rx="40" ry="6" fill="#9c6e3e" opacity="0.45"/>
+                    <!-- Panel divisions on bunker face -->
+                    <g stroke="#0a1310" stroke-width="0.4" opacity="0.85">
+                      <line x1="745" y1="450" x2="745" y2="852"/>
+                      <line x1="770" y1="445" x2="770" y2="847"/>
+                      <line x1="795" y1="440" x2="795" y2="842"/>
+                      <line x1="720" y1="555" x2="820" y2="525"/>
+                      <line x1="720" y1="665" x2="820" y2="635"/>
+                      <line x1="720" y1="775" x2="820" y2="745"/>
+                    </g>
+                    <!-- Side ladder -->
+                    <g stroke="#384a40" stroke-width="0.4">
+                      <line x1="654" y1="450" x2="654" y2="800"/>
+                      <line x1="660" y1="450" x2="660" y2="800"/>
+                      <line x1="654" y1="490" x2="660" y2="490"/>
+                      <line x1="654" y1="530" x2="660" y2="530"/>
+                      <line x1="654" y1="570" x2="660" y2="570"/>
+                      <line x1="654" y1="610" x2="660" y2="610"/>
+                      <line x1="654" y1="650" x2="660" y2="650"/>
+                      <line x1="654" y1="690" x2="660" y2="690"/>
+                      <line x1="654" y1="730" x2="660" y2="730"/>
+                      <line x1="654" y1="770" x2="660" y2="770"/>
+                    </g>
                   </g>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- ANNOTATIONS — leader lines + numbered callouts         -->
-                <!-- ===================================================== -->
-                <g style="font-family: var(--font-mono); letter-spacing: 0.08em;">
-                  <!-- 01 Intake Hall -->
-                  <line x1="220" y1="660" x2="220" y2="540" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="220" y1="540" x2="270" y2="540" stroke="#3a5046" stroke-width="0.6"/>
-                  <text x="274" y="538" font-size="10" fill="#f1f3f5">01 · INTAKE HALL · H-1</text>
-                  <text x="274" y="552" font-size="9" fill="#9aa3ad">RECEIVING · 240 t/h · TIPPING FLOOR</text>
+                <!-- =================== FOREGROUND: TRANSFORMER YARD (right of turbine hall) =================== -->
+                <g>
+                  <!-- Cast shadow -->
+                  <ellipse cx="1820" cy="850" rx="160" ry="16" fill="#000" filter="url(#soft-shadow)" opacity="0.6"/>
 
-                  <!-- 02 Conveyor -->
-                  <line x1="450" y1="540" x2="450" y2="410" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="450" y1="410" x2="500" y2="410" stroke="#3a5046" stroke-width="0.5"/>
-                  <text x="504" y="408" font-size="9" fill="#f1f3f5">02 · CONVEYOR C-101 · 35° TRUSS</text>
+                  <!-- Transformer A (large iso box) -->
+                  <g>
+                    <polygon points="1740,720 1820,696 1870,712 1790,738" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.6"/>
+                    <polygon points="1790,738 1870,712 1870,830 1790,856" fill="#1a2620" stroke="#1f2c25" stroke-width="0.7"/>
+                    <polygon points="1740,720 1790,738 1790,856 1740,840" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
+                    <!-- Cooling fins (radiator panels) -->
+                    <g stroke="#22302a" stroke-width="0.4">
+                      <line x1="1740" y1="744" x2="1740" y2="838"/>
+                      <line x1="1736" y1="748" x2="1736" y2="834"/>
+                      <line x1="1732" y1="752" x2="1732" y2="830"/>
+                      <line x1="1728" y1="756" x2="1728" y2="826"/>
+                      <line x1="1724" y1="760" x2="1724" y2="822"/>
+                      <!-- right side fins -->
+                      <line x1="1870" y1="730" x2="1870" y2="830"/>
+                      <line x1="1874" y1="734" x2="1874" y2="826"/>
+                      <line x1="1878" y1="738" x2="1878" y2="822"/>
+                      <line x1="1882" y1="742" x2="1882" y2="818"/>
+                      <line x1="1886" y1="746" x2="1886" y2="814"/>
+                    </g>
+                    <!-- HV bushings (3 vertical insulator stacks) -->
+                    <g>
+                      <rect x="1762" y="666" width="6" height="34" fill="#384a40"/>
+                      <circle cx="1765" cy="668" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                      <rect x="1802" y="654" width="6" height="46" fill="#384a40"/>
+                      <circle cx="1805" cy="656" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                      <rect x="1842" y="666" width="6" height="34" fill="#384a40"/>
+                      <circle cx="1845" cy="668" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                    </g>
+                    <!-- Oil tank pressure cap on top -->
+                    <ellipse cx="1810" cy="710" rx="10" ry="3" fill="#22302a"/>
+                    <!-- Side nameplate (no text rendered) -->
+                    <rect x="1808" y="780" width="32" height="22" fill="#06090a" stroke="#1f2c25" stroke-width="0.3"/>
+                  </g>
 
-                  <!-- 03 Bunker -->
-                  <line x1="624" y1="425" x2="624" y2="350" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="624" y1="350" x2="690" y2="350" stroke="#3a5046" stroke-width="0.6"/>
-                  <text x="694" y="348" font-size="10" fill="#f1f3f5">03 · BUNKER B-1</text>
-                  <text x="694" y="362" font-size="9" fill="#9aa3ad">12,000 m³ · 36 H RESERVE</text>
+                  <!-- Transformer B (smaller, behind first) -->
+                  <g transform="translate(110, 14)">
+                    <polygon points="1740,720 1810,700 1860,714 1790,734" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.6"/>
+                    <polygon points="1790,734 1860,714 1860,820 1790,840" fill="#1a2620" stroke="#1f2c25" stroke-width="0.7"/>
+                    <polygon points="1740,720 1790,734 1790,840 1740,832" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
+                    <!-- Bushings -->
+                    <g>
+                      <rect x="1762" y="676" width="5" height="28" fill="#384a40"/>
+                      <circle cx="1764" cy="678" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                      <rect x="1800" y="666" width="5" height="38" fill="#384a40"/>
+                      <circle cx="1802" cy="668" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                      <rect x="1838" y="676" width="5" height="28" fill="#384a40"/>
+                      <circle cx="1840" cy="678" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
+                    </g>
+                  </g>
 
-                  <!-- 04 Reactor -->
-                  <line x1="870" y1="220" x2="870" y2="130" stroke="#64ffda" stroke-width="0.6"/>
-                  <line x1="870" y1="130" x2="940" y2="130" stroke="#64ffda" stroke-width="0.6"/>
-                  <text x="944" y="128" font-size="11" fill="#64ffda">04 · REACTOR R-1 · 1100 °C</text>
-                  <text x="944" y="142" font-size="9" fill="#9aa3ad">FLUIDIZED-BED · 18 MWth · CONTINUOUS</text>
+                  <!-- Lattice pylon (HV) -->
+                  <g stroke="#22302a" stroke-width="0.5" fill="none">
+                    <line x1="2000" y1="820" x2="2000" y2="500"/>
+                    <line x1="2050" y1="820" x2="2050" y2="500"/>
+                    <line x1="2000" y1="820" x2="2050" y2="820"/>
+                    <line x1="2000" y1="500" x2="2050" y2="500"/>
+                    <line x1="2000" y1="820" x2="2050" y2="780"/>
+                    <line x1="2050" y1="820" x2="2000" y2="780"/>
+                    <line x1="2000" y1="780" x2="2050" y2="780"/>
+                    <line x1="2000" y1="740" x2="2050" y2="740"/>
+                    <line x1="2000" y1="740" x2="2050" y2="700"/>
+                    <line x1="2050" y1="740" x2="2000" y2="700"/>
+                    <line x1="2000" y1="700" x2="2050" y2="700"/>
+                    <line x1="2000" y1="660" x2="2050" y2="660"/>
+                    <line x1="2000" y1="660" x2="2050" y2="620"/>
+                    <line x1="2050" y1="660" x2="2000" y2="620"/>
+                    <line x1="2000" y1="620" x2="2050" y2="620"/>
+                    <line x1="2000" y1="580" x2="2050" y2="580"/>
+                    <line x1="2000" y1="580" x2="2050" y2="540"/>
+                    <line x1="2050" y1="580" x2="2000" y2="540"/>
+                    <line x1="2000" y1="540" x2="2050" y2="540"/>
+                    <!-- Crossarm -->
+                    <line x1="1980" y1="510" x2="2070" y2="510"/>
+                    <line x1="1980" y1="500" x2="1980" y2="515"/>
+                    <line x1="2070" y1="500" x2="2070" y2="515"/>
+                    <line x1="1980" y1="540" x2="2070" y2="540"/>
+                  </g>
+                  <!-- Insulator strings -->
+                  <g filter="url(#cool-glow)">
+                    <circle cx="1996" cy="516" r="2.4" fill="#64ffda" opacity="0.9"/>
+                    <circle cx="2068" cy="516" r="2.4" fill="#64ffda" opacity="0.9"/>
+                    <circle cx="1996" cy="546" r="2.4" fill="#64ffda" opacity="0.9"/>
+                    <circle cx="2068" cy="546" r="2.4" fill="#64ffda" opacity="0.9"/>
+                  </g>
+                  <!-- HV cables draping (catenary curves) -->
+                  <g stroke="#64ffda" stroke-width="1.4" fill="none" opacity="0.75" filter="url(#cool-glow)">
+                    <path d="M 1864 680 Q 1920 700 1996 516"/>
+                    <path d="M 1894 660 Q 1940 690 2068 516"/>
+                    <path d="M 1864 680 Q 1920 720 1996 546"/>
+                    <path d="M 1894 660 Q 1940 710 2068 546"/>
+                  </g>
 
-                  <!-- Ash silo -->
-                  <line x1="780" y1="700" x2="780" y2="900" stroke="#3a5046" stroke-width="0.4"/>
-                  <line x1="780" y1="900" x2="740" y2="900" stroke="#3a5046" stroke-width="0.4"/>
-                  <text x="640" y="903" font-size="9" fill="#9aa3ad">ASH SILO V-3 · 60 m³</text>
-
-                  <!-- 05 Gas cleaning -->
-                  <line x1="1070" y1="240" x2="1070" y2="120" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="1070" y1="120" x2="990" y2="120" stroke="#3a5046" stroke-width="0.6"/>
-                  <text x="800" y="118" font-size="10" fill="#f1f3f5">05 · GAS CLEANING · SO₂ / NOₓ / PM</text>
-                  <text x="800" y="132" font-size="9" fill="#9aa3ad">SCRUBBER S-1 · SCR · BAG FILTER F-1</text>
-
-                  <!-- Stack -->
-                  <line x1="1215" y1="118" x2="1215" y2="50" stroke="#3a5046" stroke-width="0.5"/>
-                  <text x="1220" y="44" font-size="10" fill="#f1f3f5">STACK ST-1 · 95 m</text>
-
-                  <!-- 06 Turbine hall -->
-                  <line x1="1530" y1="488" x2="1530" y2="400" stroke="#3a5046" stroke-width="0.6"/>
-                  <line x1="1530" y1="400" x2="1620" y2="400" stroke="#3a5046" stroke-width="0.6"/>
-                  <text x="1624" y="398" font-size="10" fill="#f1f3f5">06 · TURBINE HALL · T-1 · 18 MWₑ</text>
-                  <text x="1624" y="412" font-size="9" fill="#9aa3ad">STEAM TURBINE + GENERATOR G-1</text>
-
-                  <!-- 07 Gasholders -->
-                  <line x1="1790" y1="555" x2="1790" y2="490" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="1790" y1="490" x2="1870" y2="490" stroke="#3a5046" stroke-width="0.5"/>
-                  <text x="1874" y="488" font-size="10" fill="#f1f3f5">07 · GASHOLDERS · GH-1 / GH-2</text>
-                  <text x="1874" y="502" font-size="9" fill="#9aa3ad">SYNGAS BUFFER · 4,000 m³</text>
-
-                  <!-- 08 Cooling -->
-                  <line x1="1996" y1="475" x2="1996" y2="420" stroke="#3a5046" stroke-width="0.5"/>
-                  <line x1="1996" y1="420" x2="1930" y2="420" stroke="#3a5046" stroke-width="0.5"/>
-                  <text x="1850" y="418" font-size="10" fill="#f1f3f5">08 · COOLING C-1 / C-2</text>
-
-                  <!-- 09 Substation -->
-                  <line x1="2049" y1="540" x2="2049" y2="480" stroke="#64ffda" stroke-width="0.6"/>
-                  <line x1="2049" y1="480" x2="1980" y2="480" stroke="#64ffda" stroke-width="0.6"/>
-                  <text x="1860" y="478" font-size="10" fill="#64ffda">09 · SUBSTATION · 33→400 kV</text>
-                  <text x="1860" y="492" font-size="9" fill="#9aa3ad">TR-1 / TR-2 · SWITCHYARD SS-1</text>
-
-                  <!-- 10 Data center -->
-                  <line x1="2128" y1="610" x2="2128" y2="560" stroke="#64ffda" stroke-width="0.6"/>
-                  <line x1="2128" y1="560" x2="2040" y2="560" stroke="#64ffda" stroke-width="0.6"/>
-                  <text x="1900" y="558" font-size="11" fill="#64ffda">10 · AI COMPUTE NODE · DC-1</text>
-                  <text x="1900" y="572" font-size="9" fill="#9aa3ad">SOVEREIGN EU · 8 MW INTAKE</text>
+                  <!-- Perimeter fence (chain link suggestion, foreground) -->
+                  <g stroke="#22302a" stroke-width="0.4" opacity="0.85">
+                    <line x1="1690" y1="780" x2="1690" y2="860"/>
+                    <line x1="1730" y1="772" x2="1730" y2="855"/>
+                    <line x1="1770" y1="764" x2="1770" y2="850"/>
+                    <line x1="1810" y1="858" x2="1810" y2="870"/>
+                    <line x1="1690" y1="800" x2="1980" y2="780"/>
+                    <line x1="1690" y1="820" x2="1980" y2="800"/>
+                    <line x1="1690" y1="840" x2="1980" y2="820"/>
+                  </g>
                 </g>
 
-                <!-- ===================================================== -->
-                <!-- PLANT TITLE + LEGEND + SCALE                           -->
-                <!-- ===================================================== -->
+                <!-- =================== GROUND PLANE / SERVICE ROAD / PERIMETER =================== -->
+                <g>
+                  <!-- Concrete pad -->
+                  <rect x="0" y="900" width="2200" height="200" fill="url(#mat-ground)"/>
+                  <!-- Subtle pavement seams (concrete tile joints) -->
+                  <g stroke="#06090a" stroke-width="0.4" opacity="0.8">
+                    <line x1="0" y1="920" x2="2200" y2="920"/>
+                    <line x1="0" y1="950" x2="2200" y2="950"/>
+                    <line x1="0" y1="990" x2="2200" y2="990"/>
+                    <line x1="0" y1="1030" x2="2200" y2="1030"/>
+                  </g>
+                  <g stroke="#040608" stroke-width="0.3" opacity="0.6">
+                    <line x1="240" y1="900" x2="200" y2="1100"/>
+                    <line x1="480" y1="900" x2="440" y2="1100"/>
+                    <line x1="720" y1="900" x2="680" y2="1100"/>
+                    <line x1="960" y1="900" x2="920" y2="1100"/>
+                    <line x1="1200" y1="900" x2="1160" y2="1100"/>
+                    <line x1="1440" y1="900" x2="1400" y2="1100"/>
+                    <line x1="1680" y1="900" x2="1640" y2="1100"/>
+                    <line x1="1920" y1="900" x2="1880" y2="1100"/>
+                  </g>
+                  <!-- Service road dashed centerline -->
+                  <g stroke="rgba(220,180,90,0.45)" stroke-width="1" stroke-dasharray="22 18">
+                    <line x1="80" y1="970" x2="2120" y2="970"/>
+                  </g>
+                  <!-- Drainage grates -->
+                  <g fill="#040608" stroke="#1a2620" stroke-width="0.3">
+                    <rect x="120" y="985" width="36" height="6"/>
+                    <rect x="640" y="985" width="36" height="6"/>
+                    <rect x="1200" y="985" width="36" height="6"/>
+                    <rect x="1760" y="985" width="36" height="6"/>
+                  </g>
+                  <g stroke="rgba(0,0,0,0.6)" stroke-width="0.3">
+                    <line x1="124" y1="985" x2="124" y2="991"/>
+                    <line x1="128" y1="985" x2="128" y2="991"/>
+                    <line x1="132" y1="985" x2="132" y2="991"/>
+                    <line x1="136" y1="985" x2="136" y2="991"/>
+                    <line x1="140" y1="985" x2="140" y2="991"/>
+                    <line x1="144" y1="985" x2="144" y2="991"/>
+                    <line x1="148" y1="985" x2="148" y2="991"/>
+                    <line x1="152" y1="985" x2="152" y2="991"/>
+                  </g>
+                  <!-- Manhole covers -->
+                  <ellipse cx="380" cy="1020" rx="14" ry="5" fill="#0a1310" stroke="#1a2620" stroke-width="0.3"/>
+                  <ellipse cx="380" cy="1019" rx="11" ry="4" fill="#040806"/>
+                  <ellipse cx="1480" cy="1020" rx="14" ry="5" fill="#0a1310" stroke="#1a2620" stroke-width="0.3"/>
+                  <ellipse cx="1480" cy="1019" rx="11" ry="4" fill="#040806"/>
+                  <!-- Painted yellow walkway -->
+                  <polygon points="900,995 1080,995 1090,1005 910,1005" fill="#3a3020" opacity="0.85"/>
+                  <!-- Bollards along walkway edge -->
+                  <g fill="#3a3020" stroke="#22302a" stroke-width="0.3">
+                    <ellipse cx="900" cy="998" rx="4" ry="6"/>
+                    <ellipse cx="960" cy="998" rx="4" ry="6"/>
+                    <ellipse cx="1020" cy="998" rx="4" ry="6"/>
+                    <ellipse cx="1080" cy="998" rx="4" ry="6"/>
+                  </g>
+                  <!-- Sodium lamp pole -->
+                  <g>
+                    <line x1="1340" y1="930" x2="1340" y2="780" stroke="#22302a" stroke-width="1.2"/>
+                    <line x1="1340" y1="780" x2="1360" y2="776" stroke="#22302a" stroke-width="0.8"/>
+                    <ellipse cx="1362" cy="776" rx="6" ry="3" fill="rgba(220,150,60,0.95)" filter="url(#warm-glow)"/>
+                    <!-- Light cone -->
+                    <polygon points="1362,776 1310,940 1414,940" fill="url(#sodium)" opacity="0.7"/>
+                  </g>
+                  <g>
+                    <line x1="180" y1="930" x2="180" y2="780" stroke="#22302a" stroke-width="1.2"/>
+                    <line x1="180" y1="780" x2="200" y2="776" stroke="#22302a" stroke-width="0.8"/>
+                    <ellipse cx="202" cy="776" rx="6" ry="3" fill="rgba(220,150,60,0.95)" filter="url(#warm-glow)"/>
+                    <polygon points="202,776 150,940 254,940" fill="url(#sodium)" opacity="0.6"/>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- L4 — ATMOSPHERIC HAZE OVERLAY (between layers, increases with depth) -->
+                <!-- =================================================================== -->
+                <rect x="0" y="380" width="2200" height="320" fill="url(#haze-mid)" pointer-events="none"/>
+
+                <!-- =================================================================== -->
+                <!-- L5 — MINIMAL ANNOTATIONS (reduced 70%, only essential)              -->
+                <!-- =================================================================== -->
                 <g style="font-family: var(--font-mono); letter-spacing: 0.10em;">
-                  <text x="40" y="44" font-size="13" fill="#f1f3f5">EUROSTATE WTE · FACILITY 01</text>
-                  <text x="40" y="62" font-size="10" fill="#9aa3ad" letter-spacing="0.08em">CIRCULAR THERMAL CONVERSION · BASE-LOAD 18 MWₑ · DOC EUR-WTE-001 REV 0.5</text>
-                </g>
-                <!-- Process flow legend (top-right) -->
-                <g transform="translate(1880, 50)" style="font-family: var(--font-mono); letter-spacing: 0.08em;">
-                  <text x="0" y="0" font-size="10" fill="#5d6770">PROCESS FLOW</text>
-                  <line x1="0"  y1="14" x2="40" y2="14" stroke="#d76a18" stroke-width="1.4" stroke-dasharray="3 5"/>
-                  <text x="48" y="17" font-size="9" fill="#9aa3ad">FEED · HEAT</text>
-                  <line x1="0"  y1="30" x2="40" y2="30" stroke="#64ffda" stroke-width="1.4" stroke-dasharray="3 5"/>
-                  <text x="48" y="33" font-size="9" fill="#9aa3ad">STEAM · WATER</text>
-                  <line x1="0"  y1="46" x2="40" y2="46" stroke="#64ffda" stroke-width="1.6"/>
-                  <text x="48" y="49" font-size="9" fill="#9aa3ad">ELECTRICAL</text>
+                  <text x="60" y="60" font-size="13" fill="#d0d6cf">EUROSTATE WTE · FACILITY 01</text>
+                  <text x="60" y="80" font-size="9" fill="#6f7a72">CIRCULAR THERMAL CONVERSION · 18 MWₑ NET</text>
                 </g>
 
-                <!-- Footer + scale -->
-                <text x="40" y="1050" font-size="9" style="font-family: var(--font-mono); letter-spacing: 0.06em;" fill="#5d6770">SECTION A-A · NORTH ELEVATION · NOT TO SCALE</text>
-                <text x="40" y="1066" font-size="9" style="font-family: var(--font-mono); letter-spacing: 0.04em;" fill="#5d6770">CONFIGURATION · REFERENCE PLANT MOD-A · 18 MWₑ NET · POWERS DC-1 8 MW</text>
-                <text x="40" y="1082" font-size="9" style="font-family: var(--font-mono); letter-spacing: 0.04em;" fill="#5d6770">© EUROSTATE STRATEGY · CONFIDENTIAL ENGINEERING ARTWORK</text>
+                <!-- Single discreet callout on reactor + on data center destination -->
+                <g style="font-family: var(--font-mono); letter-spacing: 0.08em;">
+                  <line x1="700" y1="220" x2="700" y2="150" stroke="rgba(208,214,207,0.45)" stroke-width="0.5"/>
+                  <line x1="700" y1="150" x2="780" y2="150" stroke="rgba(208,214,207,0.45)" stroke-width="0.5"/>
+                  <text x="786" y="148" font-size="10" fill="#d0d6cf">REACTOR · 1100 °C</text>
+                  <line x1="2024" y1="510" x2="2024" y2="450" stroke="rgba(100,255,218,0.5)" stroke-width="0.5"/>
+                  <line x1="2024" y1="450" x2="1950" y2="450" stroke="rgba(100,255,218,0.5)" stroke-width="0.5"/>
+                  <text x="1856" y="448" font-size="10" fill="#64ffda">→ COMPUTE</text>
+                </g>
 
-                <g transform="translate(1990, 1060)" style="font-family: var(--font-mono);">
+                <!-- Scale bar bottom right -->
+                <g transform="translate(1960, 1060)" style="font-family: var(--font-mono);">
                   <line x1="0" y1="0" x2="180" y2="0" stroke="#465a4e" stroke-width="0.8"/>
                   <line x1="0" y1="-4" x2="0" y2="4" stroke="#465a4e" stroke-width="0.8"/>
-                  <line x1="45" y1="-3" x2="45" y2="3" stroke="#465a4e" stroke-width="0.6"/>
                   <line x1="90" y1="-3" x2="90" y2="3" stroke="#465a4e" stroke-width="0.6"/>
-                  <line x1="135" y1="-3" x2="135" y2="3" stroke="#465a4e" stroke-width="0.6"/>
                   <line x1="180" y1="-4" x2="180" y2="4" stroke="#465a4e" stroke-width="0.8"/>
-                  <text x="0"   y="16" font-size="8" fill="#5d6770">0</text>
-                  <text x="78"  y="16" font-size="8" fill="#5d6770">50 m</text>
-                  <text x="166" y="16" font-size="8" fill="#5d6770">100 m</text>
+                  <text x="0"   y="14" font-size="8" fill="#5d6770">0</text>
+                  <text x="80"  y="14" font-size="8" fill="#5d6770">50 m</text>
+                  <text x="160" y="14" font-size="8" fill="#5d6770">100 m</text>
                 </g>
 
-                <!-- Vignette overlay (final pass) -->
+                <!-- Final vignette -->
                 <rect x="0" y="0" width="2200" height="1100" fill="url(#vignette)" pointer-events="none"/>
               </svg>
             </div>
 
             <p class="text-muted" style="margin-top: var(--sp-5); font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft);">
-              Hover any unit to inspect &middot; live flow particles indicate active operation
+              North elevation · Section A-A · Hover individual masses to inspect
             </p>
           </div>
         </div>
