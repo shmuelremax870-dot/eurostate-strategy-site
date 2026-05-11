@@ -1121,6 +1121,37 @@
     letter-spacing: 0.04em;
   }
 
+  /* Wave-pulsing LED overlay on the waste-to-energy hero image.
+     A field of tiny amber dots scattered across the facility,
+     animated as a left-to-right wave (each dot's phase = its x). */
+  .we-led-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .we-led-overlay .we-led {
+    fill: #ffc44a;
+    filter: drop-shadow(0 0 1.4px rgba(255, 196, 74, 0.9));
+    transform-origin: center;
+    animation: weWavePulse 5s ease-in-out infinite;
+  }
+  .we-led-overlay .we-led.is-feature {
+    fill: #ffd86a;
+    filter:
+      drop-shadow(0 0 2px rgba(255, 200, 90, 1))
+      drop-shadow(0 0 6px rgba(255, 180, 60, 0.5));
+  }
+  @keyframes weWavePulse {
+    0%, 100% { opacity: 0.18; }
+    45%, 55% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .we-led-overlay .we-led { animation: none; opacity: 0.55; }
+  }
+
   /* Interactive rack overlay on top of the data-center hero image.
      Tiny amber LEDs blink on each rack; hovering a rack brightens
      its cluster + tints the cabinet area. */

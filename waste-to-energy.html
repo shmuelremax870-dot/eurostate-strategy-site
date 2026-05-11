@@ -241,6 +241,90 @@
       <span><a href="#" data-linkedin style="color: var(--accent);">LinkedIn</a></span>
     </footer>
 
+    <script>
+      // =====================================================================
+      // Wave LED overlay on the WtE hero image: ~700 amber dots scattered
+      // across the facility's mid-band, each animating with an x-derived
+      // phase so the peak brightness sweeps the image as a wave.
+      // =====================================================================
+      (function buildWtEWaveOverlay() {
+        const stage = document.querySelector(".we-stage");
+        if (!stage) return;
+        const imgWrap = stage.querySelector("[data-we-image]");
+        if (!imgWrap) return;
+
+        const W = 2400, H = 1350;
+        const WAVE_PERIOD = 5; // seconds for full wave traversal
+
+        // Deterministic RNG so positions are stable across reloads
+        let s = 0x9e3779b9;
+        const rand = () => {
+          s = (s * 1664525 + 1013904223) | 0;
+          return ((s >>> 0) / 4294967296);
+        };
+
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("class", "we-led-overlay");
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svg.setAttribute("aria-hidden", "true");
+
+        // Scatter 700 LEDs across the building band, denser around the
+        // mid-ground where the main plant masses sit.
+        const TOTAL = 720;
+        for (let i = 0; i < TOTAL; i++) {
+          // Heavily weight mid-band (y 480-880); some on ground (880-980)
+          const yBias = rand();
+          let y;
+          if (yBias < 0.78) {
+            // Building band — gaussian-ish cluster around y=680
+            const a = rand(), b = rand();
+            const gauss = Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b);
+            y = 680 + gauss * 110;
+            y = Math.max(440, Math.min(880, y));
+          } else if (yBias < 0.95) {
+            // Foreground ground lights (sodium lamps)
+            y = 870 + rand() * 110;
+          } else {
+            // A few on tall stacks (high in frame)
+            y = 200 + rand() * 280;
+          }
+
+          // X: clamp to visible area, avoid foreground column stripes
+          let x;
+          do {
+            x = rand() * W;
+          } while (x < W * 0.04 || x > W * 0.96);
+
+          // Size: smaller for distance from foreground
+          const distanceFromBottom = (H - y) / H;
+          const size = (0.9 + rand() * 1.6) * (1 - distanceFromBottom * 0.35);
+          const r = Math.max(0.7, size);
+
+          // ~6% are "feature" LEDs — brighter, slightly larger
+          const isFeature = rand() < 0.06;
+
+          const led = document.createElementNS(svgNS, "circle");
+          led.setAttribute("cx", x.toFixed(1));
+          led.setAttribute("cy", y.toFixed(1));
+          led.setAttribute("r", (isFeature ? r * 1.7 : r).toFixed(2));
+          led.setAttribute("class", isFeature ? "we-led is-feature" : "we-led");
+
+          // Wave: peak phase moves left-to-right across the image.
+          // animation-delay = -(x/W) * WAVE_PERIOD positions each LED
+          // at a different point in its cycle, creating a traveling wave.
+          // Add small per-LED jitter so the wave doesn't look mechanical.
+          const phase = (x / W) * WAVE_PERIOD + rand() * 0.6;
+          led.style.animationDelay = (-phase).toFixed(2) + "s";
+          led.style.animationDuration = (WAVE_PERIOD + rand() * 0.5).toFixed(2) + "s";
+
+          svg.appendChild(led);
+        }
+        imgWrap.appendChild(svg);
+      })();
+    </script>
+
     <script type="module">
       // =====================================================================
       // 3D plant — Three.js scene (real geometry, real lighting, real shadows)
