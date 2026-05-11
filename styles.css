@@ -1012,14 +1012,23 @@
 
   /* Wide industrial schematic — pulls outside the editorial column for breathing room */
   .we-stage-wide {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 1;
     max-height: none;
     margin-inline: calc(var(--gutter) * -0.5);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 90%, rgba(20, 38, 28, 0.4), transparent 70%),
+      radial-gradient(ellipse 90% 80% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.4)),
+      var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
   }
   @media (min-width: 1100px) {
-    .we-stage-wide { margin-inline: 0; }
+    .we-stage-wide { margin-inline: calc(var(--gutter) * -1.5); }
   }
-  .we-stage-wide svg { min-height: 480px; }
+  .we-stage-wide svg { min-height: 520px; }
+  .we-stage-wide .we-piece { transition: opacity 240ms var(--ease-out), filter 240ms var(--ease-out); }
+  .we-stage-wide .we-piece:hover { filter: drop-shadow(0 0 18px var(--accent-glow)); }
 
   .we-iso-grid { stroke: var(--line); }
   .we-unit {
