@@ -144,10 +144,12 @@
   function getColors() {
     const cs = getComputedStyle(root);
     return {
-      accent: cs.getPropertyValue("--accent").trim() || "#64ffda",
-      text:   cs.getPropertyValue("--text").trim()   || "#f1f3f5",
-      muted:  cs.getPropertyValue("--muted").trim()  || "#9aa3ad",
-      bg:     cs.getPropertyValue("--bg").trim()     || "#06080a",
+      accent:  cs.getPropertyValue("--accent").trim()   || "#64ffda",
+      accent2: cs.getPropertyValue("--accent-2").trim() || "#d4a373",
+      accent3: cs.getPropertyValue("--accent-3").trim() || "#8b94d6",
+      text:    cs.getPropertyValue("--text").trim()     || "#f1f3f5",
+      muted:   cs.getPropertyValue("--muted").trim()    || "#9aa3ad",
+      bg:      cs.getPropertyValue("--bg").trim()       || "#06080a",
     };
   }
   let palette = getColors();
@@ -297,17 +299,20 @@
   const hubBursts = []; // expanding rings when an arc launches
 
   function spawnArc() {
-    if (liveArcs.length > 7) return;
+    if (liveArcs.length > 3) return;
     const toIdx = arcDestinations[Math.floor(Math.random() * arcDestinations.length)];
+    // Color tier: 60% accent, 30% accent-2, 10% accent-3
+    const r = Math.random();
+    const tier = r < 0.6 ? "accent" : r < 0.9 ? "accent2" : "accent3";
     liveArcs.push({
       from: 0,
       to: toIdx,
       t: 0,
-      speed: 0.0007 + Math.random() * 0.0005,
+      speed: 0.00035 + Math.random() * 0.00025, // slower
       lifetime: 1.0,
+      tier,
     });
-    // Burst at source
-    hubBursts.push({ idx: 0, t: 0 });
+    hubBursts.push({ idx: 0, t: 0, tier });
   }
   let arcTimer = 0;
 
@@ -490,15 +495,19 @@
     };
   }
 
-  // Starfield for the stage background
-  const stars = Array.from({ length: 80 }, () => ({
-    x: Math.random(),
-    y: Math.random(),
-    s: 0.4 + Math.random() * 1.2,
-    a: 0.2 + Math.random() * 0.5,
-    twinklePhase: Math.random() * Math.PI * 2,
-    twinkleRate: 0.0008 + Math.random() * 0.002,
-  }));
+  // Starfield — static, three color tiers (60/30/10)
+  const stars = Array.from({ length: 90 }, (_, i) => {
+    const r = Math.random();
+    // 60% neutral text, 30% sand, 10% indigo
+    const tier = r < 0.6 ? "text" : r < 0.9 ? "sand" : "indigo";
+    return {
+      x: Math.random(),
+      y: Math.random(),
+      s: 0.35 + Math.random() * 1.0,
+      a: 0.15 + Math.random() * 0.35,
+      tier,
+    };
+  });
 
   function drawGlobe(time) {
     if (!globeState || !globeState.visible) return;
@@ -508,10 +517,17 @@
     const cx = w / 2;
     const cy = h / 2;
     const r = Math.min(w, h) * 0.34;
-    // Organic wobble + steady rotation
-    const tilt = -0.32 + Math.sin(time * 0.00025) * 0.045;
-    const rotation = (time * 0.006) % 360;
+    // Gentle wobble (long period) + slower rotation for a strategic feel
+    const tilt = -0.32 + Math.sin(time * 0.00012) * 0.025;
+    const rotation = (time * 0.0035) % 360;
     const accent = palette.accent;
+
+    // ===== 7-second global heartbeat =====
+    // A short bell at ~0.12 of each 7s cycle. Most of the time the
+    // value is ~0; once per 7s it spikes to ~1 then fades.
+    const cycle = (time % 7000) / 7000;
+    const beatT = cycle - 0.12;
+    const heartbeat = Math.exp(-beatT * beatT * 28);
 
     // Kick off loading if not started
     if (!landPolys && !landLoading) loadLand();
@@ -524,23 +540,29 @@
     if (elArcs)     elArcs.textContent     = String(liveArcs.length);
     if (elRotation) elRotation.textContent = `${rotation.toFixed(1)}°`;
 
-    // ===== Starfield (background) =====
+    // ===== Starfield (background, static — no twinkle) =====
     for (const s of stars) {
-      const alpha = s.a * (0.5 + Math.sin(time * s.twinkleRate + s.twinklePhase) * 0.5);
+      const color =
+        s.tier === "sand"   ? palette.accent2 :
+        s.tier === "indigo" ? palette.accent3 :
+                              palette.text;
+      // Subtle heartbeat brightening
+      const alpha = s.a * (0.35 + heartbeat * 0.4);
       ctx.beginPath();
       ctx.arc(s.x * w, s.y * h, s.s, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(palette.text, alpha * 0.4);
+      ctx.fillStyle = hexToRgba(color, alpha);
       ctx.fill();
     }
 
-    // ===== Atmosphere halo (outside sphere) =====
-    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.96, cx, cy, r * 1.5);
-    haloGrad.addColorStop(0, hexToRgba(accent, 0.28));
-    haloGrad.addColorStop(0.4, hexToRgba(accent, 0.10));
-    haloGrad.addColorStop(1, hexToRgba(accent, 0));
+    // ===== Atmosphere halo (mint inner, indigo outer fade) =====
+    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.96, cx, cy, r * 1.55);
+    haloGrad.addColorStop(0,    hexToRgba(accent, 0.22 + heartbeat * 0.25));
+    haloGrad.addColorStop(0.35, hexToRgba(accent, 0.07));
+    haloGrad.addColorStop(0.75, hexToRgba(palette.accent3, 0.05));
+    haloGrad.addColorStop(1,    hexToRgba(palette.accent3, 0));
     ctx.fillStyle = haloGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 1.5, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r * 1.55, 0, Math.PI * 2);
     ctx.fill();
 
     // ===== Sphere base — ocean with terminator gradient =====
@@ -590,12 +612,13 @@
       ctx.stroke();
     }
 
-    // ===== REAL CONTINENTS =====
+    // ===== REAL CONTINENTS — heartbeat boosts brightness briefly =====
     if (landPolys && landPolys.length) {
+      const beatBoost = heartbeat * 0.18;
       for (const poly of landPolys) {
         const shade = shadeAt(poly.centroid[0], poly.centroid[1], rotation, tilt);
-        const fillA = 0.04 + shade * 0.32;
-        const strokeA = 0.15 + shade * 0.6;
+        const fillA = 0.04 + shade * 0.28 + beatBoost * shade;
+        const strokeA = 0.15 + shade * 0.55 + beatBoost * 0.4;
         ctx.fillStyle = hexToRgba(accent, fillA);
         ctx.strokeStyle = hexToRgba(accent, strokeA);
         ctx.lineWidth = 0.7;
@@ -625,17 +648,22 @@
       ctx.textAlign = "start";
     }
 
-    // ===== Arcs =====
+    // ===== Arcs (slower, fewer, three-color rotation) =====
     arcTimer += 16;
-    if (arcTimer > 700) { arcTimer = 0; spawnArc(); }
+    if (arcTimer > 1600) { arcTimer = 0; spawnArc(); }
 
     for (let i = liveArcs.length - 1; i >= 0; i--) {
       const arc = liveArcs[i];
       arc.t += arc.speed * 16;
       if (arc.t >= 1) {
-        arc.lifetime -= 0.035;
+        arc.lifetime -= 0.02;
         if (arc.lifetime <= 0) { liveArcs.splice(i, 1); continue; }
       }
+      const arcColor =
+        arc.tier === "accent2" ? palette.accent2 :
+        arc.tier === "accent3" ? palette.accent3 :
+                                 accent;
+
       const a = unitVec(hubs[arc.from].lon, hubs[arc.from].lat);
       const b = unitVec(hubs[arc.to].lon,   hubs[arc.to].lat);
       const dot = Math.max(-1, Math.min(1, a.x*b.x + a.y*b.y + a.z*b.z));
@@ -644,7 +672,6 @@
       const samples = 36;
       const tProgress = Math.min(1, arc.t);
 
-      // Trail path
       ctx.beginPath();
       let started = false;
       let prevVisible = false;
@@ -659,32 +686,25 @@
         else ctx.lineTo(p.x, p.y);
         prevVisible = true;
       }
-      const alpha = 0.65 * arc.lifetime;
-      ctx.strokeStyle = hexToRgba(accent, alpha);
-      ctx.lineWidth = 1.4;
-      ctx.shadowBlur = 14;
-      ctx.shadowColor = hexToRgba(accent, 0.7);
+      const alpha = 0.6 * arc.lifetime;
+      ctx.strokeStyle = hexToRgba(arcColor, alpha);
+      ctx.lineWidth = 1.3;
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = hexToRgba(arcColor, 0.55);
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // Particle trail (3 fading dots behind leader)
+      // Leading packet only (no busy trail particles)
       if (tProgress < 1) {
-        for (let k = 0; k < 4; k++) {
-          const tt = tProgress - k * 0.04;
-          if (tt < 0) break;
-          const v = slerp(a, b, tt);
-          const bulge = Math.sin(tt * Math.PI) * maxBulge;
-          const p = projectVec(v, rotation, cx, cy, r, tilt, 1 + bulge);
-          if (!p.visible) continue;
-          const dotAlpha = (1 - k * 0.2);
-          const dotR = (k === 0 ? 3 : 2 - k * 0.4);
+        const v = slerp(a, b, tProgress);
+        const bulge = Math.sin(tProgress * Math.PI) * maxBulge;
+        const p = projectVec(v, rotation, cx, cy, r, tilt, 1 + bulge);
+        if (p.visible) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, dotR, 0, Math.PI * 2);
-          ctx.fillStyle = hexToRgba(accent, dotAlpha);
-          if (k === 0) {
-            ctx.shadowBlur = 18;
-            ctx.shadowColor = hexToRgba(accent, 0.9);
-          }
+          ctx.arc(p.x, p.y, 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = hexToRgba(arcColor, 0.95);
+          ctx.shadowBlur = 16;
+          ctx.shadowColor = hexToRgba(arcColor, 0.8);
           ctx.fill();
           ctx.shadowBlur = 0;
         }
@@ -693,28 +713,28 @@
 
     ctx.restore(); // end clip
 
-    // ===== Hub markers (drawn over clip so they sit above sphere) =====
+    // ===== Hub markers — static, only home pulses on the heartbeat =====
     hubs.forEach((hub) => {
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) return;
-      const t = time * 0.001 + hub.phase;
-      const pulse = (Math.sin(t * 1.8) + 1) / 2;
-      const baseR = hub.home ? 3.6 : 2.4;
+      const baseR = hub.home ? 3.6 : 2.0;
 
-      // Outer pulse ring
-      const pulseRadius = baseR + pulse * 16;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, pulseRadius, 0, Math.PI * 2);
-      ctx.strokeStyle = hexToRgba(accent, 0.4 * (1 - pulse));
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      // Home gets a heartbeat ring (matches 7s global pulse)
+      if (hub.home) {
+        const ringR = baseR + 6 + heartbeat * 14;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = hexToRgba(accent, 0.35 + heartbeat * 0.35);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
 
       // Core dot
       ctx.beginPath();
       ctx.arc(p.x, p.y, baseR, 0, Math.PI * 2);
-      ctx.fillStyle = hub.home ? hexToRgba(palette.text, 1) : hexToRgba(accent, 0.95);
-      ctx.shadowBlur = hub.home ? 22 : 12;
-      ctx.shadowColor = hexToRgba(accent, 0.9);
+      ctx.fillStyle = hub.home ? hexToRgba(palette.text, 1) : hexToRgba(accent, 0.85);
+      ctx.shadowBlur = hub.home ? 20 : 8;
+      ctx.shadowColor = hexToRgba(accent, hub.home ? 0.9 : 0.5);
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -726,7 +746,7 @@
       }
     });
 
-    // ===== Hub bursts (when arcs launch) =====
+    // ===== Hub bursts (when arcs launch — colored to match arc) =====
     for (let i = hubBursts.length - 1; i >= 0; i--) {
       const burst = hubBursts[i];
       burst.t += 0.012;
@@ -734,10 +754,14 @@
       const hub = hubs[burst.idx];
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) continue;
-      const ringR = 6 + burst.t * 40;
+      const burstColor =
+        burst.tier === "accent2" ? palette.accent2 :
+        burst.tier === "accent3" ? palette.accent3 :
+                                   accent;
+      const ringR = 6 + burst.t * 38;
       ctx.beginPath();
       ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
-      ctx.strokeStyle = hexToRgba(accent, 0.6 * (1 - burst.t));
+      ctx.strokeStyle = hexToRgba(burstColor, 0.5 * (1 - burst.t));
       ctx.lineWidth = 1.2;
       ctx.stroke();
     }
