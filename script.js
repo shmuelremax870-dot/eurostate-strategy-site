@@ -1,5 +1,7 @@
 /* =========================================================================
-   Eurostate Strategy — Calm interactions + a globe that's truly alive
+   Eurostate Strategy — Calm interactions + a truly alive globe
+   Loads real coastlines from Natural Earth (world-atlas via CDN) and
+   animates with starfield, multi-arc traffic, hub bursts, and wobble.
    ========================================================================= */
 
 (function () {
@@ -109,14 +111,8 @@
 
   /* ----- Portfolio selector -------------------------------------------- */
   const productData = {
-    influemint: {
-      category: "AI Commerce Platform",
-      role: "Product ecosystem",
-    },
-    "studio-rocket": {
-      category: "AI Product Brand",
-      role: "Launch infrastructure",
-    },
+    influemint: { category: "AI Commerce Platform", role: "Product ecosystem" },
+    "studio-rocket": { category: "AI Product Brand", role: "Launch infrastructure" },
   };
   const productCards = [...document.querySelectorAll("[data-product]")];
   const dcat  = document.querySelector("[data-detail-category]");
@@ -143,18 +139,15 @@
   });
 
   /* =========================================================================
-     CANVAS — Hero ambient dust + ALIVE GLOBE
+     CANVAS — Hero ambient dust + ALIVE GLOBE with real continents
      ========================================================================= */
-
-  // Shared color reader (re-read on theme change)
   function getColors() {
     const cs = getComputedStyle(root);
     return {
       accent: cs.getPropertyValue("--accent").trim() || "#64ffda",
       text:   cs.getPropertyValue("--text").trim()   || "#f1f3f5",
       muted:  cs.getPropertyValue("--muted").trim()  || "#9aa3ad",
-      surface:cs.getPropertyValue("--surface-1").trim() || "#0b0e10",
-      bg:     cs.getPropertyValue("--bg").trim() || "#06080a",
+      bg:     cs.getPropertyValue("--bg").trim()     || "#06080a",
     };
   }
   let palette = getColors();
@@ -197,7 +190,7 @@
     return state;
   }
 
-  /* ----- Hero ambient: drifting particles ----------------------------- */
+  /* ----- Hero ambient: subtle drifting particles ---------------------- */
   const heroCanvas = document.getElementById("heroCanvas");
   const heroState = setupCanvas(heroCanvas);
   const dust = Array.from({ length: 70 }, () => ({
@@ -223,86 +216,267 @@
   }
 
   /* =========================================================================
-     ALIVE GLOBE — atmosphere, terminator, animated arcs, pulsing hubs
+     ALIVE GLOBE — real continents, atmosphere, terminator, multi-arc traffic
      ========================================================================= */
   const globeCanvas = document.getElementById("globeCanvas");
   const globeState = setupCanvas(globeCanvas);
 
-  // Continents — pre-densified outlines
-  const continents = [
-    { name: "North America", pts: [[-165,68],[-156,71],[-128,70],[-95,65],[-78,56],[-64,48],[-58,52],[-75,38],[-86,30],[-98,22],[-110,28],[-124,38],[-132,52],[-146,58],[-165,68]] },
-    { name: "South America", pts: [[-80,12],[-65,8],[-50,0],[-40,-15],[-44,-32],[-58,-52],[-72,-48],[-78,-30],[-82,-12],[-80,2],[-80,12]] },
-    { name: "Europe",        pts: [[-10,58],[5,62],[20,66],[38,60],[42,48],[28,42],[12,40],[-2,42],[-10,48],[-10,58]] },
-    { name: "Africa",        pts: [[-16,34],[12,36],[34,32],[42,12],[48,-2],[40,-22],[28,-35],[18,-35],[6,-32],[-8,-15],[-16,4],[-16,34]] },
-    { name: "Asia",          pts: [[38,62],[68,72],[112,72],[140,62],[156,42],[145,30],[122,18],[108,8],[95,12],[80,22],[62,18],[48,28],[40,42],[38,62]] },
-    { name: "India",         pts: [[68,30],[78,32],[88,28],[92,18],[80,8],[72,18],[68,30]] },
-    { name: "Southeast Asia",pts: [[96,20],[108,18],[120,14],[118,2],[108,-2],[100,8],[96,20]] },
-    { name: "Australia",     pts: [[115,-12],[140,-14],[152,-22],[148,-36],[125,-38],[115,-30],[115,-12]] },
-    { name: "Greenland",     pts: [[-50,82],[-25,82],[-18,72],[-40,68],[-50,76],[-50,82]] },
-    { name: "Antarctica",    pts: [[-180,-66],[180,-66],[180,-78],[-180,-78],[-180,-66]] },
-  ];
+  // Coastline polygons loaded from world-atlas TopoJSON (50m resolution).
+  // Each entry: { rings: [[ [lon,lat], [lon,lat], ... ], ...], centroid: [lon,lat] }
+  let landPolys = null;
+  let landLoading = false;
 
-  // Major hub cities — anchor for arcs and pulses
+  async function loadLand() {
+    if (landPolys || landLoading) return;
+    landLoading = true;
+    try {
+      // Wait for topojson global to be ready
+      const waitForTopo = () => new Promise((resolve, reject) => {
+        const start = Date.now();
+        (function check() {
+          if (window.topojson) return resolve(window.topojson);
+          if (Date.now() - start > 6000) return reject(new Error("topojson timeout"));
+          setTimeout(check, 60);
+        })();
+      });
+      const topojson = await waitForTopo();
+      const res = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/land-50m.json");
+      const data = await res.json();
+      const feature = topojson.feature(data, data.objects.land);
+      const polys = [];
+      const collect = (geom) => {
+        if (geom.type === "Polygon") {
+          polys.push(buildPoly(geom.coordinates));
+        } else if (geom.type === "MultiPolygon") {
+          geom.coordinates.forEach((rings) => polys.push(buildPoly(rings)));
+        }
+      };
+      if (feature.type === "FeatureCollection") {
+        feature.features.forEach((f) => collect(f.geometry));
+      } else {
+        collect(feature.geometry);
+      }
+      landPolys = polys;
+    } catch (e) {
+      console.warn("Globe land load failed:", e);
+      landPolys = []; // give up gracefully
+    }
+  }
+
+  function buildPoly(rings) {
+    // Compute area-weighted centroid of outer ring (for shading)
+    const outer = rings[0];
+    let sx = 0, sy = 0;
+    outer.forEach(([lon, lat]) => { sx += lon; sy += lat; });
+    const n = outer.length || 1;
+    return { rings, centroid: [sx / n, sy / n] };
+  }
+
+  // Major hub cities
   const hubs = [
-    { name: "Limassol", lon: 33.04, lat: 34.71, home: true },
-    { name: "London",   lon: -0.13, lat: 51.51 },
-    { name: "New York", lon: -74.0, lat: 40.71 },
-    { name: "San Francisco", lon: -122.42, lat: 37.77 },
-    { name: "Tokyo",    lon: 139.69, lat: 35.69 },
-    { name: "Singapore",lon: 103.82, lat: 1.35 },
-    { name: "Dubai",    lon: 55.27, lat: 25.20 },
-    { name: "São Paulo",lon: -46.63, lat: -23.55 },
-    { name: "Berlin",   lon: 13.4,  lat: 52.52 },
-    { name: "Bangalore",lon: 77.59, lat: 12.97 },
+    { name: "Limassol", lon: 33.04, lat: 34.71, home: true, phase: 0 },
+    { name: "London",   lon: -0.13, lat: 51.51, phase: 0.4 },
+    { name: "New York", lon: -74.0, lat: 40.71, phase: 0.8 },
+    { name: "San Francisco", lon: -122.42, lat: 37.77, phase: 1.2 },
+    { name: "Tokyo",    lon: 139.69, lat: 35.69, phase: 1.6 },
+    { name: "Singapore",lon: 103.82, lat: 1.35,  phase: 2.0 },
+    { name: "Dubai",    lon: 55.27, lat: 25.20,  phase: 2.4 },
+    { name: "São Paulo",lon: -46.63, lat: -23.55, phase: 2.8 },
+    { name: "Berlin",   lon: 13.4,  lat: 52.52,  phase: 3.2 },
+    { name: "Bangalore",lon: 77.59, lat: 12.97,  phase: 3.6 },
+    { name: "Tel Aviv", lon: 34.78, lat: 32.08,  phase: 4.0 },
+    { name: "Mumbai",   lon: 72.87, lat: 19.07,  phase: 4.4 },
+    { name: "Sydney",   lon: 151.21, lat: -33.86, phase: 4.8 },
+    { name: "Hong Kong",lon: 114.16, lat: 22.31, phase: 5.2 },
   ];
 
-  // Pre-build arc pairs from Limassol to others (home outbound)
-  const arcPairs = hubs
-    .map((h, i) => (h.home ? null : { from: 0, to: i }))
-    .filter(Boolean);
+  // Arcs originating from home (Limassol)
+  const arcDestinations = hubs.map((_, i) => i).filter((i) => !hubs[i].home);
 
-  // Live arcs in flight
   const liveArcs = [];
+  const hubBursts = []; // expanding rings when an arc launches
+
   function spawnArc() {
-    if (liveArcs.length > 4) return;
-    const pair = arcPairs[Math.floor(Math.random() * arcPairs.length)];
+    if (liveArcs.length > 7) return;
+    const toIdx = arcDestinations[Math.floor(Math.random() * arcDestinations.length)];
     liveArcs.push({
-      from: pair.from,
-      to: pair.to,
+      from: 0,
+      to: toIdx,
       t: 0,
-      speed: 0.0006 + Math.random() * 0.0004,
+      speed: 0.0007 + Math.random() * 0.0005,
       lifetime: 1.0,
     });
+    // Burst at source
+    hubBursts.push({ idx: 0, t: 0 });
   }
   let arcTimer = 0;
 
-  // Hub pulse phases
-  hubs.forEach((h, i) => { h.phase = i * 0.6; });
-
-  // Project a 3D point on sphere into 2D screen
-  function project(lon, lat, rotation, cx, cy, r, tilt) {
-    const lambda = (lon + rotation) * Math.PI / 180;
+  // 3D rotation utilities
+  function unitVec(lon, lat) {
+    const lambda = lon * Math.PI / 180;
     const phi    = lat * Math.PI / 180;
-    const cosPhi = Math.cos(phi);
-    // Rotate around Y (rotation), then tilt around X
-    let x = cosPhi * Math.sin(lambda);
-    let y = Math.sin(phi);
-    let z = cosPhi * Math.cos(lambda);
-    // Tilt around X axis (camera looks at slight downward angle)
+    const c = Math.cos(phi);
+    return { x: c * Math.sin(lambda), y: Math.sin(phi), z: c * Math.cos(lambda) };
+  }
+
+  function rotateAndTilt(v, rotation, tilt) {
+    const lambda = rotation * Math.PI / 180;
+    const cosR = Math.cos(lambda), sinR = Math.sin(lambda);
+    let x = v.x * cosR + v.z * sinR;
+    let z = -v.x * sinR + v.z * cosR;
+    let y = v.y;
     const cosT = Math.cos(tilt), sinT = Math.sin(tilt);
     const y2 =  y * cosT - z * sinT;
     const z2 =  y * sinT + z * cosT;
+    return { x, y: y2, z: z2 };
+  }
+
+  function project(lon, lat, rotation, cx, cy, r, tilt) {
+    const v = unitVec(lon, lat);
+    const p = rotateAndTilt(v, rotation, tilt);
     return {
-      x: cx + r * x,
-      y: cy - r * y2,
-      z: z2,
-      visible: z2 > -0.02,
+      x: cx + r * p.x,
+      y: cy - r * p.y,
+      z: p.z,
+      visible: p.z > -0.01,
     };
   }
 
-  // Great-circle interpolation for arcs
-  function arcPoint(a, b, t) {
-    // Spherical linear interpolation
+  function projectVec(v, rotation, cx, cy, r, tilt, scale) {
+    const p = rotateAndTilt(v, rotation, tilt);
+    const s = scale || 1;
+    return {
+      x: cx + r * p.x * s,
+      y: cy - r * p.y * s,
+      z: p.z,
+      visible: p.z > -0.01,
+    };
+  }
+
+  // Light direction (sun) — fixed in world space
+  const lightDir = { x: -0.45, y: 0.55, z: 0.7 };
+  (function normalize() {
+    const m = Math.hypot(lightDir.x, lightDir.y, lightDir.z);
+    lightDir.x /= m; lightDir.y /= m; lightDir.z /= m;
+  })();
+
+  function shadeAt(lon, lat, rotation, tilt) {
+    const v = unitVec(lon, lat);
+    const p = rotateAndTilt(v, rotation, tilt);
+    const dot = p.x * lightDir.x + p.y * lightDir.y + p.z * lightDir.z;
+    return Math.max(0, Math.min(1, (dot + 0.35) / 1.35));
+  }
+
+  // Draw a continent ring with proper horizon clipping.
+  // Splits the ring at the sphere horizon (z = 0) and bridges
+  // exit-to-entry along the rim arc so fill stays on the visible side.
+  function drawClippedRing(ctx, ring, rotation, cx, cy, r, tilt) {
+    const N = ring.length;
+    if (N < 3) return;
+
+    // Project all points to screen + retain z for visibility
+    const pts = new Array(N);
+    for (let i = 0; i < N; i++) {
+      const [lon, lat] = ring[i];
+      const v = unitVec(lon, lat);
+      const p = rotateAndTilt(v, rotation, tilt);
+      pts[i] = { x: cx + r * p.x, y: cy - r * p.y, z: p.z };
+    }
+
+    // Quick paths
+    let frontCount = 0;
+    for (let i = 0; i < N; i++) if (pts[i].z > 0) frontCount++;
+    if (frontCount === 0) return;
+    if (frontCount === N) {
+      // Fully visible
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < N; i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      return;
+    }
+
+    // Snap a point onto the sphere rim in screen space
+    const snapRim = (p) => {
+      const dx = p.x - cx, dy = p.y - cy;
+      const d = Math.hypot(dx, dy);
+      if (d < 1e-6) return { x: cx + r, y: cy };
+      return { x: cx + dx / d * r, y: cy + dy / d * r };
+    };
+
+    // Rotate ring so we start on an invisible point — this guarantees
+    // visible runs do not wrap across the start/end boundary.
+    let start = 0;
+    for (let i = 0; i < N; i++) {
+      if (pts[i].z <= 0) { start = i; break; }
+    }
+
+    // Walk N+1 segments to wrap around once and collect visible runs
+    const runs = [];
+    let cur = null;
+    for (let k = 0; k < N; k++) {
+      const ai = (start + k) % N;
+      const bi = (start + k + 1) % N;
+      const a = pts[ai], b = pts[bi];
+
+      if (a.z > 0 && b.z > 0) {
+        if (!cur) { cur = { start: a, mids: [], end: null }; runs.push(cur); }
+        cur.mids.push(a);
+      } else if (a.z > 0 && b.z <= 0) {
+        if (!cur) { cur = { start: a, mids: [], end: null }; runs.push(cur); }
+        cur.mids.push(a);
+        const t = a.z / (a.z - b.z);
+        const hx = a.x + (b.x - a.x) * t;
+        const hy = a.y + (b.y - a.y) * t;
+        cur.end = snapRim({ x: hx, y: hy });
+        cur = null;
+      } else if (a.z <= 0 && b.z > 0) {
+        const t = -a.z / (b.z - a.z);
+        const hx = a.x + (b.x - a.x) * t;
+        const hy = a.y + (b.y - a.y) * t;
+        cur = { start: snapRim({ x: hx, y: hy }), mids: [], end: null };
+        runs.push(cur);
+      }
+      // else: both invisible — skip
+    }
+    if (runs.length === 0) return;
+
+    // Build closed path, bridging between runs along the rim
+    ctx.beginPath();
+    for (let i = 0; i < runs.length; i++) {
+      const run = runs[i];
+      const startPt = run.start;
+      if (i === 0) {
+        ctx.moveTo(startPt.x, startPt.y);
+      } else {
+        // Bridge from previous run's end to this run's start along the rim
+        const prev = runs[i - 1];
+        if (prev.end) {
+          const a1 = Math.atan2(prev.end.y - cy, prev.end.x - cx);
+          const a2 = Math.atan2(startPt.y - cy, startPt.x - cx);
+          ctx.arc(cx, cy, r, a1, a2, false);
+        }
+      }
+      for (const m of run.mids) ctx.lineTo(m.x, m.y);
+      if (run.end) ctx.lineTo(run.end.x, run.end.y);
+    }
+    // Close: arc from last end back to first start
+    const lastRun = runs[runs.length - 1];
+    const firstRun = runs[0];
+    if (lastRun.end && firstRun.start) {
+      const a1 = Math.atan2(lastRun.end.y - cy, lastRun.end.x - cx);
+      const a2 = Math.atan2(firstRun.start.y - cy, firstRun.start.x - cx);
+      ctx.arc(cx, cy, r, a1, a2, false);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  // Great-circle spherical interpolation
+  function slerp(a, b, t) {
     const dot = Math.max(-1, Math.min(1, a.x * b.x + a.y * b.y + a.z * b.z));
     const omega = Math.acos(dot);
     if (omega < 1e-6) return { ...a };
@@ -315,55 +489,16 @@
       z: a.z * k1 + b.z * k2,
     };
   }
-  function unitVec(lon, lat) {
-    const lambda = lon * Math.PI / 180;
-    const phi    = lat * Math.PI / 180;
-    const c = Math.cos(phi);
-    return { x: c * Math.sin(lambda), y: Math.sin(phi), z: c * Math.cos(lambda) };
-  }
-  function projectVec(v, rotation, cx, cy, r, tilt) {
-    const lambda = rotation * Math.PI / 180;
-    const cosR = Math.cos(lambda), sinR = Math.sin(lambda);
-    // rotate around Y
-    let x = v.x * cosR + v.z * sinR;
-    let z = -v.x * sinR + v.z * cosR;
-    let y = v.y;
-    // tilt around X
-    const cosT = Math.cos(tilt), sinT = Math.sin(tilt);
-    const y2 =  y * cosT - z * sinT;
-    const z2 =  y * sinT + z * cosT;
-    // arc height — push out by (1 + bulge)
-    const bulge = v.bulge || 0;
-    const scale = 1 + bulge;
-    return {
-      x: cx + r * x * scale,
-      y: cy - r * y2 * scale,
-      z: z2,
-      visible: z2 > -0.02,
-    };
-  }
 
-  // Light direction (where the "sun" hits): fixed slightly upper-left
-  const lightDir = { x: -0.5, y: 0.55, z: 0.65 };
-  (function normalize() {
-    const m = Math.hypot(lightDir.x, lightDir.y, lightDir.z);
-    lightDir.x /= m; lightDir.y /= m; lightDir.z /= m;
-  })();
-
-  // Compute normal at a (lon, lat) and dot with light direction
-  function shadeAt(lon, lat, rotation, tilt) {
-    const v = unitVec(lon, lat);
-    const lambda = rotation * Math.PI / 180;
-    const cosR = Math.cos(lambda), sinR = Math.sin(lambda);
-    let x = v.x * cosR + v.z * sinR;
-    let z = -v.x * sinR + v.z * cosR;
-    let y = v.y;
-    const cosT = Math.cos(tilt), sinT = Math.sin(tilt);
-    const y2 =  y * cosT - z * sinT;
-    const z2 =  y * sinT + z * cosT;
-    const dot = x * lightDir.x + y2 * lightDir.y + z2 * lightDir.z;
-    return Math.max(0, Math.min(1, (dot + 0.4) / 1.4));
-  }
+  // Starfield for the stage background
+  const stars = Array.from({ length: 80 }, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    s: 0.4 + Math.random() * 1.2,
+    a: 0.2 + Math.random() * 0.5,
+    twinklePhase: Math.random() * Math.PI * 2,
+    twinkleRate: 0.0008 + Math.random() * 0.002,
+  }));
 
   function drawGlobe(time) {
     if (!globeState || !globeState.visible) return;
@@ -372,10 +507,14 @@
 
     const cx = w / 2;
     const cy = h / 2;
-    const r = Math.min(w, h) * 0.36;
-    const tilt = -0.32;
-    const rotation = (time * 0.005) % 360; // slow, dignified
+    const r = Math.min(w, h) * 0.34;
+    // Organic wobble + steady rotation
+    const tilt = -0.32 + Math.sin(time * 0.00025) * 0.045;
+    const rotation = (time * 0.006) % 360;
     const accent = palette.accent;
+
+    // Kick off loading if not started
+    if (!landPolys && !landLoading) loadLand();
 
     // Update readouts
     const elNodes    = document.querySelector("[data-readout-nodes]");
@@ -385,41 +524,53 @@
     if (elArcs)     elArcs.textContent     = String(liveArcs.length);
     if (elRotation) elRotation.textContent = `${rotation.toFixed(1)}°`;
 
+    // ===== Starfield (background) =====
+    for (const s of stars) {
+      const alpha = s.a * (0.5 + Math.sin(time * s.twinkleRate + s.twinklePhase) * 0.5);
+      ctx.beginPath();
+      ctx.arc(s.x * w, s.y * h, s.s, 0, Math.PI * 2);
+      ctx.fillStyle = hexToRgba(palette.text, alpha * 0.4);
+      ctx.fill();
+    }
+
     // ===== Atmosphere halo (outside sphere) =====
-    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.95, cx, cy, r * 1.45);
-    haloGrad.addColorStop(0, hexToRgba(accent, 0.18));
-    haloGrad.addColorStop(0.5, hexToRgba(accent, 0.06));
+    const haloGrad = ctx.createRadialGradient(cx, cy, r * 0.96, cx, cy, r * 1.5);
+    haloGrad.addColorStop(0, hexToRgba(accent, 0.28));
+    haloGrad.addColorStop(0.4, hexToRgba(accent, 0.10));
     haloGrad.addColorStop(1, hexToRgba(accent, 0));
     ctx.fillStyle = haloGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, r * 1.45, 0, Math.PI * 2);
+    ctx.arc(cx, cy, r * 1.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // ===== Sphere base (dark surface) =====
-    const sphereGrad = ctx.createRadialGradient(
-      cx - r * 0.4, cy - r * 0.5, r * 0.1,
-      cx, cy, r
-    );
-    sphereGrad.addColorStop(0, hexToRgba(accent, 0.12));
-    sphereGrad.addColorStop(0.5, "rgba(8, 22, 28, 0.85)");
-    sphereGrad.addColorStop(1, "rgba(3, 8, 10, 0.95)");
-    ctx.fillStyle = sphereGrad;
+    // ===== Sphere base — ocean with terminator gradient =====
+    // Day-side direction projected on screen
+    const lightScreen = rotateAndTilt(lightDir, 0, tilt);
+    // Position light on screen for gradient origin
+    const lx = cx + lightScreen.x * r * 0.8;
+    const ly = cy - lightScreen.y * r * 0.8;
+    const oceanGrad = ctx.createRadialGradient(lx, ly, r * 0.1, cx, cy, r * 1.1);
+    oceanGrad.addColorStop(0, hexToRgba(accent, 0.12));
+    oceanGrad.addColorStop(0.45, "rgba(6, 18, 26, 0.85)");
+    oceanGrad.addColorStop(1, "rgba(2, 6, 10, 0.97)");
+    ctx.fillStyle = oceanGrad;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.fill();
 
-    // ===== Lat/lon graticule (subtle) =====
+    // Clip to sphere for graticule, continents, arcs (front side)
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.clip();
 
-    ctx.strokeStyle = hexToRgba(accent, 0.06);
-    ctx.lineWidth = 0.6;
+    // ===== Graticule (subtle) =====
+    ctx.strokeStyle = hexToRgba(accent, 0.05);
+    ctx.lineWidth = 0.5;
     for (let lat = -60; lat <= 60; lat += 20) {
       ctx.beginPath();
       let started = false;
-      for (let lon = -180; lon <= 180; lon += 6) {
+      for (let lon = -180; lon <= 180; lon += 5) {
         const p = project(lon, lat, rotation, cx, cy, r, tilt);
         if (!p.visible) { started = false; continue; }
         if (!started) { ctx.moveTo(p.x, p.y); started = true; }
@@ -430,7 +581,7 @@
     for (let lon = -150; lon <= 180; lon += 30) {
       ctx.beginPath();
       let started = false;
-      for (let lat = -80; lat <= 80; lat += 4) {
+      for (let lat = -82; lat <= 82; lat += 4) {
         const p = project(lon, lat, rotation, cx, cy, r, tilt);
         if (!p.visible) { started = false; continue; }
         if (!started) { ctx.moveTo(p.x, p.y); started = true; }
@@ -439,108 +590,119 @@
       ctx.stroke();
     }
 
-    // ===== Continents with day/night shading =====
-    continents.forEach((continent) => {
-      // Project all points
-      const proj = continent.pts.map(([lon, lat]) => ({
-        ...project(lon, lat, rotation, cx, cy, r, tilt),
-        shade: shadeAt(lon, lat, rotation, tilt),
-      }));
-      // Build path from visible run
-      let started = false;
-      ctx.beginPath();
-      const avgShade = proj.reduce((s, p) => s + p.shade, 0) / proj.length;
-      for (const p of proj) {
-        if (!p.visible) { started = false; continue; }
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
-        else ctx.lineTo(p.x, p.y);
+    // ===== REAL CONTINENTS =====
+    if (landPolys && landPolys.length) {
+      for (const poly of landPolys) {
+        const shade = shadeAt(poly.centroid[0], poly.centroid[1], rotation, tilt);
+        const fillA = 0.04 + shade * 0.32;
+        const strokeA = 0.15 + shade * 0.6;
+        ctx.fillStyle = hexToRgba(accent, fillA);
+        ctx.strokeStyle = hexToRgba(accent, strokeA);
+        ctx.lineWidth = 0.7;
+
+        for (const ring of poly.rings) {
+          drawClippedRing(ctx, ring, rotation, cx, cy, r, tilt);
+        }
       }
-      ctx.closePath();
-      // Fill — lighter on day side
-      const fillA = 0.04 + avgShade * 0.18;
-      const strokeA = 0.12 + avgShade * 0.45;
-      ctx.fillStyle = hexToRgba(accent, fillA);
-      ctx.strokeStyle = hexToRgba(accent, strokeA);
-      ctx.lineWidth = 0.8;
+
+      // Subtle day-side highlight pass (overlay)
+      ctx.globalCompositeOperation = "screen";
+      const dayGrad = ctx.createRadialGradient(lx, ly, r * 0.1, cx, cy, r);
+      dayGrad.addColorStop(0, hexToRgba(accent, 0.10));
+      dayGrad.addColorStop(0.5, hexToRgba(accent, 0.02));
+      dayGrad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = dayGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.fill();
-      ctx.stroke();
-    });
+      ctx.globalCompositeOperation = "source-over";
+    } else {
+      // Loading shimmer hint
+      ctx.font = "500 11px 'JetBrains Mono', monospace";
+      ctx.fillStyle = hexToRgba(palette.muted, 0.5);
+      ctx.textAlign = "center";
+      ctx.fillText("LOADING WORLD…", cx, cy);
+      ctx.textAlign = "start";
+    }
 
-    // ===== Live arcs =====
+    // ===== Arcs =====
     arcTimer += 16;
-    if (arcTimer > 900) { arcTimer = 0; spawnArc(); }
+    if (arcTimer > 700) { arcTimer = 0; spawnArc(); }
 
-    // Draw arcs (clipped to inside view, but show even partly behind for depth)
     for (let i = liveArcs.length - 1; i >= 0; i--) {
       const arc = liveArcs[i];
       arc.t += arc.speed * 16;
       if (arc.t >= 1) {
-        arc.lifetime -= 0.04;
-        if (arc.lifetime <= 0) {
-          liveArcs.splice(i, 1);
-          continue;
-        }
+        arc.lifetime -= 0.035;
+        if (arc.lifetime <= 0) { liveArcs.splice(i, 1); continue; }
       }
       const a = unitVec(hubs[arc.from].lon, hubs[arc.from].lat);
       const b = unitVec(hubs[arc.to].lon,   hubs[arc.to].lat);
-      // Compute arc as samples; bulge proportional to great-circle distance
       const dot = Math.max(-1, Math.min(1, a.x*b.x + a.y*b.y + a.z*b.z));
       const dist = Math.acos(dot);
-      const maxBulge = 0.06 + dist * 0.12;
-
-      const samples = 28;
+      const maxBulge = 0.08 + dist * 0.14;
+      const samples = 36;
       const tProgress = Math.min(1, arc.t);
-      const fadeFrom = Math.max(0, tProgress - 0.35);
+
+      // Trail path
       ctx.beginPath();
       let started = false;
+      let prevVisible = false;
       for (let s = 0; s <= samples; s++) {
         const t = s / samples;
         if (t > tProgress) break;
-        // Arc height: sine peak in the middle
-        const v = arcPoint(a, b, t);
-        const arcHeight = Math.sin(t * Math.PI) * maxBulge;
-        v.bulge = arcHeight;
-        const p = projectVec(v, rotation, cx, cy, r, tilt);
-        if (!p.visible) { started = false; continue; }
-        if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+        const v = slerp(a, b, t);
+        const bulge = Math.sin(t * Math.PI) * maxBulge;
+        const p = projectVec(v, rotation, cx, cy, r, tilt, 1 + bulge);
+        if (!p.visible) { prevVisible = false; continue; }
+        if (!started || !prevVisible) { ctx.moveTo(p.x, p.y); started = true; }
         else ctx.lineTo(p.x, p.y);
+        prevVisible = true;
       }
-      // Gradient fade trail
-      const alpha = 0.6 * arc.lifetime;
+      const alpha = 0.65 * arc.lifetime;
       ctx.strokeStyle = hexToRgba(accent, alpha);
       ctx.lineWidth = 1.4;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = hexToRgba(accent, 0.6);
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = hexToRgba(accent, 0.7);
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // Leading packet
+      // Particle trail (3 fading dots behind leader)
       if (tProgress < 1) {
-        const v = arcPoint(a, b, tProgress);
-        v.bulge = Math.sin(tProgress * Math.PI) * maxBulge;
-        const p = projectVec(v, rotation, cx, cy, r, tilt);
-        if (p.visible) {
+        for (let k = 0; k < 4; k++) {
+          const tt = tProgress - k * 0.04;
+          if (tt < 0) break;
+          const v = slerp(a, b, tt);
+          const bulge = Math.sin(tt * Math.PI) * maxBulge;
+          const p = projectVec(v, rotation, cx, cy, r, tilt, 1 + bulge);
+          if (!p.visible) continue;
+          const dotAlpha = (1 - k * 0.2);
+          const dotR = (k === 0 ? 3 : 2 - k * 0.4);
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = hexToRgba(accent, 0.95);
-          ctx.shadowBlur = 16;
-          ctx.shadowColor = hexToRgba(accent, 0.9);
+          ctx.arc(p.x, p.y, dotR, 0, Math.PI * 2);
+          ctx.fillStyle = hexToRgba(accent, dotAlpha);
+          if (k === 0) {
+            ctx.shadowBlur = 18;
+            ctx.shadowColor = hexToRgba(accent, 0.9);
+          }
           ctx.fill();
           ctx.shadowBlur = 0;
         }
       }
     }
 
-    // ===== Hub markers with pulses =====
+    ctx.restore(); // end clip
+
+    // ===== Hub markers (drawn over clip so they sit above sphere) =====
     hubs.forEach((hub) => {
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) return;
       const t = time * 0.001 + hub.phase;
-      const pulse = (Math.sin(t * 2) + 1) / 2; // 0..1
-      const baseR = hub.home ? 3.2 : 2.4;
+      const pulse = (Math.sin(t * 1.8) + 1) / 2;
+      const baseR = hub.home ? 3.6 : 2.4;
 
-      // Outer pulse ring (expanding)
-      const pulseRadius = baseR + pulse * 14;
+      // Outer pulse ring
+      const pulseRadius = baseR + pulse * 16;
       ctx.beginPath();
       ctx.arc(p.x, p.y, pulseRadius, 0, Math.PI * 2);
       ctx.strokeStyle = hexToRgba(accent, 0.4 * (1 - pulse));
@@ -551,8 +713,8 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, baseR, 0, Math.PI * 2);
       ctx.fillStyle = hub.home ? hexToRgba(palette.text, 1) : hexToRgba(accent, 0.95);
-      ctx.shadowBlur = hub.home ? 18 : 10;
-      ctx.shadowColor = hexToRgba(accent, 0.8);
+      ctx.shadowBlur = hub.home ? 22 : 12;
+      ctx.shadowColor = hexToRgba(accent, 0.9);
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -564,7 +726,21 @@
       }
     });
 
-    ctx.restore();
+    // ===== Hub bursts (when arcs launch) =====
+    for (let i = hubBursts.length - 1; i >= 0; i--) {
+      const burst = hubBursts[i];
+      burst.t += 0.012;
+      if (burst.t >= 1) { hubBursts.splice(i, 1); continue; }
+      const hub = hubs[burst.idx];
+      const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
+      if (!p.visible) continue;
+      const ringR = 6 + burst.t * 40;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
+      ctx.strokeStyle = hexToRgba(accent, 0.6 * (1 - burst.t));
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    }
 
     // ===== Sphere rim highlight =====
     ctx.beginPath();
@@ -582,11 +758,8 @@
     if (!reducedMotion) frame = requestAnimationFrame(tick);
   }
   if (heroState || globeState) {
-    if (reducedMotion) {
-      tick(0);
-    } else {
-      frame = requestAnimationFrame(tick);
-    }
+    if (reducedMotion) tick(0);
+    else frame = requestAnimationFrame(tick);
   }
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
