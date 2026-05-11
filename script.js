@@ -290,6 +290,18 @@
     };
     globeCanvas.addEventListener("pointerup", endDrag);
     globeCanvas.addEventListener("pointercancel", endDrag);
+
+    // Wheel-to-rotate: while hovering the globe, the wheel rotates
+    // it instead of scrolling the page. Outside the canvas, the
+    // page scrolls normally.
+    globeCanvas.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      drag.userRot  += e.deltaY * 0.18;
+      drag.userTilt = Math.max(-0.9, Math.min(0.6, drag.userTilt - e.deltaX * 0.0025));
+      drag.lastInteract = performance.now();
+      // Small lingering velocity so the wheel feels weighty
+      drag.velRot = e.deltaY * 0.05;
+    }, { passive: false });
   }
 
 
@@ -354,31 +366,53 @@
     // Indian subcontinent (peninsula) — partly duplicated for clarity
     [[72,20],[73,15],[76,10],[78,8],[80,9],[80,14],[82,17],[85,20],
      [88,21],[88,22],[80,15],[73,20],[72,20]],
-    // SE Asia / Indonesia (rough)
-    [[95,5],[100,1],[105,0],[112,-3],[120,-5],[127,-3],[133,-2],
-     [140,-3],[135,-5],[123,-9],[115,-9],[105,-7],[100,-3],[95,5]],
-    // Australia
-    [[114,-22],[115,-31],[119,-34],[127,-32],[131,-32],[140,-37],
-     [143,-39],[149,-37],[152,-32],[153,-25],[146,-19],[140,-17],
-     [135,-15],[129,-15],[125,-14],[119,-17],[114,-22]],
-    // Greenland
-    [[-46,82],[-22,82],[-15,79],[-22,71],[-32,67],[-44,68],[-52,73],
-     [-54,76],[-50,80],[-46,82]],
-    // UK
-    [[-5,58],[-3,59],[-1,57],[1,55],[1,52],[-1,51],[-4,50],[-6,52],
-     [-8,54],[-7,56],[-5,58]],
+    // Sumatra
+    [[95,5],[98,4],[101,-1],[104,-2],[105,-6],[102,-5],[99,-1],[96,1],[95,5]],
+    // Java
+    [[105,-6],[110,-7],[114,-8],[114,-9],[108,-9],[105,-8],[105,-6]],
+    // Borneo
+    [[109,4],[114,5],[118,5],[119,1],[117,-3],[114,-4],[110,-2],[109,1],[109,4]],
+    // Sulawesi
+    [[119,2],[121,1],[124,1],[125,-2],[122,-3],[120,-5],[120,-2],[119,2]],
+    // Philippines (Luzon + Mindanao approx)
+    [[120,18],[122,17],[124,15],[122,12],[121,9],[125,7],[126,9],[126,12],[124,14],[122,18],[120,18]],
+    // Italy (boot, breaks out from Europe outline)
+    [[7,46],[10,46],[12,45],[14,42],[16,40],[18,40],[18,42],[17,41],[15,40],[14,38],[16,38],[18,39],[17,42],[14,44],[12,45],[10,45],[8,45],[7,46]],
+    // Korea peninsula
+    [[125,38],[127,39],[129,37],[129,35],[127,35],[126,36],[125,38]],
+    // Sri Lanka
+    [[80,9],[82,8],[82,6],[80,6],[80,9]],
+    // Iberia (Portugal + Spain) — separate detail
+    [[-9,43],[-7,44],[-2,44],[3,43],[3,40],[-1,37],[-7,37],[-9,38],[-9,43]],
+    // Scandinavia (separate detail above Europe baseline)
+    [[5,58],[12,58],[14,61],[18,64],[21,68],[24,71],[28,71],[31,69],[28,65],[24,63],[20,62],[16,60],[12,57],[10,57],[8,58],[5,58]],
+    // British Isles — Great Britain
+    [[-5,58],[-3,59],[-1,57],[1,55],[1,52],[-1,51],[-4,50],[-6,52],[-8,54],[-7,56],[-5,58]],
     // Ireland
     [[-10,55],[-7,55],[-6,52],[-9,52],[-10,55]],
     // Japan
-    [[131,32],[136,34],[140,36],[142,40],[145,44],[141,45],[137,42],
-     [135,38],[132,34],[131,32]],
+    [[131,32],[136,34],[140,36],[142,40],[145,44],[141,45],[137,42],[135,38],[132,34],[131,32]],
     // Madagascar
     [[44,-12],[49,-13],[50,-19],[47,-25],[44,-24],[43,-19],[44,-12]],
-    // New Zealand
-    [[171,-41],[174,-37],[177,-39],[176,-43],[170,-46],[167,-46],
-     [167,-43],[171,-41]],
+    // New Zealand (North + South islands as one)
+    [[171,-41],[174,-37],[177,-39],[176,-43],[170,-46],[167,-46],[167,-43],[171,-41]],
     // Iceland
     [[-24,64],[-14,64],[-13,66],[-18,67],[-23,67],[-24,64]],
+    // Cuba
+    [[-85,21],[-78,21],[-74,20],[-77,22],[-83,23],[-85,21]],
+    // Australia (mainland) — refined
+    [[114,-22],[115,-31],[119,-34],[127,-32],[131,-32],[140,-37],[143,-39],
+     [149,-37],[152,-32],[153,-25],[146,-19],[141,-17],[136,-15],[129,-15],
+     [125,-14],[119,-17],[114,-22]],
+    // Tasmania
+    [[144,-40],[148,-41],[148,-43],[144,-43],[144,-40]],
+    // Greenland
+    [[-46,82],[-22,82],[-15,79],[-22,71],[-32,67],[-44,68],[-52,73],[-54,76],[-50,80],[-46,82]],
+    // Antarctica — ring around the south pole
+    [[-180,-78],[-160,-76],[-140,-74],[-120,-73],[-100,-75],[-80,-72],
+     [-60,-72],[-40,-76],[-20,-71],[0,-69],[20,-71],[40,-69],[60,-68],
+     [80,-66],[100,-66],[120,-67],[140,-69],[160,-74],[180,-78],
+     [180,-83],[-180,-83],[-180,-78]],
   ];
 
   // Pre-compute centroids for shading
@@ -403,6 +437,9 @@
     return inside;
   }
   function pointOnLand(lon, lat) {
+    // Antarctica wraps all longitudes — handle separately so the
+    // 2D ray-cast doesn't fail at the antimeridian.
+    if (lat < -66 && lat > -83) return true;
     for (const m of continentMeta) if (pointInRing(lon, lat, m.ring)) return true;
     return false;
   }
@@ -876,26 +913,7 @@
       }
     });
 
-    // ===== Scanning sweep — slow rotating line gives "active lab" feel =====
-    {
-      const scanAngle = (time * 0.00045) % (Math.PI * 2);
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(scanAngle);
-      const scanGrad = ctx.createLinearGradient(-r * 1.05, 0, r * 1.05, 0);
-      scanGrad.addColorStop(0,    hexToRgba(accent, 0));
-      scanGrad.addColorStop(0.5,  hexToRgba(accent, 0.30));
-      scanGrad.addColorStop(0.55, hexToRgba(accent, 0.60));
-      scanGrad.addColorStop(0.6,  hexToRgba(accent, 0.30));
-      scanGrad.addColorStop(1,    hexToRgba(accent, 0));
-      ctx.strokeStyle = scanGrad;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(-r * 1.05, 0);
-      ctx.lineTo(r * 1.05, 0);
-      ctx.stroke();
-      ctx.restore();
-    }
+    // (Scanning sweep removed — was an intrusive line across the sphere)
 
     // ===== Hub bursts =====
     for (let i = hubBursts.length - 1; i >= 0; i--) {

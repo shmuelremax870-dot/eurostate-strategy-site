@@ -592,12 +592,9 @@
   .system-board {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 0;
+    gap: clamp(2rem, 4vw, 4rem);
     margin-top: clamp(2rem, 5vw, 3rem);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    background: var(--surface-1);
+    align-items: center;
   }
   @media (max-width: 860px) { .system-board { grid-template-columns: 1fr; } }
 
@@ -606,13 +603,9 @@
     aspect-ratio: 1 / 1;
     min-height: clamp(360px, 50vw, 560px);
     max-height: 620px;
-    background:
-      radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 65%),
-      var(--bg);
-    overflow: hidden;
-    border-right: 1px solid var(--line);
+    background: transparent;
+    overflow: visible;
   }
-  @media (max-width: 860px) { .system-stage { border-right: 0; border-bottom: 1px solid var(--line); } }
   .system-stage canvas {
     position: absolute;
     inset: 0;
@@ -666,7 +659,7 @@
   .system-readout .key { color: var(--soft); letter-spacing: 0.06em; }
 
   .signal-panel {
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+    padding: 0;
   }
   .signal-panel-header {
     display: flex;
