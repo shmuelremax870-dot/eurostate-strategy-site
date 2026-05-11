@@ -336,39 +336,125 @@
         </div>
       </section>
 
-      <!-- ============================ STACK (Integrated pillars) ============================ -->
+      <!-- ============================ DATA CENTERS PREVIEW ============================ -->
       <section class="section container" id="stack">
         <div class="editorial">
           <aside class="editorial-aside">
-            <span class="kicker">04.5 — Stack</span>
+            <span class="kicker">04 — Compute</span>
           </aside>
           <div>
-            <h2>One integrated stack: waste, power, compute, AI.</h2>
+            <h2>The compute backbone for the AI era.</h2>
             <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
-              Three vertically-aligned pillars that compound on one another.
-              Waste becomes energy. Energy runs the data centers. The data
-              centers power the AI products. Each pillar reinforces the
-              economics of the next.
+              We are building dedicated data center capacity engineered for AI
+              workloads — high-density, liquid-ready, and powered by our own
+              waste-to-energy infrastructure. The ambition is to lead the
+              category for sovereign AI compute in the Mediterranean and EU.
             </p>
 
-            <div class="stack-grid">
-              <a class="stack-cell" href="./waste-to-energy.html">
-                <span class="pillar-num">03 / ENERGY</span>
-                <h3>Waste-to-Energy</h3>
-                <p>Circular-economy plants that convert municipal &amp; industrial waste into base-load electricity.</p>
-                <span class="pillar-link">Explore</span>
+            <div class="pillar-preview">
+              <div class="pillar-preview-visual" aria-hidden="true">
+                <svg viewBox="0 0 360 200" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <pattern id="prev-dc-grid" width="40" height="22" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                      <path d="M 40 0 L 0 0 0 22" fill="none" stroke="var(--line)" stroke-width="0.5"/>
+                    </pattern>
+                  </defs>
+                  <rect x="0" y="100" width="360" height="100" fill="url(#prev-dc-grid)" opacity="0.4"/>
+                  <!-- Small rack cluster preview -->
+                  <g>
+                    <!-- Rack 1 -->
+                    <polygon points="60,90 110,72 160,90 110,108" fill="rgba(20,38,28,0.9)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="60,90 60,150 110,168 110,108" fill="rgba(10,22,16,0.94)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="160,90 160,150 110,168 110,108" fill="rgba(6,14,10,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <rect x="80" y="83" width="3" height="3" fill="var(--accent)" opacity="0.9"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.4s" repeatCount="indefinite"/></rect>
+                    <rect x="100" y="80" width="3" height="3" fill="var(--accent)" opacity="0.6"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.6s" repeatCount="indefinite"/></rect>
+                    <rect x="120" y="83" width="3" height="3" fill="var(--accent)" opacity="0.8"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                  </g>
+                  <g>
+                    <!-- Rack 2 -->
+                    <polygon points="200,90 250,72 300,90 250,108" fill="rgba(20,38,28,0.9)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="200,90 200,150 250,168 250,108" fill="rgba(10,22,16,0.94)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="300,90 300,150 250,168 250,108" fill="rgba(6,14,10,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <rect x="220" y="83" width="3" height="3" fill="var(--accent)" opacity="0.8"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/></rect>
+                    <rect x="240" y="80" width="3" height="3" fill="var(--accent)" opacity="0.9"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/></rect>
+                    <rect x="260" y="83" width="3" height="3" fill="var(--accent)" opacity="0.7"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.3s" repeatCount="indefinite"/></rect>
+                  </g>
+                  <text x="20" y="30" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--muted);">FLOOR 01 · ZONE A</text>
+                  <text x="20" y="44" style="font-family: var(--font-mono); font-size: 9px; fill: var(--soft);">HIGH-DENSITY AI COMPUTE</text>
+                </svg>
+              </div>
+              <a class="btn btn-primary" href="./data-centers.html">
+                Explore Data Centers <span class="arrow">→</span>
               </a>
-              <a class="stack-cell" href="./data-centers.html">
-                <span class="pillar-num">02 / COMPUTE</span>
-                <h3>Data Centers</h3>
-                <p>Sovereign EU AI compute. High-density, liquid-ready, powered by our own energy program.</p>
-                <span class="pillar-link">Explore</span>
-              </a>
-              <a class="stack-cell" href="#portfolio">
-                <span class="pillar-num">01 / PRODUCTS</span>
-                <h3>AI Products</h3>
-                <p>Product companies and platforms built on top of the stack. The applications layer of the operating system.</p>
-                <span class="pillar-link">Portfolio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ WASTE-TO-ENERGY PREVIEW ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">05 — Energy</span>
+          </aside>
+          <div>
+            <h2>From waste to the power that runs AI.</h2>
+            <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
+              We convert municipal and industrial waste into reliable, low-carbon
+              electricity and route it directly into our AI data centers.
+              Circular economy meets compute economy: the trash of one system
+              becomes the foundation of the next.
+            </p>
+
+            <div class="pillar-preview">
+              <div class="pillar-preview-visual" aria-hidden="true">
+                <svg viewBox="0 0 360 200" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <pattern id="prev-we-grid" width="40" height="22" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                      <path d="M 40 0 L 0 0 0 22" fill="none" stroke="var(--line)" stroke-width="0.5"/>
+                    </pattern>
+                  </defs>
+                  <rect x="0" y="100" width="360" height="100" fill="url(#prev-we-grid)" opacity="0.4"/>
+                  <!-- 3 mini units -->
+                  <g transform="translate(20, 80)">
+                    <polygon points="0,20 30,5 60,20 30,35" fill="rgba(28,50,38,0.95)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="0,20 0,70 30,85 30,35" fill="rgba(14,28,20,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="60,20 60,70 30,85 30,35" fill="rgba(8,18,12,0.97)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  </g>
+                  <text x="50" y="180" style="font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; fill: var(--muted); text-anchor: middle;">INTAKE</text>
+
+                  <path d="M 90 105 C 110 105, 120 100, 140 102" stroke="var(--accent)" stroke-width="1.4" fill="none" stroke-dasharray="3 5">
+                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="1.2s" repeatCount="indefinite"/>
+                  </path>
+
+                  <g transform="translate(140, 70)">
+                    <polygon points="0,25 35,7 70,25 35,43" fill="rgba(64,50,30,0.95)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="0,25 0,85 35,103 35,43" fill="rgba(40,30,18,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="70,25 70,85 35,103 35,43" fill="rgba(28,20,12,0.97)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  </g>
+                  <text x="175" y="180" style="font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; fill: var(--muted); text-anchor: middle;">COMBUSTION</text>
+
+                  <path d="M 220 105 C 240 105, 250 100, 270 102" stroke="var(--accent-2)" stroke-width="1.4" fill="none" stroke-dasharray="3 5">
+                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="0.9s" repeatCount="indefinite"/>
+                  </path>
+
+                  <g transform="translate(270, 80)">
+                    <polygon points="0,20 30,5 60,20 30,35" fill="rgba(34,64,50,0.95)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="0,20 0,70 30,85 30,35" fill="rgba(18,38,28,0.96)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                    <polygon points="60,20 60,70 30,85 30,35" fill="rgba(10,24,18,0.97)" stroke="var(--line-strong)" stroke-width="0.8"/>
+                  </g>
+                  <text x="300" y="180" style="font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; fill: var(--muted); text-anchor: middle;">TURBINE</text>
+
+                  <path d="M 340 105 L 358 105" stroke="var(--accent)" stroke-width="1.4" fill="none" stroke-dasharray="3 5">
+                    <animate attributeName="stroke-dashoffset" values="0;-8" dur="0.8s" repeatCount="indefinite"/>
+                  </path>
+
+                  <text x="20" y="30" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; fill: var(--muted);">EUROSTATE WTE · UNIT 01</text>
+                  <text x="20" y="44" style="font-family: var(--font-mono); font-size: 9px; fill: var(--soft);">CIRCULAR INFRASTRUCTURE</text>
+                </svg>
+              </div>
+              <a class="btn btn-primary" href="./waste-to-energy.html">
+                Explore Waste-to-Energy <span class="arrow">→</span>
               </a>
             </div>
           </div>
