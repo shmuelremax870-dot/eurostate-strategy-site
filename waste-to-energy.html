@@ -131,6 +131,15 @@
 
             <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility — 3D render">
               <canvas id="we3d-canvas"></canvas>
+              <div class="render-fallback" data-we-fallback hidden>
+                <span class="render-fallback-pill"><span class="render-fallback-dot"></span> 3D asset pending</span>
+                <div class="render-fallback-msg">
+                  <strong>Waste-to-energy facility render</strong>
+                  <p>This view loads a real CAD-grade GLB model. Place a glTF binary at</p>
+                  <code>/models/waste-industrial-plant.glb</code>
+                  <p>and the scene will populate automatically. See <code>/models/README.md</code> for sourcing guidance.</p>
+                </div>
+              </div>
             </div>
 
             <p class="text-muted" style="margin-top: var(--sp-5); font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft);">
@@ -324,207 +333,70 @@
         grid.material.opacity = 0.45;
         scene.add(grid);
 
-        function placeBox(x, z, w, h, d, mat) {
-          const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-          m.position.set(x, h / 2, z);
-          m.castShadow = true; m.receiveShadow = true;
-          scene.add(m); return m;
-        }
-        function placeCyl(x, z, radius, height, mat, segments = 28) {
-          const m = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, segments), mat);
-          m.position.set(x, height / 2, z);
-          m.castShadow = true; m.receiveShadow = true;
-          scene.add(m); return m;
-        }
-        function placeCoolingTower(x, z) {
-          const points = [];
-          const H = 36, baseR = 14, neckR = 8.5, topR = 12, segs = 16;
-          for (let i = 0; i <= segs; i++) {
-            const t = i / segs, y = t * H;
-            const r = neckR + (t < 0.5 ? (baseR - neckR) * (1 - 2 * t)
-                                       : (topR - neckR) * (2 * t - 1));
-            points.push(new THREE.Vector2(r, y));
-          }
-          const m = new THREE.Mesh(new THREE.LatheGeometry(points, 36), matCool);
-          m.position.set(x, 0, z);
-          m.castShadow = true; m.receiveShadow = true;
-          scene.add(m); return m;
-        }
-        function addSodiumLamp(x, z) {
-          const light = new THREE.PointLight(0xffaa55, 6, 35, 1.8);
-          light.position.set(x, 6, z); scene.add(light);
-          const bulb = new THREE.Mesh(
-            new THREE.SphereGeometry(0.35, 10, 10),
-            new THREE.MeshBasicMaterial({ color: 0xffaa55 })
+        // ===== Load real 3D model (GLB), with graceful fallback =====
+        import("three/addons/loaders/GLTFLoader.js").then(({ GLTFLoader }) => {
+          const modelPath = "./models/waste-industrial-plant.glb";
+          const loader = new GLTFLoader();
+          loader.load(
+            modelPath,
+            (gltf) => {
+              const model = gltf.scene;
+              // Enable shadows on every mesh in the model
+              model.traverse((c) => {
+                if (c.isMesh) {
+                  c.castShadow = true;
+                  c.receiveShadow = true;
+                  // Slight gentle tone correction for premium feel
+                  if (c.material && "envMapIntensity" in c.material) {
+                    c.material.envMapIntensity = 0.9;
+                  }
+                }
+              });
+              // Fit camera + controls to the model's bounding box
+              const box = new THREE.Box3().setFromObject(model);
+              const size = box.getSize(new THREE.Vector3());
+              const center = box.getCenter(new THREE.Vector3());
+              // Re-anchor model so its base sits on y = 0
+              model.position.y -= box.min.y;
+              scene.add(model);
+
+              const maxDim = Math.max(size.x, size.y, size.z);
+              const fitDist = maxDim / (2 * Math.tan((camera.fov * Math.PI) / 360));
+              camera.position.set(
+                center.x + fitDist * 0.85,
+                size.y * 0.65,
+                center.z + fitDist * 0.95
+              );
+              controls.target.set(center.x, size.y * 0.35, center.z);
+              controls.update();
+
+              // Tune sun shadow camera to model footprint
+              const r = Math.max(size.x, size.z) * 0.8;
+              sun.shadow.camera.left = -r;
+              sun.shadow.camera.right = r;
+              sun.shadow.camera.top = r;
+              sun.shadow.camera.bottom = -r;
+              sun.shadow.camera.far = r * 4;
+              sun.shadow.camera.updateProjectionMatrix();
+            },
+            undefined,
+            (err) => {
+              console.warn(
+                "[WtE] 3D model not found at",
+                modelPath,
+                "— showing fallback panel."
+              );
+              canvas.style.display = "none";
+              const fb = document.querySelector("[data-we-fallback]");
+              if (fb) fb.hidden = false;
+              // Stop the render loop — nothing to draw without the model
+              renderingDisabled = true;
+            }
           );
-          bulb.position.copy(light.position); scene.add(bulb);
-          const pole = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.15, 0.15, 6, 8), matSteelDark
-          );
-          pole.position.set(x, 3, z); pole.castShadow = true;
-          scene.add(pole);
-        }
-        function addLatticeTower(x, z, h = 24) {
-          const group = new THREE.Group();
-          const half = 2;
-          [[-half,-half],[half,-half],[half,half],[-half,half]].forEach(([dx, dz]) => {
-            const up = new THREE.Mesh(
-              new THREE.CylinderGeometry(0.18, 0.18, h, 6), matLattice
-            );
-            up.position.set(dx, h/2, dz); up.castShadow = true; group.add(up);
-          });
-          for (let y = 2; y < h - 1; y += 3) {
-            const bar = new THREE.Mesh(new THREE.BoxGeometry(half*2 + 0.1, 0.12, 0.12), matLattice);
-            bar.position.set(0, y, -half); group.add(bar);
-            const bar2 = bar.clone(); bar2.position.z = half; group.add(bar2);
-            const bar3 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, half*2 + 0.1), matLattice);
-            bar3.position.set(-half, y, 0); group.add(bar3);
-            const bar4 = bar3.clone(); bar4.position.x = half; group.add(bar4);
-          }
-          const arm = new THREE.Mesh(new THREE.BoxGeometry(10, 0.25, 0.25), matLattice);
-          arm.position.set(0, h - 2, 0); group.add(arm);
-          const arm2 = arm.clone(); arm2.position.y = h - 4; group.add(arm2);
-          group.position.set(x, 0, z); scene.add(group);
-          [-3.5, 3.5].forEach((dx) => {
-            const ins = new THREE.Mesh(
-              new THREE.SphereGeometry(0.3, 10, 10),
-              new THREE.MeshBasicMaterial({ color: 0x64ffda })
-            );
-            ins.position.set(x + dx, h - 2.2, z); scene.add(ins);
-            const ins2 = ins.clone(); ins2.position.y = h - 4.2; scene.add(ins2);
-          });
-        }
-
-        // ===== Plant layout =====
-        placeBox(0, -10, 30, 52, 28, matConcrete);
-        for (let y = 12; y < 44; y += 8) {
-          const win = new THREE.Mesh(new THREE.PlaneGeometry(24, 1.4), matWindow);
-          win.position.set(0, y, 4.01); scene.add(win);
-        }
-        placeCyl(-8, -14, 2.5, 8, matStack);
-        placeCyl(8, -16, 2, 75, matStack);
-        placeCyl(-2, -16, 1.4, 50, matStack);
-
-        placeBox(-32, -8, 14, 32, 14, matConcreteDark);
-        const pile = new THREE.Mesh(
-          new THREE.BoxGeometry(10, 2, 10),
-          new THREE.MeshStandardMaterial({ color: 0x6b4f2a, metalness: 0.1, roughness: 0.95 })
-        );
-        pile.position.set(-32, 33, -8); scene.add(pile);
-
-        placeBox(-58, 6, 30, 14, 18, matSteelClad);
-        const intakeDoor = new THREE.Mesh(new THREE.PlaneGeometry(6, 8), matWindow);
-        intakeDoor.position.set(-43.01, 4, 6);
-        intakeDoor.rotation.y = Math.PI / 2;
-        scene.add(intakeDoor);
-
-        const conveyor = new THREE.Mesh(new THREE.BoxGeometry(28, 2.4, 3), matSteelDark);
-        conveyor.position.set(-44, 22, -2);
-        conveyor.rotation.z = 0.45;
-        conveyor.castShadow = true;
-        scene.add(conveyor);
-
-        placeCyl(22, 0, 4, 42, matSteelClad);
-        placeCyl(34, -2, 3.5, 36, matSteelClad);
-        placeCyl(45, -4, 3, 30, matSteelDark);
-
-        placeBox(28, 30, 50, 14, 20, matSteelDark);
-        const tWin = new THREE.Mesh(new THREE.PlaneGeometry(40, 2), matWindow);
-        tWin.position.set(28, 9, 40.01); scene.add(tWin);
-
-        const rackBeam = new THREE.Mesh(new THREE.BoxGeometry(70, 1.5, 1.5), matSteelClad);
-        rackBeam.position.set(-2, 26, 10); rackBeam.castShadow = true; scene.add(rackBeam);
-        [-35, -10, 15, 30].forEach((px) => {
-          const col = new THREE.Mesh(new THREE.BoxGeometry(1.2, 26, 1.2), matSteelClad);
-          col.position.set(px, 13, 10); col.castShadow = true; scene.add(col);
         });
-        for (let i = 0; i < 4; i++) {
-          const r = 0.35 + i * 0.08;
-          const pipe = new THREE.Mesh(
-            new THREE.CylinderGeometry(r, r, 70, 14),
-            i === 0
-              ? new THREE.MeshStandardMaterial({ color: 0x6e3a1c, metalness: 0.55, roughness: 0.45 })
-              : matPipe
-          );
-          pipe.rotation.z = Math.PI / 2;
-          pipe.position.set(-2, 27.5 + i * 0.9, 11 - i * 0.6);
-          pipe.castShadow = true; scene.add(pipe);
-        }
 
-        placeCoolingTower(60, 28);
-        placeCoolingTower(75, 30);
+        let renderingDisabled = false;
 
-        placeBox(55, 50, 6, 5, 8, matTransformer);
-        placeBox(64, 50, 5.5, 4.5, 7.5, matTransformer);
-        [55, 64].forEach((tx) => {
-          const heights = [3.6, 4.4, 3.6];
-          [-1.5, 0, 1.5].forEach((dz, j) => {
-            const bush = new THREE.Mesh(
-              new THREE.CylinderGeometry(0.18, 0.18, heights[j], 8), matSteelDark
-            );
-            bush.position.set(tx, 5 + heights[j] / 2, 50 + dz);
-            bush.castShadow = true; scene.add(bush);
-            const cap = new THREE.Mesh(
-              new THREE.SphereGeometry(0.22, 10, 10),
-              new THREE.MeshBasicMaterial({ color: 0x64ffda })
-            );
-            cap.position.set(tx, 5 + heights[j] + 0.15, 50 + dz);
-            scene.add(cap);
-          });
-        });
-        addLatticeTower(78, 50, 28);
-        addLatticeTower(95, 55, 26);
-
-        addSodiumLamp(-30, 20);
-        addSodiumLamp(20, 20);
-        addSodiumLamp(45, 45);
-        addSodiumLamp(-15, -30);
-
-        const warning1 = new THREE.PointLight(0xff5a3a, 2.5, 14);
-        warning1.position.set(8, 74, -16); scene.add(warning1);
-        const warning1Bulb = new THREE.Mesh(
-          new THREE.SphereGeometry(0.35, 10, 10),
-          new THREE.MeshBasicMaterial({ color: 0xff5a3a })
-        );
-        warning1Bulb.position.copy(warning1.position); scene.add(warning1Bulb);
-
-        // Smoke
-        const smokeCount = 60;
-        const smokeGeo = new THREE.BufferGeometry();
-        const smokePos = new Float32Array(smokeCount * 3);
-        const smokeAge = new Float32Array(smokeCount);
-        for (let i = 0; i < smokeCount; i++) {
-          smokeAge[i] = Math.random();
-          smokePos[i*3]     = 8 + (Math.random() - 0.5);
-          smokePos[i*3 + 1] = 75 + smokeAge[i] * 30;
-          smokePos[i*3 + 2] = -16 + (Math.random() - 0.5);
-        }
-        smokeGeo.setAttribute("position", new THREE.BufferAttribute(smokePos, 3));
-        const smoke = new THREE.Points(smokeGeo, new THREE.PointsMaterial({
-          color: 0xbcc4c8, size: 5.5, transparent: true, opacity: 0.18, depthWrite: false
-        }));
-        scene.add(smoke);
-
-        function buildCoolVapor(x, z) {
-          const n = 40;
-          const g = new THREE.BufferGeometry();
-          const pos = new Float32Array(n * 3);
-          const age = new Float32Array(n);
-          for (let i = 0; i < n; i++) {
-            age[i] = Math.random();
-            pos[i*3]     = x + (Math.random() - 0.5) * 6;
-            pos[i*3 + 1] = 36 + age[i] * 24;
-            pos[i*3 + 2] = z + (Math.random() - 0.5) * 6;
-          }
-          g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-          const pts = new THREE.Points(g, new THREE.PointsMaterial({
-            color: 0xcccfd2, size: 7, transparent: true, opacity: 0.16, depthWrite: false
-          }));
-          scene.add(pts);
-          return { geo: g, age, baseX: x, baseZ: z };
-        }
-        const vapor1 = buildCoolVapor(60, 28);
-        const vapor2 = buildCoolVapor(75, 30);
 
         const controls = new OrbitControls(camera, canvas);
         // Look slightly up at the facility — buildings are 30-75m tall.
@@ -567,46 +439,9 @@
         resize();
         window.addEventListener("resize", resize);
 
-        const clock = new THREE.Clock();
         function animate() {
           requestAnimationFrame(animate);
-          const t = clock.getElapsedTime();
-          warning1.intensity = 1.2 + Math.sin(t * 2.5) * 0.9;
-
-          const sp = smokeGeo.attributes.position.array;
-          for (let i = 0; i < smokeCount; i++) {
-            smokeAge[i] += 0.0035;
-            if (smokeAge[i] > 1) {
-              smokeAge[i] = 0;
-              sp[i*3]     = 8 + (Math.random() - 0.5) * 1.4;
-              sp[i*3 + 1] = 75;
-              sp[i*3 + 2] = -16 + (Math.random() - 0.5) * 1.4;
-            } else {
-              sp[i*3 + 1] += 0.18;
-              sp[i*3]     += (Math.random() - 0.5) * 0.02;
-              sp[i*3 + 2] += (Math.random() - 0.5) * 0.02;
-            }
-          }
-          smokeGeo.attributes.position.needsUpdate = true;
-
-          [vapor1, vapor2].forEach((v) => {
-            const arr = v.geo.attributes.position.array;
-            for (let i = 0; i < v.age.length; i++) {
-              v.age[i] += 0.003;
-              if (v.age[i] > 1) {
-                v.age[i] = 0;
-                arr[i*3]     = v.baseX + (Math.random() - 0.5) * 6;
-                arr[i*3 + 1] = 36;
-                arr[i*3 + 2] = v.baseZ + (Math.random() - 0.5) * 6;
-              } else {
-                arr[i*3 + 1] += 0.12;
-                arr[i*3]     += (Math.random() - 0.5) * 0.015;
-                arr[i*3 + 2] += (Math.random() - 0.5) * 0.015;
-              }
-            }
-            v.geo.attributes.position.needsUpdate = true;
-          });
-
+          if (renderingDisabled) return;
           controls.update();
           composer.render();
         }
