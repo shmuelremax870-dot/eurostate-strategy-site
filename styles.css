@@ -603,9 +603,11 @@
 
   .system-stage {
     position: relative;
-    min-height: clamp(420px, 56vw, 620px);
+    aspect-ratio: 1 / 1;
+    min-height: clamp(360px, 50vw, 560px);
+    max-height: 620px;
     background:
-      radial-gradient(circle at 50% 55%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 60%),
+      radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 65%),
       var(--bg);
     overflow: hidden;
     border-right: 1px solid var(--line);
