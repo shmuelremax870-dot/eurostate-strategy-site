@@ -28,6 +28,15 @@
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <link rel="stylesheet" href="./styles.css" />
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
   </head>
 
   <body>
@@ -120,1002 +129,8 @@
               pipe rack that ties it all together.
             </p>
 
-            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility — physical render">
-              <svg viewBox="0 0 2200 1100" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <!-- ============================== SKY / ATMOSPHERE ============================== -->
-                  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#06090c"/>
-                    <stop offset="55%"  stop-color="#0a1118"/>
-                    <stop offset="85%"  stop-color="#101820"/>
-                    <stop offset="100%" stop-color="#121a1f"/>
-                  </linearGradient>
-                  <linearGradient id="horizon-glow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"  stop-color="rgba(0,0,0,0)"/>
-                    <stop offset="80%" stop-color="rgba(120,90,40,0.08)"/>
-                    <stop offset="100%" stop-color="rgba(140,100,50,0.18)"/>
-                  </linearGradient>
-                  <radialGradient id="moon-light" cx="0.7" cy="0.15" r="0.6">
-                    <stop offset="0%" stop-color="rgba(160,180,200,0.18)"/>
-                    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-                  </radialGradient>
-
-                  <!-- ============================== MATERIALS ============================== -->
-                  <!-- Concrete (warm gray, weathered) -->
-                  <linearGradient id="mat-concrete-front" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#1f2724"/>
-                    <stop offset="30%"  stop-color="#1a221f"/>
-                    <stop offset="70%"  stop-color="#141c18"/>
-                    <stop offset="100%" stop-color="#0c1411"/>
-                  </linearGradient>
-                  <linearGradient id="mat-concrete-side" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#161e1b"/>
-                    <stop offset="100%" stop-color="#080e0b"/>
-                  </linearGradient>
-                  <linearGradient id="mat-concrete-roof" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#2a342f"/>
-                    <stop offset="100%" stop-color="#0e1612"/>
-                  </linearGradient>
-
-                  <!-- Corrugated steel cladding (cool, vertical sheen) -->
-                  <linearGradient id="mat-steel-side" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0c1612"/>
-                    <stop offset="25%"  stop-color="#1a2620"/>
-                    <stop offset="50%"  stop-color="#28342e"/>
-                    <stop offset="75%"  stop-color="#1a2620"/>
-                    <stop offset="100%" stop-color="#080e0b"/>
-                  </linearGradient>
-                  <linearGradient id="mat-steel-roof" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#1f2c25"/>
-                    <stop offset="100%" stop-color="#0a1310"/>
-                  </linearGradient>
-
-                  <!-- Cylindrical vessels (radial-light wrap) -->
-                  <linearGradient id="mat-cyl-cool" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#060d0a"/>
-                    <stop offset="35%"  stop-color="#1a2620"/>
-                    <stop offset="55%"  stop-color="#2a3a32"/>
-                    <stop offset="100%" stop-color="#06100d"/>
-                  </linearGradient>
-                  <linearGradient id="mat-cyl-steel" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#080e0b"/>
-                    <stop offset="40%"  stop-color="#1e2a24"/>
-                    <stop offset="55%"  stop-color="#34443c"/>
-                    <stop offset="70%"  stop-color="#1c2822"/>
-                    <stop offset="100%" stop-color="#070c0a"/>
-                  </linearGradient>
-                  <linearGradient id="mat-cyl-warm" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="#0a0e0c"/>
-                    <stop offset="35%"  stop-color="#2a221c"/>
-                    <stop offset="55%"  stop-color="#403228"/>
-                    <stop offset="100%" stop-color="#080d0a"/>
-                  </linearGradient>
-
-                  <!-- Reactor interior glow -->
-                  <radialGradient id="reactor-heat-interior" cx="0.5" cy="0.65" r="0.6">
-                    <stop offset="0%"   stop-color="#ffb45e" stop-opacity="0.95"/>
-                    <stop offset="55%"  stop-color="#d76a18" stop-opacity="0.55"/>
-                    <stop offset="100%" stop-color="#3a1404" stop-opacity="0"/>
-                  </radialGradient>
-
-                  <!-- Sodium spotlight glow at base of buildings -->
-                  <radialGradient id="sodium" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%"   stop-color="rgba(220,150,60,0.30)"/>
-                    <stop offset="60%"  stop-color="rgba(180,100,40,0.10)"/>
-                    <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-                  </radialGradient>
-
-                  <!-- Ground / concrete pad -->
-                  <linearGradient id="mat-ground" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="#0a1310"/>
-                    <stop offset="30%"  stop-color="#0e1814"/>
-                    <stop offset="100%" stop-color="#040806"/>
-                  </linearGradient>
-
-                  <!-- Haze layers -->
-                  <linearGradient id="haze-far" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="rgba(40,52,46,0.65)"/>
-                    <stop offset="100%" stop-color="rgba(40,52,46,0)"/>
-                  </linearGradient>
-                  <linearGradient id="haze-mid" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stop-color="rgba(28,38,32,0.35)"/>
-                    <stop offset="100%" stop-color="rgba(28,38,32,0)"/>
-                  </linearGradient>
-
-                  <!-- Electrical glow -->
-                  <linearGradient id="hv-cable" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stop-color="rgba(100,255,218,0.0)"/>
-                    <stop offset="50%"  stop-color="rgba(100,255,218,0.4)"/>
-                    <stop offset="100%" stop-color="rgba(100,255,218,0.0)"/>
-                  </linearGradient>
-
-                  <!-- ============================== FILTERS ============================== -->
-                  <filter id="distance-blur" x="-10%" y="-10%" width="120%" height="120%">
-                    <feGaussianBlur stdDeviation="4"/>
-                  </filter>
-                  <filter id="far-distance-blur" x="-10%" y="-10%" width="120%" height="120%">
-                    <feGaussianBlur stdDeviation="9"/>
-                  </filter>
-                  <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="14"/>
-                  </filter>
-                  <filter id="cool-glow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="2"/>
-                  </filter>
-                  <filter id="vapor-blur" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="5"/>
-                  </filter>
-                  <filter id="warm-glow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="6"/>
-                  </filter>
-
-                  <!-- Vignette -->
-                  <radialGradient id="vignette" cx="0.5" cy="0.55" r="0.75">
-                    <stop offset="50%" stop-color="rgba(0,0,0,0)"/>
-                    <stop offset="100%" stop-color="rgba(0,0,0,0.7)"/>
-                  </radialGradient>
-                </defs>
-
-                <!-- =================================================================== -->
-                <!-- L0 — SKY + ATMOSPHERIC GLOW                                          -->
-                <!-- =================================================================== -->
-                <rect x="0" y="0" width="2200" height="1100" fill="url(#sky)"/>
-                <rect x="0" y="400" width="2200" height="120" fill="url(#horizon-glow)"/>
-                <rect x="0" y="0" width="2200" height="600" fill="url(#moon-light)"/>
-
-                <!-- =================================================================== -->
-                <!-- L1 — DISTANT SKYLINE (heavy blur, low contrast silhouettes)         -->
-                <!-- =================================================================== -->
-                <g filter="url(#far-distance-blur)" opacity="0.55">
-                  <!-- Distant cooling tower silhouettes -->
-                  <path d="M 100 540
-                           Q 80 600 100 700
-                           L 180 700
-                           Q 200 600 180 540 Z" fill="#1a2520"/>
-                  <path d="M 220 560
-                           Q 204 612 220 700
-                           L 280 700
-                           Q 296 612 280 560 Z" fill="#172220"/>
-                  <!-- Distant stacks -->
-                  <rect x="340" y="420" width="20" height="280" fill="#1c2824"/>
-                  <rect x="386" y="450" width="16" height="250" fill="#1a2522"/>
-                  <!-- Distant warehouse silhouettes -->
-                  <polygon points="430,560 600,540 600,700 430,700" fill="#161f1c"/>
-                  <polygon points="600,540 600,580 750,564 750,540" fill="#1a2522"/>
-                  <rect x="600" y="580" width="150" height="120" fill="#141d1a"/>
-                  <!-- Far city block right -->
-                  <rect x="1900" y="540" width="200" height="160" fill="#161f1c"/>
-                  <rect x="1860" y="580" width="40" height="120" fill="#1a2522"/>
-                  <rect x="2100" y="560" width="40" height="140" fill="#1a2522"/>
-                  <!-- More distant cooling towers far right -->
-                  <path d="M 1700 560
-                           Q 1684 612 1700 700
-                           L 1760 700
-                           Q 1776 612 1760 560 Z" fill="#172220"/>
-                </g>
-
-                <!-- Distant point lights (city, plant) -->
-                <g opacity="0.7">
-                  <circle cx="120" cy="560" r="1.4" fill="rgba(220,150,60,0.7)"/>
-                  <circle cx="180" cy="580" r="1.2" fill="rgba(220,150,60,0.6)"/>
-                  <circle cx="350" cy="498" r="1.6" fill="rgba(220,150,60,0.8)"><animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/></circle>
-                  <circle cx="395" cy="510" r="1.4" fill="rgba(220,150,60,0.6)"/>
-                  <circle cx="500" cy="600" r="1.4" fill="rgba(220,150,60,0.5)"/>
-                  <circle cx="640" cy="630" r="1.4" fill="rgba(220,150,60,0.6)"/>
-                  <circle cx="1920" cy="610" r="1.4" fill="rgba(220,150,60,0.6)"/>
-                  <circle cx="2040" cy="620" r="1.4" fill="rgba(220,150,60,0.7)"/>
-                </g>
-
-                <!-- Far haze layer (between distant skyline and mid) -->
-                <rect x="0" y="440" width="2200" height="280" fill="url(#haze-far)"/>
-
-                <!-- =================================================================== -->
-                <!-- L2 — MID-BACKGROUND: smaller plant silhouettes + smoke              -->
-                <!-- =================================================================== -->
-                <g filter="url(#distance-blur)" opacity="0.78">
-                  <!-- Mid-back gas cleaning bay silhouette -->
-                  <rect x="1480" y="410" width="180" height="280" fill="#1a2522"/>
-                  <polygon points="1480,410 1660,410 1700,400 1480,400" fill="#1c2826"/>
-                  <!-- Mid-back stack -->
-                  <rect x="1530" y="220" width="22" height="200" fill="#1c2826"/>
-                  <!-- Mid-back tank cluster -->
-                  <ellipse cx="1750" cy="500" rx="36" ry="8" fill="#1c2826"/>
-                  <rect x="1714" y="500" width="72" height="220" fill="#1a2522"/>
-                  <path d="M 1714 720 A 36 8 0 0 0 1786 720" fill="#161f1c"/>
-                  <ellipse cx="1820" cy="520" rx="28" ry="6" fill="#1c2826"/>
-                  <rect x="1792" y="520" width="56" height="200" fill="#1a2522"/>
-                </g>
-
-                <!-- Slow rising smoke from mid-back stack -->
-                <g opacity="0.35" filter="url(#vapor-blur)">
-                  <path d="M 1541 220 Q 1530 180 1545 140 Q 1565 100 1545 60 Q 1525 28 1545 0" stroke="rgba(180,200,200,0.7)" stroke-width="3" fill="none"/>
-                </g>
-
-                <!-- =================================================================== -->
-                <!-- L3 — MAIN FACILITY MID-GROUND                                       -->
-                <!-- =================================================================== -->
-
-                <!-- Sodium glow pools at base of main facility (warm ambient) -->
-                <g>
-                  <ellipse cx="800"  cy="780" rx="240" ry="40" fill="url(#sodium)"/>
-                  <ellipse cx="1150" cy="780" rx="220" ry="40" fill="url(#sodium)"/>
-                  <ellipse cx="1450" cy="780" rx="200" ry="40" fill="url(#sodium)"/>
-                </g>
-
-                <!-- =================== TURBINE HALL (mid-ground, behind everything) =================== -->
-                <g>
-                  <!-- Roof -->
-                  <polygon points="1080,440 1480,420 1530,440 1130,460" fill="url(#mat-steel-roof)" stroke="#2c3a32" stroke-width="0.5"/>
-                  <!-- Visible side wall (corrugated steel) -->
-                  <polygon points="1130,460 1130,800 1530,820 1530,440" fill="url(#mat-steel-side)" stroke="#2c3a32" stroke-width="0.6"/>
-                  <!-- End wall (narrow, dark) -->
-                  <polygon points="1080,440 1130,460 1130,800 1080,780" fill="#070d0a" stroke="#2c3a32" stroke-width="0.6"/>
-                  <!-- Vertical panel seams (corrugated) -->
-                  <g stroke="#0d1612" stroke-width="0.5" opacity="0.85">
-                    <line x1="1170" y1="458" x2="1170" y2="804"/>
-                    <line x1="1210" y1="455" x2="1210" y2="808"/>
-                    <line x1="1250" y1="453" x2="1250" y2="812"/>
-                    <line x1="1290" y1="451" x2="1290" y2="814"/>
-                    <line x1="1330" y1="449" x2="1330" y2="816"/>
-                    <line x1="1370" y1="447" x2="1370" y2="818"/>
-                    <line x1="1410" y1="445" x2="1410" y2="820"/>
-                    <line x1="1450" y1="443" x2="1450" y2="822"/>
-                    <line x1="1490" y1="441" x2="1490" y2="822"/>
-                  </g>
-                  <!-- Eave shadow line (depth) -->
-                  <rect x="1130" y="460" width="400" height="8" fill="#040806" opacity="0.7"/>
-                  <!-- Industrial window band (long horizontal) -->
-                  <rect x="1170" y="600" width="340" height="32" fill="#020404" stroke="#2c3a32" stroke-width="0.5"/>
-                  <g stroke="#1a2620" stroke-width="0.4">
-                    <line x1="1210" y1="600" x2="1210" y2="632"/>
-                    <line x1="1250" y1="600" x2="1250" y2="632"/>
-                    <line x1="1290" y1="600" x2="1290" y2="632"/>
-                    <line x1="1330" y1="600" x2="1330" y2="632"/>
-                    <line x1="1370" y1="600" x2="1370" y2="632"/>
-                    <line x1="1410" y1="600" x2="1410" y2="632"/>
-                    <line x1="1450" y1="600" x2="1450" y2="632"/>
-                  </g>
-                  <!-- Faint interior light through windows -->
-                  <rect x="1172" y="601" width="338" height="30" fill="rgba(220,180,90,0.06)"/>
-                  <!-- Roll-up doors -->
-                  <rect x="1450" y="700" width="60" height="120" fill="#020404" stroke="#2c3a32" stroke-width="0.5"/>
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="1450" y1="720" x2="1510" y2="720"/>
-                    <line x1="1450" y1="740" x2="1510" y2="740"/>
-                    <line x1="1450" y1="760" x2="1510" y2="760"/>
-                    <line x1="1450" y1="780" x2="1510" y2="780"/>
-                    <line x1="1450" y1="800" x2="1510" y2="800"/>
-                  </g>
-                  <!-- Cast shadow under hall -->
-                  <ellipse cx="1300" cy="822" rx="240" ry="14" fill="#000" filter="url(#soft-shadow)" opacity="0.7"/>
-                </g>
-
-                <!-- =================== COOLING TOWERS (behind transformer yard) =================== -->
-                <g>
-                  <path d="M 1540 380
-                           Q 1500 480 1540 700
-                           L 1640 720
-                           Q 1680 500 1640 380 Z" fill="url(#mat-cyl-cool)" stroke="#2c3a32" stroke-width="0.7"/>
-                  <ellipse cx="1590" cy="380" rx="50" ry="11" fill="#1a2620" stroke="#2c3a32" stroke-width="0.7"/>
-                  <ellipse cx="1590" cy="383" rx="38" ry="7" fill="#04080a"/>
-                  <!-- Banding rings -->
-                  <ellipse cx="1590" cy="470" rx="48" ry="8" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <ellipse cx="1590" cy="560" rx="52" ry="9" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <ellipse cx="1590" cy="660" rx="56" ry="10" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <!-- Drift -->
-                  <g opacity="0.4" filter="url(#vapor-blur)">
-                    <path d="M 1590 380 Q 1574 320 1596 270 Q 1620 210 1602 160 Q 1582 110 1604 60" stroke="rgba(180,200,200,0.85)" stroke-width="9" fill="none"/>
-                  </g>
-                  <!-- Second tower -->
-                  <path d="M 1660 400
-                           Q 1626 488 1660 700
-                           L 1740 720
-                           Q 1772 500 1740 400 Z" fill="url(#mat-cyl-cool)" stroke="#2c3a32" stroke-width="0.7"/>
-                  <ellipse cx="1700" cy="400" rx="40" ry="9" fill="#1a2620" stroke="#2c3a32" stroke-width="0.7"/>
-                  <ellipse cx="1700" cy="402" rx="30" ry="6" fill="#04080a"/>
-                  <ellipse cx="1700" cy="490" rx="38" ry="7" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <ellipse cx="1700" cy="570" rx="42" ry="7" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <ellipse cx="1700" cy="660" rx="45" ry="8" fill="none" stroke="#22302a" stroke-width="0.5"/>
-                  <g opacity="0.35" filter="url(#vapor-blur)">
-                    <path d="M 1700 400 Q 1684 340 1706 290 Q 1730 230 1712 180 Q 1692 130 1714 90" stroke="rgba(180,200,200,0.8)" stroke-width="8" fill="none"/>
-                  </g>
-                </g>
-
-                <!-- =================== REACTOR BUILDING (the heavy concrete mass) =================== -->
-                <g>
-                  <!-- Cast shadow -->
-                  <ellipse cx="700" cy="800" rx="220" ry="16" fill="#000" filter="url(#soft-shadow)" opacity="0.7"/>
-
-                  <!-- Building mass — concrete cube -->
-                  <!-- Top -->
-                  <polygon points="500,260 880,200 940,228 560,288" fill="url(#mat-concrete-roof)" stroke="#1f2c25" stroke-width="0.7"/>
-                  <!-- Front face -->
-                  <polygon points="560,288 940,228 940,800 560,820" fill="url(#mat-concrete-front)" stroke="#1f2c25" stroke-width="0.8"/>
-                  <!-- Side face -->
-                  <polygon points="500,260 560,288 560,820 500,800" fill="url(#mat-concrete-side)" stroke="#1f2c25" stroke-width="0.8"/>
-                  <!-- Roof rim -->
-                  <line x1="500" y1="260" x2="880" y2="200" stroke="#384a40" stroke-width="0.6"/>
-
-                  <!-- Roof equipment stack (small ventilation cubes) -->
-                  <polygon points="640,228 700,218 700,238 640,248" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
-                  <polygon points="700,218 720,224 720,244 700,238" fill="#0e1612" stroke="#384a40" stroke-width="0.5"/>
-                  <polygon points="640,248 700,238 720,244 660,256" fill="#161e1b" stroke="#384a40" stroke-width="0.5"/>
-
-                  <polygon points="760,212 820,202 820,222 760,232" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
-                  <polygon points="820,202 840,208 840,228 820,222" fill="#0e1612" stroke="#384a40" stroke-width="0.5"/>
-
-                  <!-- Concrete panel divisions (subtle vertical seams + horizontal expansion joints) -->
-                  <g stroke="#101714" stroke-width="0.4" opacity="0.85">
-                    <line x1="630"  y1="277" x2="630"  y2="813"/>
-                    <line x1="700"  y1="266" x2="700"  y2="809"/>
-                    <line x1="770"  y1="255" x2="770"  y2="805"/>
-                    <line x1="840"  y1="244" x2="840"  y2="801"/>
-                    <line x1="560"  y1="430" x2="940"  y2="370"/>
-                    <line x1="560"  y1="570" x2="940"  y2="510"/>
-                    <line x1="560"  y1="710" x2="940"  y2="650"/>
-                  </g>
-                  <!-- Weathering streaks (vertical, subtle) -->
-                  <g opacity="0.30">
-                    <rect x="612"  y="296" width="3" height="500" fill="#06090a"/>
-                    <rect x="688"  y="282" width="2" height="500" fill="#06090a"/>
-                    <rect x="762"  y="268" width="3" height="500" fill="#06090a"/>
-                    <rect x="826"  y="252" width="2" height="500" fill="#06090a"/>
-                    <rect x="900"  y="236" width="3" height="500" fill="#06090a"/>
-                  </g>
-
-                  <!-- Side face seams -->
-                  <g stroke="#0a0f0d" stroke-width="0.4" opacity="0.8">
-                    <line x1="500" y1="420" x2="560" y2="450"/>
-                    <line x1="500" y1="580" x2="560" y2="610"/>
-                    <line x1="500" y1="740" x2="560" y2="765"/>
-                  </g>
-
-                  <!-- Internal heat visible through windows (warm glow) -->
-                  <g>
-                    <!-- Slit windows reveal interior glow -->
-                    <rect x="608" y="340" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.85"/>
-                    <rect x="608" y="340" width="6" height="120" fill="#ff8a2a" opacity="0.5"/>
-                    <rect x="608" y="340" width="6" height="120" fill="#040806" opacity="0.0"/>
-                    <rect x="680" y="330" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.7"/>
-                    <rect x="680" y="330" width="6" height="120" fill="#ff8a2a" opacity="0.45"/>
-                    <rect x="752" y="320" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.8"/>
-                    <rect x="752" y="320" width="6" height="120" fill="#ff8a2a" opacity="0.5"/>
-                    <rect x="824" y="310" width="6" height="120" fill="url(#reactor-heat-interior)" filter="url(#warm-glow)" opacity="0.65"/>
-                    <rect x="824" y="310" width="6" height="120" fill="#ff8a2a" opacity="0.4"/>
-
-                    <!-- Inspection window at mid -->
-                    <rect x="640" y="510" width="60" height="22" fill="#040806" stroke="#1a2620" stroke-width="0.5"/>
-                    <rect x="642" y="512" width="56" height="18" fill="url(#reactor-heat-interior)" opacity="0.95"/>
-                    <rect x="642" y="512" width="56" height="18" fill="#ff8a2a" opacity="0.7">
-                      <animate attributeName="opacity" values="0.55;0.85;0.55" dur="2.4s" repeatCount="indefinite"/>
-                    </rect>
-                  </g>
-
-                  <!-- External stair tower attached to side -->
-                  <g>
-                    <rect x="488" y="350" width="14" height="450" fill="#0e1612" stroke="#1f2c25" stroke-width="0.5"/>
-                    <g stroke="#1a2620" stroke-width="0.3">
-                      <line x1="488" y1="400" x2="502" y2="402"/>
-                      <line x1="488" y1="440" x2="502" y2="442"/>
-                      <line x1="488" y1="480" x2="502" y2="482"/>
-                      <line x1="488" y1="520" x2="502" y2="522"/>
-                      <line x1="488" y1="560" x2="502" y2="562"/>
-                      <line x1="488" y1="600" x2="502" y2="602"/>
-                      <line x1="488" y1="640" x2="502" y2="642"/>
-                      <line x1="488" y1="680" x2="502" y2="682"/>
-                      <line x1="488" y1="720" x2="502" y2="722"/>
-                      <line x1="488" y1="760" x2="502" y2="762"/>
-                    </g>
-                  </g>
-                </g>
-
-                <!-- =================== TALL STACK + VENT SILOS on reactor roof =================== -->
-                <g>
-                  <!-- Tall main stack (cylinder rising from rear roof) -->
-                  <rect x="870" y="100" width="38" height="180" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.7"/>
-                  <ellipse cx="889" cy="100" rx="19" ry="6" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
-                  <!-- Stack bands -->
-                  <g stroke="#384a40" stroke-width="0.5">
-                    <line x1="870" y1="150" x2="908" y2="150"/>
-                    <line x1="870" y1="200" x2="908" y2="200"/>
-                    <line x1="870" y1="250" x2="908" y2="250"/>
-                  </g>
-                  <!-- Stack continues into reactor mass -->
-                  <rect x="870" y="280" width="38" height="50" fill="url(#mat-cyl-steel)" opacity="0.9"/>
-                  <!-- Stack warning light -->
-                  <circle cx="889" cy="95" r="2.4" fill="#ff5a3a" opacity="0.9">
-                    <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/>
-                  </circle>
-                  <!-- Smoke trail -->
-                  <g opacity="0.4" filter="url(#vapor-blur)">
-                    <path d="M 889 100 Q 880 70 900 40 Q 928 6 904 -20" stroke="rgba(190,200,200,0.8)" stroke-width="9" fill="none"/>
-                  </g>
-
-                  <!-- Secondary smaller stack -->
-                  <rect x="820" y="160" width="20" height="120" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.5"/>
-                  <ellipse cx="830" cy="160" rx="10" ry="3" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
-
-                  <!-- Vent silo / scrubber on roof (cylinder) -->
-                  <ellipse cx="710" cy="180" rx="28" ry="7" fill="#22302a" stroke="#384a40" stroke-width="0.6"/>
-                  <rect x="682" y="180" width="56" height="76" fill="url(#mat-cyl-steel)" stroke="#22302a" stroke-width="0.6"/>
-                  <line x1="682" y1="220" x2="738" y2="220" stroke="#384a40" stroke-width="0.4"/>
-                </g>
-
-                <!-- =================== GAS CLEANING TRAIN (between reactor and turbine hall) =================== -->
-                <g>
-                  <!-- Cast shadow -->
-                  <ellipse cx="1020" cy="800" rx="120" ry="14" fill="#000" filter="url(#soft-shadow)" opacity="0.65"/>
-
-                  <!-- Tall scrubber 1 -->
-                  <rect x="960"  y="280" width="60" height="510" fill="url(#mat-cyl-warm)" stroke="#1f2c25" stroke-width="0.7"/>
-                  <ellipse cx="990" cy="280" rx="30" ry="9" fill="#2a221c" stroke="#1f2c25" stroke-width="0.7"/>
-                  <path d="M 960 790 A 30 9 0 0 0 1020 790" fill="#06090a" stroke="#1f2c25" stroke-width="0.7"/>
-                  <!-- Banding -->
-                  <g stroke="#384a40" stroke-width="0.5">
-                    <line x1="960" y1="340" x2="1020" y2="340"/>
-                    <line x1="960" y1="410" x2="1020" y2="410"/>
-                    <line x1="960" y1="480" x2="1020" y2="480"/>
-                    <line x1="960" y1="550" x2="1020" y2="550"/>
-                    <line x1="960" y1="620" x2="1020" y2="620"/>
-                    <line x1="960" y1="690" x2="1020" y2="690"/>
-                  </g>
-                  <!-- Insulation jacket seam (one stripe heavier) -->
-                  <rect x="960" y="408" width="60" height="4" fill="#384a40"/>
-                  <!-- Side ladder -->
-                  <g stroke="#384a40" stroke-width="0.4">
-                    <line x1="1024" y1="300" x2="1024" y2="770"/>
-                    <line x1="1030" y1="300" x2="1030" y2="770"/>
-                    <line x1="1024" y1="340" x2="1030" y2="340"/>
-                    <line x1="1024" y1="370" x2="1030" y2="370"/>
-                    <line x1="1024" y1="400" x2="1030" y2="400"/>
-                    <line x1="1024" y1="430" x2="1030" y2="430"/>
-                    <line x1="1024" y1="460" x2="1030" y2="460"/>
-                    <line x1="1024" y1="490" x2="1030" y2="490"/>
-                    <line x1="1024" y1="520" x2="1030" y2="520"/>
-                    <line x1="1024" y1="550" x2="1030" y2="550"/>
-                    <line x1="1024" y1="580" x2="1030" y2="580"/>
-                    <line x1="1024" y1="610" x2="1030" y2="610"/>
-                    <line x1="1024" y1="640" x2="1030" y2="640"/>
-                    <line x1="1024" y1="670" x2="1030" y2="670"/>
-                    <line x1="1024" y1="700" x2="1030" y2="700"/>
-                    <line x1="1024" y1="730" x2="1030" y2="730"/>
-                  </g>
-
-                  <!-- Scrubber 2 (shorter, larger diameter) -->
-                  <rect x="1040" y="380" width="74" height="410" fill="url(#mat-cyl-steel)" stroke="#1f2c25" stroke-width="0.7"/>
-                  <ellipse cx="1077" cy="380" rx="37" ry="11" fill="#22302a" stroke="#1f2c25" stroke-width="0.7"/>
-                  <path d="M 1040 790 A 37 11 0 0 0 1114 790" fill="#06090a" stroke="#1f2c25" stroke-width="0.7"/>
-                  <g stroke="#384a40" stroke-width="0.5">
-                    <line x1="1040" y1="430" x2="1114" y2="430"/>
-                    <line x1="1040" y1="500" x2="1114" y2="500"/>
-                    <line x1="1040" y1="570" x2="1114" y2="570"/>
-                    <line x1="1040" y1="640" x2="1114" y2="640"/>
-                    <line x1="1040" y1="710" x2="1114" y2="710"/>
-                  </g>
-                  <!-- Insp doors -->
-                  <rect x="1062" y="630" width="30" height="50" fill="#06090a" stroke="#1f2c25" stroke-width="0.5"/>
-                  <!-- Top fan housing -->
-                  <ellipse cx="1077" cy="378" rx="22" ry="6" fill="#0e1612"/>
-                  <ellipse cx="1077" cy="378" rx="12" ry="3" fill="#06090a"/>
-
-                  <!-- Inlet duct (large, joins reactor to scrubber 1) -->
-                  <path d="M 940 360 L 960 360" stroke="#384a40" stroke-width="14"/>
-                  <path d="M 940 360 L 960 360" stroke="#1a2620" stroke-width="11"/>
-                  <!-- Outlet duct between scrubbers -->
-                  <path d="M 1020 460 L 1040 460" stroke="#384a40" stroke-width="10"/>
-                  <path d="M 1020 460 L 1040 460" stroke="#1a2620" stroke-width="8"/>
-                  <!-- Flange joints -->
-                  <rect x="942" y="354" width="4" height="14" fill="#384a40"/>
-                  <rect x="956" y="354" width="4" height="14" fill="#384a40"/>
-                  <rect x="1018" y="456" width="4" height="10" fill="#384a40"/>
-                  <rect x="1036" y="456" width="4" height="10" fill="#384a40"/>
-                </g>
-
-                <!-- =================== HEAVY OVERHEAD PIPE RACK (continuous, ties everything) =================== -->
-                <g>
-                  <!-- Pipe rack horizontal beam — full width across mid-ground -->
-                  <rect x="200" y="380" width="1500" height="14" fill="#0e1612" stroke="#1f2c25" stroke-width="0.7"/>
-                  <line x1="200" y1="380" x2="1700" y2="380" stroke="#384a40" stroke-width="0.4"/>
-                  <line x1="200" y1="394" x2="1700" y2="394" stroke="#384a40" stroke-width="0.4"/>
-                  <!-- Underside truss (zigzag) -->
-                  <g stroke="#22302a" stroke-width="0.6" fill="none">
-                    <line x1="200" y1="394" x2="240" y2="412"/>
-                    <line x1="240" y1="412" x2="280" y2="394"/>
-                    <line x1="280" y1="394" x2="320" y2="412"/>
-                    <line x1="320" y1="412" x2="360" y2="394"/>
-                    <line x1="360" y1="394" x2="400" y2="412"/>
-                    <line x1="400" y1="412" x2="440" y2="394"/>
-                    <line x1="440" y1="394" x2="480" y2="412"/>
-                    <line x1="480" y1="412" x2="520" y2="394"/>
-                    <line x1="520" y1="394" x2="560" y2="412"/>
-                    <line x1="560" y1="412" x2="600" y2="394"/>
-                    <line x1="600" y1="394" x2="640" y2="412"/>
-                    <line x1="640" y1="412" x2="680" y2="394"/>
-                    <line x1="680" y1="394" x2="720" y2="412"/>
-                    <line x1="720" y1="412" x2="760" y2="394"/>
-                    <line x1="760" y1="394" x2="800" y2="412"/>
-                    <line x1="800" y1="412" x2="840" y2="394"/>
-                    <line x1="840" y1="394" x2="880" y2="412"/>
-                    <line x1="880" y1="412" x2="920" y2="394"/>
-                    <line x1="920" y1="394" x2="960" y2="412"/>
-                    <line x1="960" y1="412" x2="1000" y2="394"/>
-                    <line x1="1000" y1="394" x2="1040" y2="412"/>
-                    <line x1="1040" y1="412" x2="1080" y2="394"/>
-                    <line x1="1080" y1="394" x2="1120" y2="412"/>
-                    <line x1="1120" y1="412" x2="1160" y2="394"/>
-                    <line x1="1160" y1="394" x2="1200" y2="412"/>
-                    <line x1="1200" y1="412" x2="1240" y2="394"/>
-                    <line x1="1240" y1="394" x2="1280" y2="412"/>
-                    <line x1="1280" y1="412" x2="1320" y2="394"/>
-                    <line x1="1320" y1="394" x2="1360" y2="412"/>
-                    <line x1="1360" y1="412" x2="1400" y2="394"/>
-                    <line x1="1400" y1="394" x2="1440" y2="412"/>
-                    <line x1="1440" y1="412" x2="1480" y2="394"/>
-                    <line x1="1480" y1="394" x2="1520" y2="412"/>
-                    <line x1="1520" y1="412" x2="1560" y2="394"/>
-                    <line x1="1560" y1="394" x2="1600" y2="412"/>
-                    <line x1="1600" y1="412" x2="1640" y2="394"/>
-                    <line x1="1640" y1="394" x2="1680" y2="412"/>
-                    <line x1="1680" y1="412" x2="1700" y2="402"/>
-                  </g>
-                  <!-- Pipe rack vertical supports (heavy columns reaching to ground) -->
-                  <g fill="#0e1612" stroke="#1f2c25" stroke-width="0.6">
-                    <rect x="206" y="394" width="14" height="430"/>
-                    <rect x="200" y="820" width="26" height="8"/>
-                    <rect x="456" y="394" width="14" height="430"/>
-                    <rect x="450" y="820" width="26" height="8"/>
-                    <rect x="1180" y="394" width="14" height="430"/>
-                    <rect x="1174" y="820" width="26" height="8"/>
-                    <rect x="1430" y="394" width="14" height="430"/>
-                    <rect x="1424" y="820" width="26" height="8"/>
-                    <rect x="1680" y="394" width="14" height="430"/>
-                    <rect x="1674" y="820" width="26" height="8"/>
-                  </g>
-                  <!-- Brace diagonals -->
-                  <g stroke="#22302a" stroke-width="0.5">
-                    <line x1="220" y1="394" x2="320" y2="500"/>
-                    <line x1="220" y1="500" x2="320" y2="394"/>
-                    <line x1="470" y1="394" x2="570" y2="500"/>
-                    <line x1="470" y1="500" x2="570" y2="394"/>
-                  </g>
-
-                  <!-- Pipes running along the rack (parallel cylinders, varied diameters and tints) -->
-                  <g>
-                    <!-- Steam line (large, warm) -->
-                    <rect x="200" y="356" width="1500" height="14" fill="url(#mat-cyl-warm)" stroke="#1f2c25" stroke-width="0.5"/>
-                    <ellipse cx="200" cy="363" rx="4" ry="7" fill="#3a2820"/>
-                    <ellipse cx="1700" cy="363" rx="4" ry="7" fill="#3a2820"/>
-                    <!-- Water/cooling line -->
-                    <rect x="200" y="338" width="1500" height="10" fill="url(#mat-cyl-cool)" stroke="#1f2c25" stroke-width="0.5"/>
-                    <!-- Two smaller utility pipes -->
-                    <rect x="200" y="324" width="1500" height="6" fill="#22302a" stroke="#1f2c25" stroke-width="0.4"/>
-                    <rect x="200" y="314" width="1500" height="6" fill="#1a2620" stroke="#1f2c25" stroke-width="0.4"/>
-                  </g>
-                  <!-- Pipe hangers (small brackets every 250 px) -->
-                  <g stroke="#22302a" stroke-width="0.4" fill="none">
-                    <path d="M 450 314 L 450 380"/>
-                    <path d="M 700 314 L 700 380"/>
-                    <path d="M 950 314 L 950 380"/>
-                    <path d="M 1200 314 L 1200 380"/>
-                    <path d="M 1450 314 L 1450 380"/>
-                  </g>
-                  <!-- Insulation collar at major joints -->
-                  <rect x="780" y="350" width="20" height="26" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
-                  <rect x="1280" y="350" width="20" height="26" fill="#22302a" stroke="#384a40" stroke-width="0.4"/>
-                </g>
-
-                <!-- =================== FOREGROUND: INTAKE BUILDING (left, heavy mass) =================== -->
-                <g>
-                  <!-- Cast shadow -->
-                  <ellipse cx="270" cy="900" rx="280" ry="20" fill="#000" filter="url(#soft-shadow)" opacity="0.6"/>
-
-                  <!-- Intake building (long, steel-clad, large door) -->
-                  <!-- Roof -->
-                  <polygon points="60,580 480,520 530,548 90,610" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.7"/>
-                  <!-- Roof truss zigzag visible on top -->
-                  <g stroke="#22302a" stroke-width="0.5" fill="none" opacity="0.8">
-                    <line x1="80" y1="578" x2="100" y2="572"/>
-                    <line x1="100" y1="572" x2="100" y2="584"/>
-                    <line x1="100" y1="584" x2="120" y2="578"/>
-                    <line x1="120" y1="578" x2="120" y2="568"/>
-                    <line x1="120" y1="568" x2="140" y2="564"/>
-                    <line x1="140" y1="564" x2="140" y2="574"/>
-                    <line x1="140" y1="574" x2="160" y2="568"/>
-                    <line x1="160" y1="568" x2="160" y2="558"/>
-                    <line x1="160" y1="558" x2="180" y2="554"/>
-                    <line x1="180" y1="554" x2="180" y2="564"/>
-                    <line x1="180" y1="564" x2="200" y2="558"/>
-                    <line x1="200" y1="558" x2="200" y2="548"/>
-                    <line x1="200" y1="548" x2="220" y2="544"/>
-                    <line x1="220" y1="544" x2="220" y2="554"/>
-                    <line x1="220" y1="554" x2="240" y2="548"/>
-                    <line x1="240" y1="548" x2="240" y2="538"/>
-                    <line x1="240" y1="538" x2="260" y2="534"/>
-                    <line x1="260" y1="534" x2="260" y2="544"/>
-                    <line x1="260" y1="544" x2="280" y2="538"/>
-                    <line x1="280" y1="538" x2="280" y2="528"/>
-                    <line x1="280" y1="528" x2="300" y2="524"/>
-                    <line x1="300" y1="524" x2="300" y2="534"/>
-                    <line x1="300" y1="534" x2="320" y2="528"/>
-                    <line x1="320" y1="528" x2="320" y2="518"/>
-                    <line x1="320" y1="518" x2="340" y2="514"/>
-                    <line x1="340" y1="514" x2="340" y2="524"/>
-                    <line x1="340" y1="524" x2="360" y2="518"/>
-                    <line x1="360" y1="518" x2="360" y2="508"/>
-                    <line x1="360" y1="508" x2="380" y2="504"/>
-                    <line x1="380" y1="504" x2="380" y2="514"/>
-                    <line x1="380" y1="514" x2="400" y2="508"/>
-                    <line x1="400" y1="508" x2="400" y2="498"/>
-                    <line x1="400" y1="498" x2="420" y2="494"/>
-                    <line x1="420" y1="494" x2="420" y2="504"/>
-                    <line x1="420" y1="504" x2="440" y2="498"/>
-                    <line x1="440" y1="498" x2="440" y2="488"/>
-                    <line x1="440" y1="488" x2="460" y2="484"/>
-                    <line x1="460" y1="484" x2="460" y2="494"/>
-                  </g>
-
-                  <!-- Side wall -->
-                  <polygon points="90,610 530,548 530,880 90,920" fill="url(#mat-steel-side)" stroke="#1f2c25" stroke-width="0.8"/>
-                  <!-- End wall -->
-                  <polygon points="60,580 90,610 90,920 60,890" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
-                  <!-- Eave shadow -->
-                  <rect x="90" y="610" width="440" height="8" fill="#040806" opacity="0.7"/>
-
-                  <!-- Corrugated vertical seams -->
-                  <g stroke="#0a1310" stroke-width="0.5" opacity="0.85">
-                    <line x1="130" y1="604" x2="130" y2="918"/>
-                    <line x1="170" y1="598" x2="170" y2="915"/>
-                    <line x1="210" y1="592" x2="210" y2="912"/>
-                    <line x1="250" y1="586" x2="250" y2="908"/>
-                    <line x1="290" y1="580" x2="290" y2="906"/>
-                    <line x1="330" y1="574" x2="330" y2="902"/>
-                    <line x1="370" y1="568" x2="370" y2="898"/>
-                    <line x1="410" y1="562" x2="410" y2="894"/>
-                    <line x1="450" y1="556" x2="450" y2="890"/>
-                    <line x1="490" y1="552" x2="490" y2="886"/>
-                  </g>
-
-                  <!-- Large roll-up door (truck bay) -->
-                  <rect x="280" y="730" width="120" height="180" fill="#040806" stroke="#1f2c25" stroke-width="0.7"/>
-                  <g stroke="#1a2620" stroke-width="0.4">
-                    <line x1="280" y1="750" x2="400" y2="750"/>
-                    <line x1="280" y1="770" x2="400" y2="770"/>
-                    <line x1="280" y1="790" x2="400" y2="790"/>
-                    <line x1="280" y1="810" x2="400" y2="810"/>
-                    <line x1="280" y1="830" x2="400" y2="830"/>
-                    <line x1="280" y1="850" x2="400" y2="850"/>
-                    <line x1="280" y1="870" x2="400" y2="870"/>
-                    <line x1="280" y1="890" x2="400" y2="890"/>
-                  </g>
-                  <!-- Door frame yellow safety markings -->
-                  <rect x="278" y="730" width="4" height="180" fill="#3a3020" opacity="0.9"/>
-                  <rect x="400" y="728" width="4" height="180" fill="#3a3020" opacity="0.9"/>
-
-                  <!-- Truck silhouette inside the bay (heavy presence) -->
-                  <g>
-                    <polygon points="296,810 310,800 324,800 326,820 296,820" fill="#22302a" stroke="#384a40" stroke-width="0.5"/>
-                    <polygon points="326,802 380,790 380,820 326,820" fill="#1a2620" stroke="#384a40" stroke-width="0.5"/>
-                    <circle cx="304" cy="824" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
-                    <circle cx="346" cy="820" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
-                    <circle cx="368" cy="820" r="3.5" fill="#04080a" stroke="#1f2c25" stroke-width="0.3"/>
-                    <!-- Truck headlight (warm) -->
-                    <circle cx="296" cy="810" r="1.4" fill="rgba(220,180,90,0.85)"/>
-                  </g>
-
-                  <!-- Window strip (clerestory) -->
-                  <rect x="120" y="660" width="380" height="14" fill="#040806" stroke="#1f2c25" stroke-width="0.5"/>
-                  <rect x="122" y="661" width="376" height="12" fill="rgba(220,180,90,0.10)"/>
-                  <g stroke="#1a2620" stroke-width="0.3">
-                    <line x1="160" y1="660" x2="160" y2="674"/>
-                    <line x1="200" y1="660" x2="200" y2="674"/>
-                    <line x1="240" y1="660" x2="240" y2="674"/>
-                    <line x1="280" y1="660" x2="280" y2="674"/>
-                    <line x1="320" y1="660" x2="320" y2="674"/>
-                    <line x1="360" y1="660" x2="360" y2="674"/>
-                    <line x1="400" y1="660" x2="400" y2="674"/>
-                    <line x1="440" y1="660" x2="440" y2="674"/>
-                    <line x1="480" y1="660" x2="480" y2="674"/>
-                  </g>
-                  <!-- Service door -->
-                  <rect x="466" y="820" width="22" height="64" fill="#040806" stroke="#1f2c25" stroke-width="0.5"/>
-                  <rect x="482" y="844" width="3" height="6" fill="#384a40"/>
-
-                  <!-- Connection conveyor coming out of intake top -> bunker (rises right) -->
-                  <g>
-                    <!-- Truss conveyor (more detailed than before, big foreground element) -->
-                    <polygon points="500,560 690,460 700,478 510,578" fill="#0a1310" stroke="#1f2c25" stroke-width="0.6"/>
-                    <!-- Truss chords -->
-                    <line x1="500" y1="558" x2="690" y2="458" stroke="#384a40" stroke-width="0.8"/>
-                    <line x1="510" y1="578" x2="700" y2="478" stroke="#384a40" stroke-width="0.8"/>
-                    <!-- Diagonals -->
-                    <g stroke="#22302a" stroke-width="0.5">
-                      <line x1="520" y1="572" x2="540" y2="552"/>
-                      <line x1="540" y1="552" x2="540" y2="572"/>
-                      <line x1="540" y1="572" x2="560" y2="552"/>
-                      <line x1="560" y1="552" x2="560" y2="568"/>
-                      <line x1="560" y1="568" x2="580" y2="548"/>
-                      <line x1="580" y1="548" x2="580" y2="564"/>
-                      <line x1="580" y1="564" x2="600" y2="544"/>
-                      <line x1="600" y1="544" x2="600" y2="560"/>
-                      <line x1="600" y1="560" x2="620" y2="540"/>
-                      <line x1="620" y1="540" x2="620" y2="556"/>
-                      <line x1="620" y1="556" x2="640" y2="536"/>
-                      <line x1="640" y1="536" x2="640" y2="552"/>
-                      <line x1="640" y1="552" x2="660" y2="532"/>
-                      <line x1="660" y1="532" x2="660" y2="548"/>
-                      <line x1="660" y1="548" x2="680" y2="528"/>
-                      <line x1="680" y1="528" x2="680" y2="544"/>
-                    </g>
-                    <!-- Belt center stripe -->
-                    <line x1="503" y1="568" x2="693" y2="468" stroke="#1a2620" stroke-width="0.4"/>
-                    <!-- Material chunks moving up the conveyor -->
-                    <g>
-                      <rect x="510" y="566" width="7" height="3" fill="#b8814a" opacity="0.85">
-                        <animateTransform attributeName="transform" type="translate" from="0 0" to="170 -94" dur="7s" repeatCount="indefinite"/>
-                      </rect>
-                      <rect x="510" y="568" width="6" height="3" fill="#9c6e3e" opacity="0.7">
-                        <animateTransform attributeName="transform" type="translate" from="-50 26" to="120 -68" dur="7s" repeatCount="indefinite"/>
-                      </rect>
-                      <rect x="510" y="566" width="8" height="3" fill="#b8814a" opacity="0.8">
-                        <animateTransform attributeName="transform" type="translate" from="-110 60" to="60 -34" dur="7s" repeatCount="indefinite"/>
-                      </rect>
-                    </g>
-                    <!-- Conveyor head pulley housing -->
-                    <ellipse cx="697" cy="468" rx="14" ry="10" fill="#0e1612" stroke="#1f2c25" stroke-width="0.5"/>
-                  </g>
-
-                  <!-- Bunker (vertical mass) intake target -->
-                  <g>
-                    <!-- Bunker body — concrete mass, tall -->
-                    <polygon points="660,440 760,400 820,420 720,460" fill="url(#mat-concrete-roof)" stroke="#1f2c25" stroke-width="0.6"/>
-                    <polygon points="720,460 820,420 820,830 720,860" fill="url(#mat-concrete-front)" stroke="#1f2c25" stroke-width="0.7"/>
-                    <polygon points="660,440 720,460 720,860 660,830" fill="url(#mat-concrete-side)" stroke="#1f2c25" stroke-width="0.7"/>
-                    <!-- Open top revealing material -->
-                    <polygon points="678,442 754,412 800,428 724,458" fill="#020404" stroke="#1a2620" stroke-width="0.5"/>
-                    <ellipse cx="740" cy="438" rx="40" ry="6" fill="#9c6e3e" opacity="0.45"/>
-                    <!-- Panel divisions on bunker face -->
-                    <g stroke="#0a1310" stroke-width="0.4" opacity="0.85">
-                      <line x1="745" y1="450" x2="745" y2="852"/>
-                      <line x1="770" y1="445" x2="770" y2="847"/>
-                      <line x1="795" y1="440" x2="795" y2="842"/>
-                      <line x1="720" y1="555" x2="820" y2="525"/>
-                      <line x1="720" y1="665" x2="820" y2="635"/>
-                      <line x1="720" y1="775" x2="820" y2="745"/>
-                    </g>
-                    <!-- Side ladder -->
-                    <g stroke="#384a40" stroke-width="0.4">
-                      <line x1="654" y1="450" x2="654" y2="800"/>
-                      <line x1="660" y1="450" x2="660" y2="800"/>
-                      <line x1="654" y1="490" x2="660" y2="490"/>
-                      <line x1="654" y1="530" x2="660" y2="530"/>
-                      <line x1="654" y1="570" x2="660" y2="570"/>
-                      <line x1="654" y1="610" x2="660" y2="610"/>
-                      <line x1="654" y1="650" x2="660" y2="650"/>
-                      <line x1="654" y1="690" x2="660" y2="690"/>
-                      <line x1="654" y1="730" x2="660" y2="730"/>
-                      <line x1="654" y1="770" x2="660" y2="770"/>
-                    </g>
-                  </g>
-                </g>
-
-                <!-- =================== FOREGROUND: TRANSFORMER YARD (right of turbine hall) =================== -->
-                <g>
-                  <!-- Cast shadow -->
-                  <ellipse cx="1820" cy="850" rx="160" ry="16" fill="#000" filter="url(#soft-shadow)" opacity="0.6"/>
-
-                  <!-- Transformer A (large iso box) -->
-                  <g>
-                    <polygon points="1740,720 1820,696 1870,712 1790,738" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.6"/>
-                    <polygon points="1790,738 1870,712 1870,830 1790,856" fill="#1a2620" stroke="#1f2c25" stroke-width="0.7"/>
-                    <polygon points="1740,720 1790,738 1790,856 1740,840" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
-                    <!-- Cooling fins (radiator panels) -->
-                    <g stroke="#22302a" stroke-width="0.4">
-                      <line x1="1740" y1="744" x2="1740" y2="838"/>
-                      <line x1="1736" y1="748" x2="1736" y2="834"/>
-                      <line x1="1732" y1="752" x2="1732" y2="830"/>
-                      <line x1="1728" y1="756" x2="1728" y2="826"/>
-                      <line x1="1724" y1="760" x2="1724" y2="822"/>
-                      <!-- right side fins -->
-                      <line x1="1870" y1="730" x2="1870" y2="830"/>
-                      <line x1="1874" y1="734" x2="1874" y2="826"/>
-                      <line x1="1878" y1="738" x2="1878" y2="822"/>
-                      <line x1="1882" y1="742" x2="1882" y2="818"/>
-                      <line x1="1886" y1="746" x2="1886" y2="814"/>
-                    </g>
-                    <!-- HV bushings (3 vertical insulator stacks) -->
-                    <g>
-                      <rect x="1762" y="666" width="6" height="34" fill="#384a40"/>
-                      <circle cx="1765" cy="668" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                      <rect x="1802" y="654" width="6" height="46" fill="#384a40"/>
-                      <circle cx="1805" cy="656" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                      <rect x="1842" y="666" width="6" height="34" fill="#384a40"/>
-                      <circle cx="1845" cy="668" r="3" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                    </g>
-                    <!-- Oil tank pressure cap on top -->
-                    <ellipse cx="1810" cy="710" rx="10" ry="3" fill="#22302a"/>
-                    <!-- Side nameplate (no text rendered) -->
-                    <rect x="1808" y="780" width="32" height="22" fill="#06090a" stroke="#1f2c25" stroke-width="0.3"/>
-                  </g>
-
-                  <!-- Transformer B (smaller, behind first) -->
-                  <g transform="translate(110, 14)">
-                    <polygon points="1740,720 1810,700 1860,714 1790,734" fill="url(#mat-steel-roof)" stroke="#1f2c25" stroke-width="0.6"/>
-                    <polygon points="1790,734 1860,714 1860,820 1790,840" fill="#1a2620" stroke="#1f2c25" stroke-width="0.7"/>
-                    <polygon points="1740,720 1790,734 1790,840 1740,832" fill="#0a1310" stroke="#1f2c25" stroke-width="0.7"/>
-                    <!-- Bushings -->
-                    <g>
-                      <rect x="1762" y="676" width="5" height="28" fill="#384a40"/>
-                      <circle cx="1764" cy="678" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                      <rect x="1800" y="666" width="5" height="38" fill="#384a40"/>
-                      <circle cx="1802" cy="668" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                      <rect x="1838" y="676" width="5" height="28" fill="#384a40"/>
-                      <circle cx="1840" cy="678" r="2.4" fill="#64ffda" filter="url(#cool-glow)" opacity="0.85"/>
-                    </g>
-                  </g>
-
-                  <!-- Lattice pylon (HV) -->
-                  <g stroke="#22302a" stroke-width="0.5" fill="none">
-                    <line x1="2000" y1="820" x2="2000" y2="500"/>
-                    <line x1="2050" y1="820" x2="2050" y2="500"/>
-                    <line x1="2000" y1="820" x2="2050" y2="820"/>
-                    <line x1="2000" y1="500" x2="2050" y2="500"/>
-                    <line x1="2000" y1="820" x2="2050" y2="780"/>
-                    <line x1="2050" y1="820" x2="2000" y2="780"/>
-                    <line x1="2000" y1="780" x2="2050" y2="780"/>
-                    <line x1="2000" y1="740" x2="2050" y2="740"/>
-                    <line x1="2000" y1="740" x2="2050" y2="700"/>
-                    <line x1="2050" y1="740" x2="2000" y2="700"/>
-                    <line x1="2000" y1="700" x2="2050" y2="700"/>
-                    <line x1="2000" y1="660" x2="2050" y2="660"/>
-                    <line x1="2000" y1="660" x2="2050" y2="620"/>
-                    <line x1="2050" y1="660" x2="2000" y2="620"/>
-                    <line x1="2000" y1="620" x2="2050" y2="620"/>
-                    <line x1="2000" y1="580" x2="2050" y2="580"/>
-                    <line x1="2000" y1="580" x2="2050" y2="540"/>
-                    <line x1="2050" y1="580" x2="2000" y2="540"/>
-                    <line x1="2000" y1="540" x2="2050" y2="540"/>
-                    <!-- Crossarm -->
-                    <line x1="1980" y1="510" x2="2070" y2="510"/>
-                    <line x1="1980" y1="500" x2="1980" y2="515"/>
-                    <line x1="2070" y1="500" x2="2070" y2="515"/>
-                    <line x1="1980" y1="540" x2="2070" y2="540"/>
-                  </g>
-                  <!-- Insulator strings -->
-                  <g filter="url(#cool-glow)">
-                    <circle cx="1996" cy="516" r="2.4" fill="#64ffda" opacity="0.9"/>
-                    <circle cx="2068" cy="516" r="2.4" fill="#64ffda" opacity="0.9"/>
-                    <circle cx="1996" cy="546" r="2.4" fill="#64ffda" opacity="0.9"/>
-                    <circle cx="2068" cy="546" r="2.4" fill="#64ffda" opacity="0.9"/>
-                  </g>
-                  <!-- HV cables draping (catenary curves) -->
-                  <g stroke="#64ffda" stroke-width="1.4" fill="none" opacity="0.75" filter="url(#cool-glow)">
-                    <path d="M 1864 680 Q 1920 700 1996 516"/>
-                    <path d="M 1894 660 Q 1940 690 2068 516"/>
-                    <path d="M 1864 680 Q 1920 720 1996 546"/>
-                    <path d="M 1894 660 Q 1940 710 2068 546"/>
-                  </g>
-
-                  <!-- Perimeter fence (chain link suggestion, foreground) -->
-                  <g stroke="#22302a" stroke-width="0.4" opacity="0.85">
-                    <line x1="1690" y1="780" x2="1690" y2="860"/>
-                    <line x1="1730" y1="772" x2="1730" y2="855"/>
-                    <line x1="1770" y1="764" x2="1770" y2="850"/>
-                    <line x1="1810" y1="858" x2="1810" y2="870"/>
-                    <line x1="1690" y1="800" x2="1980" y2="780"/>
-                    <line x1="1690" y1="820" x2="1980" y2="800"/>
-                    <line x1="1690" y1="840" x2="1980" y2="820"/>
-                  </g>
-                </g>
-
-                <!-- =================== GROUND PLANE / SERVICE ROAD / PERIMETER =================== -->
-                <g>
-                  <!-- Concrete pad -->
-                  <rect x="0" y="900" width="2200" height="200" fill="url(#mat-ground)"/>
-                  <!-- Subtle pavement seams (concrete tile joints) -->
-                  <g stroke="#06090a" stroke-width="0.4" opacity="0.8">
-                    <line x1="0" y1="920" x2="2200" y2="920"/>
-                    <line x1="0" y1="950" x2="2200" y2="950"/>
-                    <line x1="0" y1="990" x2="2200" y2="990"/>
-                    <line x1="0" y1="1030" x2="2200" y2="1030"/>
-                  </g>
-                  <g stroke="#040608" stroke-width="0.3" opacity="0.6">
-                    <line x1="240" y1="900" x2="200" y2="1100"/>
-                    <line x1="480" y1="900" x2="440" y2="1100"/>
-                    <line x1="720" y1="900" x2="680" y2="1100"/>
-                    <line x1="960" y1="900" x2="920" y2="1100"/>
-                    <line x1="1200" y1="900" x2="1160" y2="1100"/>
-                    <line x1="1440" y1="900" x2="1400" y2="1100"/>
-                    <line x1="1680" y1="900" x2="1640" y2="1100"/>
-                    <line x1="1920" y1="900" x2="1880" y2="1100"/>
-                  </g>
-                  <!-- Service road dashed centerline -->
-                  <g stroke="rgba(220,180,90,0.45)" stroke-width="1" stroke-dasharray="22 18">
-                    <line x1="80" y1="970" x2="2120" y2="970"/>
-                  </g>
-                  <!-- Drainage grates -->
-                  <g fill="#040608" stroke="#1a2620" stroke-width="0.3">
-                    <rect x="120" y="985" width="36" height="6"/>
-                    <rect x="640" y="985" width="36" height="6"/>
-                    <rect x="1200" y="985" width="36" height="6"/>
-                    <rect x="1760" y="985" width="36" height="6"/>
-                  </g>
-                  <g stroke="rgba(0,0,0,0.6)" stroke-width="0.3">
-                    <line x1="124" y1="985" x2="124" y2="991"/>
-                    <line x1="128" y1="985" x2="128" y2="991"/>
-                    <line x1="132" y1="985" x2="132" y2="991"/>
-                    <line x1="136" y1="985" x2="136" y2="991"/>
-                    <line x1="140" y1="985" x2="140" y2="991"/>
-                    <line x1="144" y1="985" x2="144" y2="991"/>
-                    <line x1="148" y1="985" x2="148" y2="991"/>
-                    <line x1="152" y1="985" x2="152" y2="991"/>
-                  </g>
-                  <!-- Manhole covers -->
-                  <ellipse cx="380" cy="1020" rx="14" ry="5" fill="#0a1310" stroke="#1a2620" stroke-width="0.3"/>
-                  <ellipse cx="380" cy="1019" rx="11" ry="4" fill="#040806"/>
-                  <ellipse cx="1480" cy="1020" rx="14" ry="5" fill="#0a1310" stroke="#1a2620" stroke-width="0.3"/>
-                  <ellipse cx="1480" cy="1019" rx="11" ry="4" fill="#040806"/>
-                  <!-- Painted yellow walkway -->
-                  <polygon points="900,995 1080,995 1090,1005 910,1005" fill="#3a3020" opacity="0.85"/>
-                  <!-- Bollards along walkway edge -->
-                  <g fill="#3a3020" stroke="#22302a" stroke-width="0.3">
-                    <ellipse cx="900" cy="998" rx="4" ry="6"/>
-                    <ellipse cx="960" cy="998" rx="4" ry="6"/>
-                    <ellipse cx="1020" cy="998" rx="4" ry="6"/>
-                    <ellipse cx="1080" cy="998" rx="4" ry="6"/>
-                  </g>
-                  <!-- Sodium lamp pole -->
-                  <g>
-                    <line x1="1340" y1="930" x2="1340" y2="780" stroke="#22302a" stroke-width="1.2"/>
-                    <line x1="1340" y1="780" x2="1360" y2="776" stroke="#22302a" stroke-width="0.8"/>
-                    <ellipse cx="1362" cy="776" rx="6" ry="3" fill="rgba(220,150,60,0.95)" filter="url(#warm-glow)"/>
-                    <!-- Light cone -->
-                    <polygon points="1362,776 1310,940 1414,940" fill="url(#sodium)" opacity="0.7"/>
-                  </g>
-                  <g>
-                    <line x1="180" y1="930" x2="180" y2="780" stroke="#22302a" stroke-width="1.2"/>
-                    <line x1="180" y1="780" x2="200" y2="776" stroke="#22302a" stroke-width="0.8"/>
-                    <ellipse cx="202" cy="776" rx="6" ry="3" fill="rgba(220,150,60,0.95)" filter="url(#warm-glow)"/>
-                    <polygon points="202,776 150,940 254,940" fill="url(#sodium)" opacity="0.6"/>
-                  </g>
-                </g>
-
-                <!-- =================================================================== -->
-                <!-- L4 — ATMOSPHERIC HAZE OVERLAY (between layers, increases with depth) -->
-                <!-- =================================================================== -->
-                <rect x="0" y="380" width="2200" height="320" fill="url(#haze-mid)" pointer-events="none"/>
-
-                <!-- =================================================================== -->
-                <!-- L5 — MINIMAL ANNOTATIONS (reduced 70%, only essential)              -->
-                <!-- =================================================================== -->
-                <g style="font-family: var(--font-mono); letter-spacing: 0.10em;">
-                  <text x="60" y="60" font-size="13" fill="#d0d6cf">EUROSTATE WTE · FACILITY 01</text>
-                  <text x="60" y="80" font-size="9" fill="#6f7a72">CIRCULAR THERMAL CONVERSION · 18 MWₑ NET</text>
-                </g>
-
-                <!-- Single discreet callout on reactor + on data center destination -->
-                <g style="font-family: var(--font-mono); letter-spacing: 0.08em;">
-                  <line x1="700" y1="220" x2="700" y2="150" stroke="rgba(208,214,207,0.45)" stroke-width="0.5"/>
-                  <line x1="700" y1="150" x2="780" y2="150" stroke="rgba(208,214,207,0.45)" stroke-width="0.5"/>
-                  <text x="786" y="148" font-size="10" fill="#d0d6cf">REACTOR · 1100 °C</text>
-                  <line x1="2024" y1="510" x2="2024" y2="450" stroke="rgba(100,255,218,0.5)" stroke-width="0.5"/>
-                  <line x1="2024" y1="450" x2="1950" y2="450" stroke="rgba(100,255,218,0.5)" stroke-width="0.5"/>
-                  <text x="1856" y="448" font-size="10" fill="#64ffda">→ COMPUTE</text>
-                </g>
-
-                <!-- Scale bar bottom right -->
-                <g transform="translate(1960, 1060)" style="font-family: var(--font-mono);">
-                  <line x1="0" y1="0" x2="180" y2="0" stroke="#465a4e" stroke-width="0.8"/>
-                  <line x1="0" y1="-4" x2="0" y2="4" stroke="#465a4e" stroke-width="0.8"/>
-                  <line x1="90" y1="-3" x2="90" y2="3" stroke="#465a4e" stroke-width="0.6"/>
-                  <line x1="180" y1="-4" x2="180" y2="4" stroke="#465a4e" stroke-width="0.8"/>
-                  <text x="0"   y="14" font-size="8" fill="#5d6770">0</text>
-                  <text x="80"  y="14" font-size="8" fill="#5d6770">50 m</text>
-                  <text x="160" y="14" font-size="8" fill="#5d6770">100 m</text>
-                </g>
-
-                <!-- Final vignette -->
-                <rect x="0" y="0" width="2200" height="1100" fill="url(#vignette)" pointer-events="none"/>
-              </svg>
+            <div class="we-stage we-stage-wide" aria-label="Waste-to-energy megafacility — 3D render">
+              <canvas id="we3d-canvas"></canvas>
             </div>
 
             <p class="text-muted" style="margin-top: var(--sp-5); font-family: var(--font-mono); font-size: var(--fs-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft);">
@@ -1214,6 +229,371 @@
       <span>AI Compute · Energy · Product Lab</span>
       <span><a href="#" data-linkedin style="color: var(--accent);">LinkedIn</a></span>
     </footer>
+
+    <script type="module">
+      // =====================================================================
+      // 3D plant — Three.js scene (real geometry, real lighting, real shadows)
+      // =====================================================================
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+
+      const canvas = document.getElementById("we3d-canvas");
+      if (canvas) {
+        const container = canvas.parentElement;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.95;
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x04060a);
+        scene.fog = new THREE.Fog(0x04060a, 80, 260);
+
+        const camera = new THREE.PerspectiveCamera(34, 2, 0.1, 600);
+        camera.position.set(85, 55, 110);
+
+        const hemi = new THREE.HemisphereLight(0x556a78, 0x0a1410, 0.45);
+        scene.add(hemi);
+
+        const sun = new THREE.DirectionalLight(0xfff0d8, 1.05);
+        sun.position.set(60, 100, 40);
+        sun.castShadow = true;
+        sun.shadow.mapSize.set(2048, 2048);
+        sun.shadow.camera.near = 1;
+        sun.shadow.camera.far = 260;
+        sun.shadow.camera.left = -110;
+        sun.shadow.camera.right = 110;
+        sun.shadow.camera.top = 110;
+        sun.shadow.camera.bottom = -60;
+        sun.shadow.bias = -0.00015;
+        sun.shadow.normalBias = 0.04;
+        scene.add(sun);
+
+        const rim = new THREE.DirectionalLight(0x64ffda, 0.22);
+        rim.position.set(-50, 40, -60);
+        scene.add(rim);
+
+        const matConcrete = new THREE.MeshStandardMaterial({ color: 0x4a554f, metalness: 0.05, roughness: 0.95 });
+        const matConcreteDark = new THREE.MeshStandardMaterial({ color: 0x2a322e, metalness: 0.05, roughness: 0.95 });
+        const matSteelClad = new THREE.MeshStandardMaterial({ color: 0x3a4640, metalness: 0.55, roughness: 0.55 });
+        const matSteelDark = new THREE.MeshStandardMaterial({ color: 0x222a2a, metalness: 0.6, roughness: 0.5 });
+        const matStack = new THREE.MeshStandardMaterial({ color: 0x35413e, metalness: 0.45, roughness: 0.55 });
+        const matWindow = new THREE.MeshStandardMaterial({
+          color: 0x141a20, metalness: 0.0, roughness: 0.25,
+          emissive: 0x3a2814, emissiveIntensity: 0.6
+        });
+        const matCool = new THREE.MeshStandardMaterial({ color: 0x2c3a3a, metalness: 0.35, roughness: 0.7 });
+        const matPipe = new THREE.MeshStandardMaterial({ color: 0x38423e, metalness: 0.6, roughness: 0.45 });
+        const matTransformer = new THREE.MeshStandardMaterial({ color: 0x222a2c, metalness: 0.5, roughness: 0.55 });
+        const matLattice = new THREE.MeshStandardMaterial({ color: 0x252c2c, metalness: 0.6, roughness: 0.55 });
+
+        const ground = new THREE.Mesh(
+          new THREE.PlaneGeometry(420, 420),
+          new THREE.MeshStandardMaterial({ color: 0x080d0c, metalness: 0, roughness: 1 })
+        );
+        ground.rotation.x = -Math.PI / 2;
+        ground.receiveShadow = true;
+        scene.add(ground);
+
+        const grid = new THREE.GridHelper(280, 28, 0x122018, 0x0a1410);
+        grid.position.y = 0.02;
+        grid.material.transparent = true;
+        grid.material.opacity = 0.55;
+        scene.add(grid);
+
+        function placeBox(x, z, w, h, d, mat) {
+          const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+          m.position.set(x, h / 2, z);
+          m.castShadow = true; m.receiveShadow = true;
+          scene.add(m); return m;
+        }
+        function placeCyl(x, z, radius, height, mat, segments = 28) {
+          const m = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, segments), mat);
+          m.position.set(x, height / 2, z);
+          m.castShadow = true; m.receiveShadow = true;
+          scene.add(m); return m;
+        }
+        function placeCoolingTower(x, z) {
+          const points = [];
+          const H = 36, baseR = 14, neckR = 8.5, topR = 12, segs = 16;
+          for (let i = 0; i <= segs; i++) {
+            const t = i / segs, y = t * H;
+            const r = neckR + (t < 0.5 ? (baseR - neckR) * (1 - 2 * t)
+                                       : (topR - neckR) * (2 * t - 1));
+            points.push(new THREE.Vector2(r, y));
+          }
+          const m = new THREE.Mesh(new THREE.LatheGeometry(points, 36), matCool);
+          m.position.set(x, 0, z);
+          m.castShadow = true; m.receiveShadow = true;
+          scene.add(m); return m;
+        }
+        function addSodiumLamp(x, z) {
+          const light = new THREE.PointLight(0xffaa55, 6, 35, 1.8);
+          light.position.set(x, 6, z); scene.add(light);
+          const bulb = new THREE.Mesh(
+            new THREE.SphereGeometry(0.35, 10, 10),
+            new THREE.MeshBasicMaterial({ color: 0xffaa55 })
+          );
+          bulb.position.copy(light.position); scene.add(bulb);
+          const pole = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.15, 0.15, 6, 8), matSteelDark
+          );
+          pole.position.set(x, 3, z); pole.castShadow = true;
+          scene.add(pole);
+        }
+        function addLatticeTower(x, z, h = 24) {
+          const group = new THREE.Group();
+          const half = 2;
+          [[-half,-half],[half,-half],[half,half],[-half,half]].forEach(([dx, dz]) => {
+            const up = new THREE.Mesh(
+              new THREE.CylinderGeometry(0.18, 0.18, h, 6), matLattice
+            );
+            up.position.set(dx, h/2, dz); up.castShadow = true; group.add(up);
+          });
+          for (let y = 2; y < h - 1; y += 3) {
+            const bar = new THREE.Mesh(new THREE.BoxGeometry(half*2 + 0.1, 0.12, 0.12), matLattice);
+            bar.position.set(0, y, -half); group.add(bar);
+            const bar2 = bar.clone(); bar2.position.z = half; group.add(bar2);
+            const bar3 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, half*2 + 0.1), matLattice);
+            bar3.position.set(-half, y, 0); group.add(bar3);
+            const bar4 = bar3.clone(); bar4.position.x = half; group.add(bar4);
+          }
+          const arm = new THREE.Mesh(new THREE.BoxGeometry(10, 0.25, 0.25), matLattice);
+          arm.position.set(0, h - 2, 0); group.add(arm);
+          const arm2 = arm.clone(); arm2.position.y = h - 4; group.add(arm2);
+          group.position.set(x, 0, z); scene.add(group);
+          [-3.5, 3.5].forEach((dx) => {
+            const ins = new THREE.Mesh(
+              new THREE.SphereGeometry(0.3, 10, 10),
+              new THREE.MeshBasicMaterial({ color: 0x64ffda })
+            );
+            ins.position.set(x + dx, h - 2.2, z); scene.add(ins);
+            const ins2 = ins.clone(); ins2.position.y = h - 4.2; scene.add(ins2);
+          });
+        }
+
+        // ===== Plant layout =====
+        placeBox(0, -10, 30, 52, 28, matConcrete);
+        for (let y = 12; y < 44; y += 8) {
+          const win = new THREE.Mesh(new THREE.PlaneGeometry(24, 1.4), matWindow);
+          win.position.set(0, y, 4.01); scene.add(win);
+        }
+        placeCyl(-8, -14, 2.5, 8, matStack);
+        placeCyl(8, -16, 2, 75, matStack);
+        placeCyl(-2, -16, 1.4, 50, matStack);
+
+        placeBox(-32, -8, 14, 32, 14, matConcreteDark);
+        const pile = new THREE.Mesh(
+          new THREE.BoxGeometry(10, 2, 10),
+          new THREE.MeshStandardMaterial({ color: 0x6b4f2a, metalness: 0.1, roughness: 0.95 })
+        );
+        pile.position.set(-32, 33, -8); scene.add(pile);
+
+        placeBox(-58, 6, 30, 14, 18, matSteelClad);
+        const intakeDoor = new THREE.Mesh(new THREE.PlaneGeometry(6, 8), matWindow);
+        intakeDoor.position.set(-43.01, 4, 6);
+        intakeDoor.rotation.y = Math.PI / 2;
+        scene.add(intakeDoor);
+
+        const conveyor = new THREE.Mesh(new THREE.BoxGeometry(28, 2.4, 3), matSteelDark);
+        conveyor.position.set(-44, 22, -2);
+        conveyor.rotation.z = 0.45;
+        conveyor.castShadow = true;
+        scene.add(conveyor);
+
+        placeCyl(22, 0, 4, 42, matSteelClad);
+        placeCyl(34, -2, 3.5, 36, matSteelClad);
+        placeCyl(45, -4, 3, 30, matSteelDark);
+
+        placeBox(28, 30, 50, 14, 20, matSteelDark);
+        const tWin = new THREE.Mesh(new THREE.PlaneGeometry(40, 2), matWindow);
+        tWin.position.set(28, 9, 40.01); scene.add(tWin);
+
+        const rackBeam = new THREE.Mesh(new THREE.BoxGeometry(70, 1.5, 1.5), matSteelClad);
+        rackBeam.position.set(-2, 26, 10); rackBeam.castShadow = true; scene.add(rackBeam);
+        [-35, -10, 15, 30].forEach((px) => {
+          const col = new THREE.Mesh(new THREE.BoxGeometry(1.2, 26, 1.2), matSteelClad);
+          col.position.set(px, 13, 10); col.castShadow = true; scene.add(col);
+        });
+        for (let i = 0; i < 4; i++) {
+          const r = 0.35 + i * 0.08;
+          const pipe = new THREE.Mesh(
+            new THREE.CylinderGeometry(r, r, 70, 14),
+            i === 0
+              ? new THREE.MeshStandardMaterial({ color: 0x6e3a1c, metalness: 0.55, roughness: 0.45 })
+              : matPipe
+          );
+          pipe.rotation.z = Math.PI / 2;
+          pipe.position.set(-2, 27.5 + i * 0.9, 11 - i * 0.6);
+          pipe.castShadow = true; scene.add(pipe);
+        }
+
+        placeCoolingTower(60, 28);
+        placeCoolingTower(75, 30);
+
+        placeBox(55, 50, 6, 5, 8, matTransformer);
+        placeBox(64, 50, 5.5, 4.5, 7.5, matTransformer);
+        [55, 64].forEach((tx) => {
+          const heights = [3.6, 4.4, 3.6];
+          [-1.5, 0, 1.5].forEach((dz, j) => {
+            const bush = new THREE.Mesh(
+              new THREE.CylinderGeometry(0.18, 0.18, heights[j], 8), matSteelDark
+            );
+            bush.position.set(tx, 5 + heights[j] / 2, 50 + dz);
+            bush.castShadow = true; scene.add(bush);
+            const cap = new THREE.Mesh(
+              new THREE.SphereGeometry(0.22, 10, 10),
+              new THREE.MeshBasicMaterial({ color: 0x64ffda })
+            );
+            cap.position.set(tx, 5 + heights[j] + 0.15, 50 + dz);
+            scene.add(cap);
+          });
+        });
+        addLatticeTower(78, 50, 28);
+        addLatticeTower(95, 55, 26);
+
+        addSodiumLamp(-30, 20);
+        addSodiumLamp(20, 20);
+        addSodiumLamp(45, 45);
+        addSodiumLamp(-15, -30);
+
+        const warning1 = new THREE.PointLight(0xff5a3a, 2.5, 14);
+        warning1.position.set(8, 74, -16); scene.add(warning1);
+        const warning1Bulb = new THREE.Mesh(
+          new THREE.SphereGeometry(0.35, 10, 10),
+          new THREE.MeshBasicMaterial({ color: 0xff5a3a })
+        );
+        warning1Bulb.position.copy(warning1.position); scene.add(warning1Bulb);
+
+        // Smoke
+        const smokeCount = 60;
+        const smokeGeo = new THREE.BufferGeometry();
+        const smokePos = new Float32Array(smokeCount * 3);
+        const smokeAge = new Float32Array(smokeCount);
+        for (let i = 0; i < smokeCount; i++) {
+          smokeAge[i] = Math.random();
+          smokePos[i*3]     = 8 + (Math.random() - 0.5);
+          smokePos[i*3 + 1] = 75 + smokeAge[i] * 30;
+          smokePos[i*3 + 2] = -16 + (Math.random() - 0.5);
+        }
+        smokeGeo.setAttribute("position", new THREE.BufferAttribute(smokePos, 3));
+        const smoke = new THREE.Points(smokeGeo, new THREE.PointsMaterial({
+          color: 0xbcc4c8, size: 5.5, transparent: true, opacity: 0.18, depthWrite: false
+        }));
+        scene.add(smoke);
+
+        function buildCoolVapor(x, z) {
+          const n = 40;
+          const g = new THREE.BufferGeometry();
+          const pos = new Float32Array(n * 3);
+          const age = new Float32Array(n);
+          for (let i = 0; i < n; i++) {
+            age[i] = Math.random();
+            pos[i*3]     = x + (Math.random() - 0.5) * 6;
+            pos[i*3 + 1] = 36 + age[i] * 24;
+            pos[i*3 + 2] = z + (Math.random() - 0.5) * 6;
+          }
+          g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+          const pts = new THREE.Points(g, new THREE.PointsMaterial({
+            color: 0xcccfd2, size: 7, transparent: true, opacity: 0.16, depthWrite: false
+          }));
+          scene.add(pts);
+          return { geo: g, age, baseX: x, baseZ: z };
+        }
+        const vapor1 = buildCoolVapor(60, 28);
+        const vapor2 = buildCoolVapor(75, 30);
+
+        const controls = new OrbitControls(camera, canvas);
+        controls.target.set(0, 12, 0);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.06;
+        controls.minPolarAngle = Math.PI * 0.12;
+        controls.maxPolarAngle = Math.PI * 0.46;
+        controls.minDistance = 55;
+        controls.maxDistance = 220;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.25;
+        controls.enablePan = false;
+        let userInteracting = false;
+        controls.addEventListener("start", () => { userInteracting = true; controls.autoRotate = false; });
+        controls.addEventListener("end", () => {
+          userInteracting = false;
+          setTimeout(() => { if (!userInteracting) controls.autoRotate = true; }, 4000);
+        });
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.45, 0.6, 0.5);
+        bloom.threshold = 0.5;
+        bloom.strength = 0.4;
+        bloom.radius = 0.6;
+        composer.addPass(bloom);
+
+        function resize() {
+          const rect = container.getBoundingClientRect();
+          const w = Math.max(2, Math.floor(rect.width));
+          const h = Math.max(2, Math.floor(rect.height));
+          renderer.setSize(w, h, false);
+          composer.setSize(w, h);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          const t = clock.getElapsedTime();
+          warning1.intensity = 1.2 + Math.sin(t * 2.5) * 0.9;
+
+          const sp = smokeGeo.attributes.position.array;
+          for (let i = 0; i < smokeCount; i++) {
+            smokeAge[i] += 0.0035;
+            if (smokeAge[i] > 1) {
+              smokeAge[i] = 0;
+              sp[i*3]     = 8 + (Math.random() - 0.5) * 1.4;
+              sp[i*3 + 1] = 75;
+              sp[i*3 + 2] = -16 + (Math.random() - 0.5) * 1.4;
+            } else {
+              sp[i*3 + 1] += 0.18;
+              sp[i*3]     += (Math.random() - 0.5) * 0.02;
+              sp[i*3 + 2] += (Math.random() - 0.5) * 0.02;
+            }
+          }
+          smokeGeo.attributes.position.needsUpdate = true;
+
+          [vapor1, vapor2].forEach((v) => {
+            const arr = v.geo.attributes.position.array;
+            for (let i = 0; i < v.age.length; i++) {
+              v.age[i] += 0.003;
+              if (v.age[i] > 1) {
+                v.age[i] = 0;
+                arr[i*3]     = v.baseX + (Math.random() - 0.5) * 6;
+                arr[i*3 + 1] = 36;
+                arr[i*3 + 2] = v.baseZ + (Math.random() - 0.5) * 6;
+              } else {
+                arr[i*3 + 1] += 0.12;
+                arr[i*3]     += (Math.random() - 0.5) * 0.015;
+                arr[i*3 + 2] += (Math.random() - 0.5) * 0.015;
+              }
+            }
+            v.geo.attributes.position.needsUpdate = true;
+          });
+
+          controls.update();
+          composer.render();
+        }
+        animate();
+      }
+    </script>
 
     <script>
       // Shared behavior

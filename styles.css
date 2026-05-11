@@ -1024,6 +1024,11 @@
     position: relative;
   }
   .we-stage svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .we-stage canvas {
+    width: 100%; height: 100%; display: block;
+    cursor: grab;
+  }
+  .we-stage canvas:active { cursor: grabbing; }
 
   /* Wide industrial schematic — pulls outside the editorial column for breathing room */
   .we-stage-wide {
