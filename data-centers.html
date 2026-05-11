@@ -41,7 +41,7 @@
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="./">Lab</a>
         <a href="./#architecture">Systems</a>
-        <a href="./#stack" class="active">Stack</a>
+        <a href="./#stack">Stack</a>
         <a href="./data-centers.html" class="active">Data Centers</a>
         <a href="./waste-to-energy.html">Waste-to-Energy</a>
       </nav>
@@ -81,7 +81,7 @@
             </p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="#farm">
-                Floor plan <span class="arrow">→</span>
+                Inside the hall <span class="arrow">→</span>
               </a>
               <a class="btn" href="./waste-to-energy.html">
                 See the power source
@@ -132,48 +132,1482 @@
         </div>
       </section>
 
-      <!-- ============================ FARM ============================ -->
+      <!-- ============================ HALL ============================ -->
       <section class="section container" id="farm">
         <div class="editorial">
           <aside class="editorial-aside">
-            <span class="kicker">02 — Floor</span>
+            <span class="kicker">02 — Hall</span>
           </aside>
           <div>
-            <h2>Floor schematic.</h2>
+            <h2>Inside the hall.</h2>
             <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
-              Each rack on the floor is a live unit. Hover any rack to inspect
-              it; the floor reflows around the active cluster.
+              A working AI compute environment: GPU superclusters, spine
+              networking, raised floor cooling, liquid manifolds overhead,
+              UPS plant, switchgear, and the structural systems that hold
+              it all together.
             </p>
 
-            <div class="dc-stage" aria-label="Data center floor schematic">
-              <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet">
-                <!-- Floor grid (isometric) -->
+            <div class="dc-stage" aria-label="AI compute hall — engineered floor section">
+              <svg viewBox="0 0 2200 1100" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                  <pattern id="dc-grid" width="60" height="34" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
-                    <path d="M 60 0 L 0 0 0 34" fill="none" class="dc-floor-grid" stroke-width="0.5"/>
+                  <!-- ============================== GRADIENTS ============================== -->
+                  <linearGradient id="bg-fade" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#04080a"/>
+                    <stop offset="65%"  stop-color="#070d0c"/>
+                    <stop offset="100%" stop-color="#0a1310"/>
+                  </linearGradient>
+
+                  <!-- Rack front / side -->
+                  <linearGradient id="rack-front" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#0c1612"/>
+                    <stop offset="50%"  stop-color="#1a2620"/>
+                    <stop offset="100%" stop-color="#08110e"/>
+                  </linearGradient>
+                  <linearGradient id="rack-front-gpu" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#0e1814"/>
+                    <stop offset="50%"  stop-color="#1e2c24"/>
+                    <stop offset="100%" stop-color="#080e0b"/>
+                  </linearGradient>
+                  <linearGradient id="rack-top" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#24322a"/>
+                    <stop offset="100%" stop-color="#0c1612"/>
+                  </linearGradient>
+                  <linearGradient id="rack-side" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stop-color="#06100c"/>
+                    <stop offset="100%" stop-color="#0c1612"/>
+                  </linearGradient>
+
+                  <!-- CRAC / equipment -->
+                  <linearGradient id="crac-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#24322a"/>
+                    <stop offset="100%" stop-color="#0a1310"/>
+                  </linearGradient>
+                  <linearGradient id="ups-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#1a2620"/>
+                    <stop offset="100%" stop-color="#06100c"/>
+                  </linearGradient>
+
+                  <!-- Floor -->
+                  <pattern id="floor-tile" width="44" height="22" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                    <rect width="44" height="22" fill="none"/>
+                    <path d="M 44 0 L 0 0 0 22" fill="none" stroke="rgba(120,160,140,0.16)" stroke-width="0.5"/>
                   </pattern>
+                  <pattern id="floor-perf" width="88" height="44" patternUnits="userSpaceOnUse" patternTransform="skewX(-30)">
+                    <rect width="88" height="44" fill="none"/>
+                    <circle cx="22" cy="22" r="0.8" fill="rgba(100,255,218,0.18)"/>
+                    <circle cx="66" cy="22" r="0.8" fill="rgba(100,255,218,0.14)"/>
+                  </pattern>
+                  <linearGradient id="floor-fade" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(8,16,12,0.0)"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
+                  </linearGradient>
+
+                  <!-- Glass / containment -->
+                  <linearGradient id="glass-panel" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(100,255,218,0.10)"/>
+                    <stop offset="50%"  stop-color="rgba(80,200,180,0.04)"/>
+                    <stop offset="100%" stop-color="rgba(60,140,120,0.06)"/>
+                  </linearGradient>
+
+                  <!-- Overhead tray / busway -->
+                  <linearGradient id="cable-tray" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#2e3e36"/>
+                    <stop offset="50%"  stop-color="#1a2620"/>
+                    <stop offset="100%" stop-color="#0a1410"/>
+                  </linearGradient>
+                  <linearGradient id="busway" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#384a40"/>
+                    <stop offset="100%" stop-color="#0e1814"/>
+                  </linearGradient>
+                  <linearGradient id="cool-pipe" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="rgba(100,255,218,0.45)"/>
+                    <stop offset="40%"  stop-color="rgba(60,140,120,0.20)"/>
+                    <stop offset="100%" stop-color="rgba(10,30,24,0.95)"/>
+                  </linearGradient>
+
+                  <!-- Filters -->
+                  <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="1.6"/>
+                  </filter>
+                  <filter id="vapor" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="3"/>
+                  </filter>
+                  <filter id="haze" x="-10%" y="-10%" width="120%" height="120%">
+                    <feGaussianBlur stdDeviation="2.5"/>
+                  </filter>
+
+                  <!-- Patch-panel pattern (network spine front) -->
+                  <pattern id="patch-panel" width="14" height="6" patternUnits="userSpaceOnUse">
+                    <rect width="14" height="6" fill="#08110d"/>
+                    <circle cx="3" cy="3" r="1.2" fill="rgba(100,255,218,0.55)"/>
+                    <circle cx="9" cy="3" r="1.2" fill="rgba(100,255,218,0.35)"/>
+                  </pattern>
+
+                  <!-- Vignette -->
+                  <radialGradient id="vig" cx="0.5" cy="0.55" r="0.7">
+                    <stop offset="55%" stop-color="rgba(0,0,0,0)"/>
+                    <stop offset="100%" stop-color="rgba(0,0,0,0.6)"/>
+                  </radialGradient>
                 </defs>
 
-                <!-- Subtle floor -->
-                <rect x="0" y="280" width="1200" height="320" fill="url(#dc-grid)" opacity="0.4"/>
+                <!-- =================================================================== -->
+                <!-- LAYER 0: Background + far-back atmospheric haze                     -->
+                <!-- =================================================================== -->
+                <rect x="0" y="0" width="2200" height="1100" fill="url(#bg-fade)"/>
 
-                <!-- Server racks group — generated below in JS -->
-                <g id="dc-racks"></g>
+                <!-- Far-back blue-mint atmospheric glow (suggests depth) -->
+                <ellipse cx="1100" cy="320" rx="900" ry="120" fill="rgba(100,255,218,0.04)" filter="url(#haze)"/>
 
-                <!-- Floor label -->
-                <text x="40" y="40" class="we-label" fill="currentColor" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; fill: var(--muted);">FLOOR 01 · ZONE A</text>
-                <text x="40" y="58" style="font-family: var(--font-mono); font-size: 10px; fill: var(--soft);">HIGH-DENSITY AI COMPUTE</text>
+                <!-- =================================================================== -->
+                <!-- LAYER 1: Raised floor (iso parallelogram + grid + cable cutouts)    -->
+                <!-- =================================================================== -->
+                <g>
+                  <!-- Floor base parallelogram -->
+                  <polygon points="80,860 2120,860 2200,1020 0,1020" fill="#0a1310" stroke="#1a2620" stroke-width="0.6"/>
+                  <!-- Tile grid -->
+                  <rect x="0" y="860" width="2200" height="160" fill="url(#floor-tile)" opacity="0.55"/>
+                  <!-- Perforated cooling tiles (scattered along aisles) -->
+                  <rect x="0" y="860" width="2200" height="160" fill="url(#floor-perf)" opacity="0.45"/>
+                  <!-- Front floor edge highlight -->
+                  <line x1="0" y1="1020" x2="2200" y2="1020" stroke="#22302a" stroke-width="1"/>
+                  <line x1="0" y1="1020" x2="2200" y2="1020" stroke="rgba(100,255,218,0.10)" stroke-width="0.5"/>
+                  <!-- Yellow walkway hazard stripe (technical detail) -->
+                  <g opacity="0.35">
+                    <polygon points="80,956 200,956 220,966 100,966" fill="#3a3024" stroke="#4a3a26" stroke-width="0.4"/>
+                    <polygon points="2000,956 2120,956 2140,966 2020,966" fill="#3a3024" stroke="#4a3a26" stroke-width="0.4"/>
+                  </g>
+                  <!-- Cable cutout in floor (square dark holes) -->
+                  <g opacity="0.7">
+                    <polygon points="320,910 360,910 370,920 330,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                    <polygon points="620,910 660,910 670,920 630,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                    <polygon points="920,910 960,910 970,920 930,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                    <polygon points="1220,910 1260,910 1270,920 1230,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                    <polygon points="1520,910 1560,910 1570,920 1530,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                    <polygon points="1820,910 1860,910 1870,920 1830,920" fill="#020404" stroke="#2c3a32" stroke-width="0.4"/>
+                  </g>
+                  <!-- Floor fade overlay (depth) -->
+                  <rect x="0" y="860" width="2200" height="160" fill="url(#floor-fade)"/>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 2: Back wall + control room + switchgear bay                  -->
+                <!-- =================================================================== -->
+                <g>
+                  <!-- Back wall surface (parallelogram receding) -->
+                  <polygon points="180,260 2020,260 2020,860 180,860" fill="#070d0a" stroke="#1a2620" stroke-width="0.6"/>
+                  <!-- Wall vertical seams -->
+                  <g stroke="#142018" stroke-width="0.4">
+                    <line x1="320" y1="260" x2="320" y2="860"/>
+                    <line x1="460" y1="260" x2="460" y2="860"/>
+                    <line x1="600" y1="260" x2="600" y2="860"/>
+                    <line x1="740" y1="260" x2="740" y2="860"/>
+                    <line x1="880" y1="260" x2="880" y2="860"/>
+                    <line x1="1020" y1="260" x2="1020" y2="860"/>
+                    <line x1="1160" y1="260" x2="1160" y2="860"/>
+                    <line x1="1300" y1="260" x2="1300" y2="860"/>
+                    <line x1="1440" y1="260" x2="1440" y2="860"/>
+                    <line x1="1580" y1="260" x2="1580" y2="860"/>
+                    <line x1="1720" y1="260" x2="1720" y2="860"/>
+                    <line x1="1860" y1="260" x2="1860" y2="860"/>
+                  </g>
+                  <!-- Wall top trim -->
+                  <line x1="180" y1="260" x2="2020" y2="260" stroke="#1f2c25" stroke-width="0.9"/>
+                  <!-- Wall horizontal mid-band -->
+                  <line x1="180" y1="540" x2="2020" y2="540" stroke="#142018" stroke-width="0.4"/>
+
+                  <!-- CONTROL ROOM window (upper-left back wall) -->
+                  <g transform="translate(260, 320)">
+                    <rect x="0" y="0" width="240" height="120" fill="#040806" stroke="#2c3a32" stroke-width="0.7"/>
+                    <rect x="0" y="0" width="240" height="120" fill="url(#glass-panel)" opacity="0.7"/>
+                    <line x1="80" y1="0" x2="80" y2="120" stroke="#0e1814" stroke-width="0.4"/>
+                    <line x1="160" y1="0" x2="160" y2="120" stroke="#0e1814" stroke-width="0.4"/>
+                    <!-- Hint of monitors inside -->
+                    <rect x="10"  y="30" width="58" height="34" fill="rgba(100,255,218,0.06)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="90"  y="30" width="58" height="34" fill="rgba(100,255,218,0.10)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="170" y="30" width="58" height="34" fill="rgba(100,255,218,0.06)" stroke="#1a2620" stroke-width="0.3"/>
+                    <!-- Internal LED strip -->
+                    <rect x="0" y="8" width="240" height="1.5" fill="rgba(100,255,218,0.35)"/>
+                    <text x="0" y="-6" style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; fill: #9aa3ad;">NOC · OPERATIONS CONTROL</text>
+                  </g>
+
+                  <!-- SWITCHGEAR panels (right back wall, 4 cabinets) -->
+                  <g transform="translate(1450, 360)">
+                    <g class="dc-piece" data-id="SG.MV-1">
+                      <rect x="0" y="0" width="60" height="280" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <rect x="6" y="10" width="48" height="28" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <text x="8" y="22" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">MV-1</text>
+                      <text x="8" y="32" style="font-family: var(--font-mono); font-size: 6.5px; fill: #9aa3ad;">11kV · 4MW</text>
+                      <!-- Breaker bar slots -->
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="60"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="74"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="88"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="102" width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="116" width="48" height="8" fill="#0a1310"/>
+                      </g>
+                      <!-- LED column -->
+                      <circle cx="52" cy="64" r="1.5" fill="#64ffda"><animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/></circle>
+                      <circle cx="52" cy="78" r="1.5" fill="#64ffda" opacity="0.7"/>
+                      <circle cx="52" cy="92" r="1.5" fill="#64ffda" opacity="0.5"/>
+                      <circle cx="52" cy="106" r="1.5" fill="#64ffda"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite"/></circle>
+                      <circle cx="52" cy="120" r="1.5" fill="#64ffda" opacity="0.6"/>
+                      <!-- Door handle -->
+                      <rect x="46" y="240" width="6" height="14" fill="#3a5046"/>
+                    </g>
+                    <g class="dc-piece" data-id="SG.LV-2" transform="translate(72,0)">
+                      <rect x="0" y="0" width="60" height="280" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <rect x="6" y="10" width="48" height="28" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <text x="8" y="22" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">LV-2</text>
+                      <text x="8" y="32" style="font-family: var(--font-mono); font-size: 6.5px; fill: #9aa3ad;">400V · 2MW</text>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="60"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="74"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="88"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="102" width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="116" width="48" height="8" fill="#0a1310"/>
+                      </g>
+                      <circle cx="52" cy="64" r="1.5" fill="#64ffda" opacity="0.7"/>
+                      <circle cx="52" cy="78" r="1.5" fill="#64ffda" opacity="0.5"/>
+                      <circle cx="52" cy="92" r="1.5" fill="#64ffda"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>
+                      <circle cx="52" cy="106" r="1.5" fill="#64ffda" opacity="0.6"/>
+                      <rect x="46" y="240" width="6" height="14" fill="#3a5046"/>
+                    </g>
+                    <g class="dc-piece" data-id="SG.ATS" transform="translate(144,0)">
+                      <rect x="0" y="0" width="60" height="280" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <rect x="6" y="10" width="48" height="28" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <text x="8" y="22" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">ATS</text>
+                      <text x="8" y="32" style="font-family: var(--font-mono); font-size: 6.5px; fill: #9aa3ad;">XFER · 2MW</text>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="60"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="74"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="88"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="102" width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="116" width="48" height="8" fill="#0a1310"/>
+                      </g>
+                      <circle cx="52" cy="64" r="1.5" fill="#64ffda"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite"/></circle>
+                      <circle cx="52" cy="78" r="1.5" fill="#64ffda" opacity="0.7"/>
+                      <circle cx="52" cy="92" r="1.5" fill="#64ffda" opacity="0.5"/>
+                      <rect x="46" y="240" width="6" height="14" fill="#3a5046"/>
+                    </g>
+                    <g class="dc-piece" data-id="SG.PDU" transform="translate(216,0)">
+                      <rect x="0" y="0" width="60" height="280" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <rect x="6" y="10" width="48" height="28" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <text x="8" y="22" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">PDU</text>
+                      <text x="8" y="32" style="font-family: var(--font-mono); font-size: 6.5px; fill: #9aa3ad;">DIST</text>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="60"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="74"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="88"  width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="102" width="48" height="8" fill="#0a1310"/>
+                        <rect x="6" y="116" width="48" height="8" fill="#0a1310"/>
+                      </g>
+                      <circle cx="52" cy="64" r="1.5" fill="#64ffda" opacity="0.6"/>
+                      <circle cx="52" cy="78" r="1.5" fill="#64ffda"><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+                      <circle cx="52" cy="92" r="1.5" fill="#64ffda" opacity="0.5"/>
+                      <rect x="46" y="240" width="6" height="14" fill="#3a5046"/>
+                    </g>
+                  </g>
+
+                  <!-- UPS BATTERY ROW (back-left, 8 cabinets) -->
+                  <g transform="translate(540, 460)">
+                    <g class="dc-piece" data-id="UPS.BANK">
+                      <!-- Long row of identical battery cabinets -->
+                      <g>
+                        <!-- Cabinet 1 -->
+                        <rect x="0"   y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                        <rect x="6"   y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                        <g stroke="#1a2620" stroke-width="0.3">
+                          <line x1="0" y1="40" x2="64" y2="40"/>
+                          <line x1="0" y1="80" x2="64" y2="80"/>
+                          <line x1="0" y1="120" x2="64" y2="120"/>
+                          <line x1="0" y1="160" x2="64" y2="160"/>
+                        </g>
+                        <!-- Vent grilles -->
+                        <g stroke="#0a1310" stroke-width="0.4">
+                          <line x1="8" y1="46" x2="56" y2="46"/>
+                          <line x1="8" y1="52" x2="56" y2="52"/>
+                          <line x1="8" y1="58" x2="56" y2="58"/>
+                          <line x1="8" y1="64" x2="56" y2="64"/>
+                          <line x1="8" y1="70" x2="56" y2="70"/>
+                          <line x1="8" y1="86" x2="56" y2="86"/>
+                          <line x1="8" y1="92" x2="56" y2="92"/>
+                          <line x1="8" y1="98" x2="56" y2="98"/>
+                          <line x1="8" y1="104" x2="56" y2="104"/>
+                          <line x1="8" y1="110" x2="56" y2="110"/>
+                        </g>
+                        <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-1A</text>
+                      </g>
+                    </g>
+                    <!-- Repeat cabinets via clones (offset) -->
+                    <g transform="translate(76, 0)" class="dc-piece" data-id="UPS-1B">
+                      <rect x="0" y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <line x1="0" y1="40" x2="64" y2="40"/>
+                        <line x1="0" y1="80" x2="64" y2="80"/>
+                        <line x1="0" y1="120" x2="64" y2="120"/>
+                        <line x1="0" y1="160" x2="64" y2="160"/>
+                      </g>
+                      <g stroke="#0a1310" stroke-width="0.4">
+                        <line x1="8" y1="46" x2="56" y2="46"/><line x1="8" y1="52" x2="56" y2="52"/><line x1="8" y1="58" x2="56" y2="58"/><line x1="8" y1="64" x2="56" y2="64"/><line x1="8" y1="70" x2="56" y2="70"/>
+                        <line x1="8" y1="86" x2="56" y2="86"/><line x1="8" y1="92" x2="56" y2="92"/><line x1="8" y1="98" x2="56" y2="98"/><line x1="8" y1="104" x2="56" y2="104"/><line x1="8" y1="110" x2="56" y2="110"/>
+                      </g>
+                      <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-1B</text>
+                    </g>
+                    <g transform="translate(152, 0)" class="dc-piece" data-id="UPS-1C">
+                      <rect x="0" y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#1a2620" stroke-width="0.3"><line x1="0" y1="40" x2="64" y2="40"/><line x1="0" y1="80" x2="64" y2="80"/><line x1="0" y1="120" x2="64" y2="120"/><line x1="0" y1="160" x2="64" y2="160"/></g>
+                      <g stroke="#0a1310" stroke-width="0.4">
+                        <line x1="8" y1="46" x2="56" y2="46"/><line x1="8" y1="58" x2="56" y2="58"/><line x1="8" y1="70" x2="56" y2="70"/><line x1="8" y1="92" x2="56" y2="92"/><line x1="8" y1="104" x2="56" y2="104"/>
+                      </g>
+                      <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-1C</text>
+                    </g>
+                    <g transform="translate(228, 0)" class="dc-piece" data-id="UPS-2A">
+                      <rect x="0" y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#1a2620" stroke-width="0.3"><line x1="0" y1="40" x2="64" y2="40"/><line x1="0" y1="80" x2="64" y2="80"/><line x1="0" y1="120" x2="64" y2="120"/><line x1="0" y1="160" x2="64" y2="160"/></g>
+                      <g stroke="#0a1310" stroke-width="0.4">
+                        <line x1="8" y1="46" x2="56" y2="46"/><line x1="8" y1="52" x2="56" y2="52"/><line x1="8" y1="58" x2="56" y2="58"/><line x1="8" y1="86" x2="56" y2="86"/><line x1="8" y1="92" x2="56" y2="92"/>
+                      </g>
+                      <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-2A</text>
+                    </g>
+                    <g transform="translate(304, 0)" class="dc-piece" data-id="UPS-2B">
+                      <rect x="0" y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#1a2620" stroke-width="0.3"><line x1="0" y1="40" x2="64" y2="40"/><line x1="0" y1="80" x2="64" y2="80"/><line x1="0" y1="120" x2="64" y2="120"/><line x1="0" y1="160" x2="64" y2="160"/></g>
+                      <g stroke="#0a1310" stroke-width="0.4">
+                        <line x1="8" y1="48" x2="56" y2="48"/><line x1="8" y1="56" x2="56" y2="56"/><line x1="8" y1="64" x2="56" y2="64"/><line x1="8" y1="92" x2="56" y2="92"/><line x1="8" y1="100" x2="56" y2="100"/>
+                      </g>
+                      <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-2B</text>
+                    </g>
+                    <g transform="translate(380, 0)" class="dc-piece" data-id="UPS-2C">
+                      <rect x="0" y="0" width="64" height="180" fill="url(#ups-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="10" width="52" height="12" fill="#040806" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#1a2620" stroke-width="0.3"><line x1="0" y1="40" x2="64" y2="40"/><line x1="0" y1="80" x2="64" y2="80"/><line x1="0" y1="120" x2="64" y2="120"/><line x1="0" y1="160" x2="64" y2="160"/></g>
+                      <g stroke="#0a1310" stroke-width="0.4">
+                        <line x1="8" y1="48" x2="56" y2="48"/><line x1="8" y1="60" x2="56" y2="60"/><line x1="8" y1="86" x2="56" y2="86"/><line x1="8" y1="100" x2="56" y2="100"/>
+                      </g>
+                      <text x="8" y="20" style="font-family: var(--font-mono); font-size: 6.5px; fill: #64ffda;">UPS-2C</text>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 3: Structural I-beam columns (4)                              -->
+                <!-- =================================================================== -->
+                <g stroke="#1f2c25" stroke-width="0.8" fill="#0a1310">
+                  <!-- Column A (left) -->
+                  <rect x="320" y="180" width="14" height="700"/>
+                  <rect x="316" y="180" width="22" height="6"/>
+                  <rect x="316" y="540" width="22" height="6"/>
+                  <rect x="312" y="874" width="30" height="8"/>
+                  <!-- Column B -->
+                  <rect x="900" y="180" width="14" height="700"/>
+                  <rect x="896" y="180" width="22" height="6"/>
+                  <rect x="896" y="540" width="22" height="6"/>
+                  <rect x="892" y="874" width="30" height="8"/>
+                  <!-- Column C -->
+                  <rect x="1480" y="180" width="14" height="700"/>
+                  <rect x="1476" y="180" width="22" height="6"/>
+                  <rect x="1476" y="540" width="22" height="6"/>
+                  <rect x="1472" y="874" width="30" height="8"/>
+                  <!-- Column D (right) -->
+                  <rect x="2020" y="180" width="14" height="700"/>
+                  <rect x="2016" y="180" width="22" height="6"/>
+                  <rect x="2016" y="540" width="22" height="6"/>
+                  <rect x="2012" y="874" width="30" height="8"/>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 4: ROW 3 — Far rack row (small, atmospheric)                  -->
+                <!-- =================================================================== -->
+                <g filter="url(#haze)" opacity="0.85">
+                  <g transform="translate(240, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.55">
+                      <rect x="38" y="14" width="1.6" height="2"/><rect x="38" y="22" width="1.6" height="2"/><rect x="38" y="32" width="1.6" height="2"/>
+                      <rect x="38" y="46" width="1.6" height="2"/><rect x="38" y="58" width="1.6" height="2"/><rect x="38" y="72" width="1.6" height="2"/>
+                      <rect x="38" y="86" width="1.6" height="2"/><rect x="38" y="100" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                  <g transform="translate(300, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.5">
+                      <rect x="38" y="14" width="1.6" height="2"/><rect x="38" y="26" width="1.6" height="2"/><rect x="38" y="38" width="1.6" height="2"/>
+                      <rect x="38" y="50" width="1.6" height="2"/><rect x="38" y="62" width="1.6" height="2"/><rect x="38" y="74" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                  <g transform="translate(360, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.4">
+                      <rect x="38" y="20" width="1.6" height="2"/><rect x="38" y="36" width="1.6" height="2"/><rect x="38" y="52" width="1.6" height="2"/>
+                      <rect x="38" y="68" width="1.6" height="2"/><rect x="38" y="84" width="1.6" height="2"/><rect x="38" y="100" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                  <g transform="translate(1080, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.5">
+                      <rect x="38" y="14" width="1.6" height="2"/><rect x="38" y="22" width="1.6" height="2"/><rect x="38" y="34" width="1.6" height="2"/>
+                      <rect x="38" y="46" width="1.6" height="2"/><rect x="38" y="58" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                  <g transform="translate(1140, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.55">
+                      <rect x="38" y="14" width="1.6" height="2"/><rect x="38" y="28" width="1.6" height="2"/><rect x="38" y="42" width="1.6" height="2"/>
+                      <rect x="38" y="56" width="1.6" height="2"/><rect x="38" y="70" width="1.6" height="2"/><rect x="38" y="84" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                  <g transform="translate(1200, 540)">
+                    <rect x="0" y="0" width="44" height="120" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g fill="#64ffda" opacity="0.4">
+                      <rect x="38" y="20" width="1.6" height="2"/><rect x="38" y="36" width="1.6" height="2"/><rect x="38" y="52" width="1.6" height="2"/>
+                      <rect x="38" y="68" width="1.6" height="2"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 5: ROW 2 — Mid rack row (medium scale)                        -->
+                <!-- =================================================================== -->
+                <g opacity="0.95">
+                  <!-- Rack pair A: GPU cluster (taller, manifold pipes) -->
+                  <g transform="translate(380, 470)" class="dc-piece" data-id="A12.GPU">
+                    <rect x="0" y="0" width="54" height="240" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- top -->
+                    <polygon points="0,0 54,0 60,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <!-- side -->
+                    <polygon points="54,0 60,-8 60,232 54,240" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <!-- GPU sleds (4U each, stacked) -->
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="4" y="12"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="38"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="64"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="90"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="116" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="142" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="168" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="194" width="46" height="22" fill="#0e1814"/>
+                    </g>
+                    <!-- LEDs per sled -->
+                    <g fill="#64ffda">
+                      <rect x="46" y="16" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="42" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="68" width="1.6" height="2"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="94" width="1.6" height="2" opacity="0.5"/>
+                      <rect x="46" y="120" width="1.6" height="2"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="146" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="172" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="198" width="1.6" height="2" opacity="0.7"/>
+                    </g>
+                    <!-- Liquid cooling manifold (cyan pipe on side) -->
+                    <rect x="60" y="20" width="3" height="200" fill="#64ffda" opacity="0.4" filter="url(#cyan-glow)"/>
+                  </g>
+                  <g transform="translate(440, 470)" class="dc-piece" data-id="A13.GPU">
+                    <rect x="0" y="0" width="54" height="240" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="0,0 54,0 60,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <polygon points="54,0 60,-8 60,232 54,240" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="4" y="12"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="38"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="64"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="90"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="116" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="142" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="168" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="194" width="46" height="22" fill="#0e1814"/>
+                    </g>
+                    <g fill="#64ffda">
+                      <rect x="46" y="16" width="1.6" height="2" opacity="0.7"/>
+                      <rect x="46" y="42" width="1.6" height="2"><animate attributeName="opacity" values="1;0.3;1" dur="1.7s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="68" width="1.6" height="2" opacity="0.5"/>
+                      <rect x="46" y="94" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="120" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="146" width="1.6" height="2"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="172" width="1.6" height="2" opacity="0.7"/>
+                      <rect x="46" y="198" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></rect>
+                    </g>
+                    <rect x="60" y="20" width="3" height="200" fill="#64ffda" opacity="0.4" filter="url(#cyan-glow)"/>
+                  </g>
+                  <!-- Spine network row -->
+                  <g transform="translate(540, 480)" class="dc-piece" data-id="A14.SPINE">
+                    <rect x="0" y="0" width="60" height="220" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="0,0 60,0 66,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <polygon points="60,0 66,-8 66,212 60,220" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <!-- Patch panel face -->
+                    <rect x="4" y="14" width="52" height="40" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="4" y="58" width="52" height="40" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="4" y="102" width="52" height="40" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="4" y="146" width="52" height="40" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="4" y="190" width="52" height="20" fill="#0e1814" stroke="#1a2620" stroke-width="0.3"/>
+                    <!-- Fiber cable bundles coming off side -->
+                    <g stroke="#64ffda" stroke-width="0.7" fill="none" opacity="0.7">
+                      <path d="M 66 30 Q 80 42 90 80"/>
+                      <path d="M 66 46 Q 78 60 92 96"/>
+                      <path d="M 66 86 Q 80 100 94 130"/>
+                      <path d="M 66 130 Q 82 150 96 180"/>
+                    </g>
+                  </g>
+                  <!-- General compute row -->
+                  <g transform="translate(620, 480)" class="dc-piece" data-id="A15.CPU">
+                    <rect x="0" y="0" width="54" height="220" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="0,0 54,0 60,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <polygon points="54,0 60,-8 60,212 54,220" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <!-- 1U server stack -->
+                    <g stroke="#1a2620" stroke-width="0.2">
+                      <rect x="4" y="10"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="20"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="30"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="40"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="50"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="60"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="70"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="80"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="90"  width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="100" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="110" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="120" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="130" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="140" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="150" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="160" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="170" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="180" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="190" width="46" height="9" fill="#0c1612"/>
+                      <rect x="4" y="200" width="46" height="9" fill="#0c1612"/>
+                    </g>
+                    <!-- LEDs -->
+                    <g fill="#64ffda">
+                      <rect x="46" y="13" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.4s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="33" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="46" y="53" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="46" y="73" width="1.4" height="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="93" width="1.4" height="1.4" opacity="0.5"/>
+                      <rect x="46" y="113" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="46" y="133" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="153" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="46" y="173" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="46" y="193" width="1.4" height="1.4"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.2s" repeatCount="indefinite"/></rect>
+                    </g>
+                  </g>
+
+                  <!-- Mid row, right cluster (mirror layout) -->
+                  <g transform="translate(1280, 470)" class="dc-piece" data-id="B12.GPU">
+                    <rect x="0" y="0" width="54" height="240" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="0,0 54,0 60,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <polygon points="54,0 60,-8 60,232 54,240" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="4" y="12"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="38"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="64"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="90"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="116" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="142" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="168" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="194" width="46" height="22" fill="#0e1814"/>
+                    </g>
+                    <g fill="#64ffda">
+                      <rect x="46" y="16" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.7s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="42" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="68" width="1.6" height="2"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="94" width="1.6" height="2" opacity="0.5"/>
+                      <rect x="46" y="120" width="1.6" height="2"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.4s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="146" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="172" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="198" width="1.6" height="2" opacity="0.7"/>
+                    </g>
+                    <rect x="60" y="20" width="3" height="200" fill="#64ffda" opacity="0.4" filter="url(#cyan-glow)"/>
+                  </g>
+                  <g transform="translate(1340, 470)" class="dc-piece" data-id="B13.GPU">
+                    <rect x="0" y="0" width="54" height="240" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="0,0 54,0 60,-8 6,-8" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <polygon points="54,0 60,-8 60,232 54,240" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="4" y="12"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="38"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="64"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="90"  width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="116" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="142" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="168" width="46" height="22" fill="#0e1814"/>
+                      <rect x="4" y="194" width="46" height="22" fill="#0e1814"/>
+                    </g>
+                    <g fill="#64ffda">
+                      <rect x="46" y="16" width="1.6" height="2" opacity="0.7"/>
+                      <rect x="46" y="42" width="1.6" height="2"><animate attributeName="opacity" values="1;0.3;1" dur="1.9s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="68" width="1.6" height="2" opacity="0.5"/>
+                      <rect x="46" y="94" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="120" width="1.6" height="2" opacity="0.6"/>
+                      <rect x="46" y="146" width="1.6" height="2"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="46" y="172" width="1.6" height="2" opacity="0.7"/>
+                      <rect x="46" y="198" width="1.6" height="2"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></rect>
+                    </g>
+                    <rect x="60" y="20" width="3" height="200" fill="#64ffda" opacity="0.4" filter="url(#cyan-glow)"/>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 6: ROW 1 — Foreground rack row (max detail)                   -->
+                <!-- =================================================================== -->
+                <g>
+                  <!-- PDU end-of-row (leftmost) -->
+                  <g transform="translate(140, 500)" class="dc-piece" data-id="A01.PDU">
+                    <rect x="0" y="0" width="70" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 70,0 80,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="70,0 80,-12 80,328 70,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- Breaker bays -->
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="6" y="14"  width="58" height="44" fill="#040806"/>
+                      <rect x="6" y="62"  width="58" height="44" fill="#040806"/>
+                      <rect x="6" y="110" width="58" height="44" fill="#040806"/>
+                      <rect x="6" y="158" width="58" height="44" fill="#040806"/>
+                      <rect x="6" y="206" width="58" height="44" fill="#040806"/>
+                      <rect x="6" y="254" width="58" height="44" fill="#040806"/>
+                    </g>
+                    <!-- Each bay: 3 small breaker windows -->
+                    <g stroke="#1a2620" stroke-width="0.25" fill="#0c1612">
+                      <rect x="10" y="20"  width="48" height="10"/>
+                      <rect x="10" y="34"  width="48" height="10"/>
+                      <rect x="10" y="46"  width="48" height="10"/>
+                      <rect x="10" y="68"  width="48" height="10"/>
+                      <rect x="10" y="82"  width="48" height="10"/>
+                      <rect x="10" y="94"  width="48" height="10"/>
+                      <rect x="10" y="116" width="48" height="10"/>
+                      <rect x="10" y="130" width="48" height="10"/>
+                      <rect x="10" y="142" width="48" height="10"/>
+                      <rect x="10" y="164" width="48" height="10"/>
+                      <rect x="10" y="178" width="48" height="10"/>
+                      <rect x="10" y="190" width="48" height="10"/>
+                      <rect x="10" y="212" width="48" height="10"/>
+                      <rect x="10" y="226" width="48" height="10"/>
+                      <rect x="10" y="238" width="48" height="10"/>
+                      <rect x="10" y="260" width="48" height="10"/>
+                      <rect x="10" y="274" width="48" height="10"/>
+                      <rect x="10" y="286" width="48" height="10"/>
+                    </g>
+                    <!-- Active state LEDs (column) -->
+                    <g fill="#64ffda">
+                      <circle cx="60" cy="25" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></circle>
+                      <circle cx="60" cy="39" r="1.4" opacity="0.7"/>
+                      <circle cx="60" cy="51" r="1.4" opacity="0.5"/>
+                      <circle cx="60" cy="73" r="1.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.1s" repeatCount="indefinite"/></circle>
+                      <circle cx="60" cy="87" r="1.4" opacity="0.6"/>
+                      <circle cx="60" cy="99" r="1.4" opacity="0.4"/>
+                      <circle cx="60" cy="121" r="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.9s" repeatCount="indefinite"/></circle>
+                      <circle cx="60" cy="135" r="1.4" opacity="0.7"/>
+                      <circle cx="60" cy="147" r="1.4" opacity="0.5"/>
+                      <circle cx="60" cy="169" r="1.4" opacity="0.6"/>
+                      <circle cx="60" cy="183" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.4s" repeatCount="indefinite"/></circle>
+                      <circle cx="60" cy="195" r="1.4" opacity="0.7"/>
+                    </g>
+                    <!-- Door handle -->
+                    <rect x="60" y="310" width="6" height="16" fill="#3a5046"/>
+                    <text x="6" y="332" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">PDU-A01</text>
+                  </g>
+
+                  <!-- GPU rack A02 -->
+                  <g transform="translate(230, 480)" class="dc-piece" data-id="A02.GPU">
+                    <rect x="0" y="0" width="80" height="360" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="80,0 90,-12 90,348 80,360" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- 6 GPU sleds (5U each) -->
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="6" y="14"  width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="62"  width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="110" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="158" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="206" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="254" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="302" width="68" height="36" fill="#08110d"/>
+                    </g>
+                    <!-- Sled internals (GPU modules) -->
+                    <g fill="#0a1410" stroke="#1a2620" stroke-width="0.2">
+                      <rect x="10" y="20" width="60" height="14"/>
+                      <rect x="10" y="36" width="60" height="14"/>
+                      <rect x="10" y="68" width="60" height="14"/>
+                      <rect x="10" y="84" width="60" height="14"/>
+                      <rect x="10" y="116" width="60" height="14"/>
+                      <rect x="10" y="132" width="60" height="14"/>
+                      <rect x="10" y="164" width="60" height="14"/>
+                      <rect x="10" y="180" width="60" height="14"/>
+                      <rect x="10" y="212" width="60" height="14"/>
+                      <rect x="10" y="228" width="60" height="14"/>
+                      <rect x="10" y="260" width="60" height="14"/>
+                      <rect x="10" y="276" width="60" height="14"/>
+                    </g>
+                    <!-- LEDs (dense) -->
+                    <g fill="#64ffda">
+                      <rect x="66" y="24" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="40" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="72" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.0s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="88" width="2" height="2.4" opacity="0.6"/>
+                      <rect x="66" y="120" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="136" width="2" height="2.4" opacity="0.7"/>
+                      <rect x="66" y="168" width="2" height="2.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="184" width="2" height="2.4" opacity="0.5"/>
+                      <rect x="66" y="216" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.7s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="232" width="2" height="2.4" opacity="0.6"/>
+                      <rect x="66" y="264" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="280" width="2" height="2.4" opacity="0.7"/>
+                    </g>
+                    <!-- Liquid cooling manifold pipe on right edge -->
+                    <rect x="90" y="20" width="6" height="320" fill="url(#cool-pipe)" filter="url(#cyan-glow)"/>
+                    <!-- Cooling tee connections (3 per sled) -->
+                    <g fill="#64ffda" filter="url(#cyan-glow)">
+                      <rect x="84" y="34" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="82" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="130" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="178" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="226" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="274" width="6" height="3" opacity="0.7"/>
+                    </g>
+                    <text x="6" y="354" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">GPU-A02 · 8×H100</text>
+                  </g>
+
+                  <!-- GPU rack A03 -->
+                  <g transform="translate(330, 480)" class="dc-piece" data-id="A03.GPU">
+                    <rect x="0" y="0" width="80" height="360" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="80,0 90,-12 90,348 80,360" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="6" y="14"  width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="62"  width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="110" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="158" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="206" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="254" width="68" height="44" fill="#0e1814"/>
+                      <rect x="6" y="302" width="68" height="36" fill="#08110d"/>
+                    </g>
+                    <g fill="#0a1410" stroke="#1a2620" stroke-width="0.2">
+                      <rect x="10" y="20" width="60" height="14"/>
+                      <rect x="10" y="36" width="60" height="14"/>
+                      <rect x="10" y="68" width="60" height="14"/>
+                      <rect x="10" y="84" width="60" height="14"/>
+                      <rect x="10" y="116" width="60" height="14"/>
+                      <rect x="10" y="132" width="60" height="14"/>
+                      <rect x="10" y="164" width="60" height="14"/>
+                      <rect x="10" y="180" width="60" height="14"/>
+                      <rect x="10" y="212" width="60" height="14"/>
+                      <rect x="10" y="228" width="60" height="14"/>
+                      <rect x="10" y="260" width="60" height="14"/>
+                      <rect x="10" y="276" width="60" height="14"/>
+                    </g>
+                    <g fill="#64ffda">
+                      <rect x="66" y="24" width="2" height="2.4" opacity="0.7"/>
+                      <rect x="66" y="40" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="72" width="2" height="2.4" opacity="0.6"/>
+                      <rect x="66" y="88" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="120" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.0s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="136" width="2" height="2.4" opacity="0.5"/>
+                      <rect x="66" y="168" width="2" height="2.4" opacity="0.7"/>
+                      <rect x="66" y="184" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="216" width="2" height="2.4" opacity="0.6"/>
+                      <rect x="66" y="232" width="2" height="2.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/></rect>
+                      <rect x="66" y="264" width="2" height="2.4" opacity="0.5"/>
+                      <rect x="66" y="280" width="2" height="2.4" opacity="0.7"/>
+                    </g>
+                    <rect x="90" y="20" width="6" height="320" fill="url(#cool-pipe)" filter="url(#cyan-glow)"/>
+                    <g fill="#64ffda" filter="url(#cyan-glow)">
+                      <rect x="84" y="34" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="82" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="130" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="178" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="226" width="6" height="3" opacity="0.7"/>
+                      <rect x="84" y="274" width="6" height="3" opacity="0.7"/>
+                    </g>
+                    <text x="6" y="354" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">GPU-A03 · 8×H100</text>
+                  </g>
+
+                  <!-- Spine rack A04 -->
+                  <g transform="translate(430, 500)" class="dc-piece" data-id="A04.SPINE">
+                    <rect x="0" y="0" width="80" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="80,0 90,-12 90,328 80,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- 7 patch panels -->
+                    <rect x="6" y="12" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="60" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="108" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="156" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="204" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="252" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                    <rect x="6" y="300" width="68" height="30" fill="#0c1612" stroke="#1a2620" stroke-width="0.3"/>
+                    <!-- Fiber bundles emerging from right -->
+                    <g stroke="#64ffda" stroke-width="0.8" fill="none" opacity="0.75" filter="url(#cyan-glow)">
+                      <path d="M 90 30 Q 110 50 130 110"/>
+                      <path d="M 90 50 Q 110 70 134 130"/>
+                      <path d="M 90 80 Q 112 100 138 150"/>
+                      <path d="M 90 130 Q 116 150 142 200"/>
+                      <path d="M 90 180 Q 120 200 146 240"/>
+                      <path d="M 90 230 Q 124 250 150 280"/>
+                    </g>
+                    <!-- Animated packet pulses on fibers -->
+                    <g fill="#64ffda" filter="url(#cyan-glow)">
+                      <circle r="1.5">
+                        <animateMotion dur="2.5s" repeatCount="indefinite" path="M 90 30 Q 110 50 130 110"/>
+                      </circle>
+                      <circle r="1.5">
+                        <animateMotion dur="2.7s" repeatCount="indefinite" path="M 90 130 Q 116 150 142 200"/>
+                      </circle>
+                      <circle r="1.5">
+                        <animateMotion dur="2.3s" repeatCount="indefinite" path="M 90 230 Q 124 250 150 280"/>
+                      </circle>
+                    </g>
+                    <text x="6" y="334" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">SPINE-A04 · 400G</text>
+                  </g>
+
+                  <!-- General compute A05 -->
+                  <g transform="translate(530, 500)" class="dc-piece" data-id="A05.CPU">
+                    <rect x="0" y="0" width="70" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 70,0 80,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="70,0 80,-12 80,328 70,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- ~30 1U servers -->
+                    <g stroke="#1a2620" stroke-width="0.25" fill="#0c1612">
+                      <rect x="6"  y="12"  width="58" height="9"/>
+                      <rect x="6"  y="22"  width="58" height="9"/>
+                      <rect x="6"  y="32"  width="58" height="9"/>
+                      <rect x="6"  y="42"  width="58" height="9"/>
+                      <rect x="6"  y="52"  width="58" height="9"/>
+                      <rect x="6"  y="62"  width="58" height="9"/>
+                      <rect x="6"  y="72"  width="58" height="9"/>
+                      <rect x="6"  y="82"  width="58" height="9"/>
+                      <rect x="6"  y="92"  width="58" height="9"/>
+                      <rect x="6"  y="102" width="58" height="9"/>
+                      <rect x="6"  y="112" width="58" height="9"/>
+                      <rect x="6"  y="122" width="58" height="9"/>
+                      <rect x="6"  y="132" width="58" height="9"/>
+                      <rect x="6"  y="142" width="58" height="9"/>
+                      <rect x="6"  y="152" width="58" height="9"/>
+                      <rect x="6"  y="162" width="58" height="9"/>
+                      <rect x="6"  y="172" width="58" height="9"/>
+                      <rect x="6"  y="182" width="58" height="9"/>
+                      <rect x="6"  y="192" width="58" height="9"/>
+                      <rect x="6"  y="202" width="58" height="9"/>
+                      <rect x="6"  y="212" width="58" height="9"/>
+                      <rect x="6"  y="222" width="58" height="9"/>
+                      <rect x="6"  y="232" width="58" height="9"/>
+                      <rect x="6"  y="242" width="58" height="9"/>
+                      <rect x="6"  y="252" width="58" height="9"/>
+                      <rect x="6"  y="262" width="58" height="9"/>
+                      <rect x="6"  y="272" width="58" height="9"/>
+                      <rect x="6"  y="282" width="58" height="9"/>
+                      <rect x="6"  y="292" width="58" height="9"/>
+                      <rect x="6"  y="302" width="58" height="9"/>
+                    </g>
+                    <!-- LEDs -->
+                    <g fill="#64ffda">
+                      <rect x="58" y="15" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="58" y="35" width="1.4" height="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/></rect>
+                      <rect x="58" y="55" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="58" y="75" width="1.4" height="1.4" opacity="0.8"/>
+                      <rect x="58" y="95" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></rect>
+                      <rect x="58" y="115" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="58" y="135" width="1.4" height="1.4" opacity="0.5"/>
+                      <rect x="58" y="155" width="1.4" height="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite"/></rect>
+                      <rect x="58" y="175" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="58" y="195" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="58" y="215" width="1.4" height="1.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.3s" repeatCount="indefinite"/></rect>
+                      <rect x="58" y="235" width="1.4" height="1.4" opacity="0.5"/>
+                      <rect x="58" y="255" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="58" y="275" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite"/></rect>
+                      <rect x="58" y="295" width="1.4" height="1.4" opacity="0.7"/>
+                    </g>
+                    <text x="6" y="334" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">CPU-A05 · 30×1U</text>
+                  </g>
+
+                  <!-- Storage rack A06 (shorter) -->
+                  <g transform="translate(620, 580)" class="dc-piece" data-id="A06.STORE">
+                    <rect x="0" y="0" width="70" height="260" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                    <polygon points="0,0 70,0 80,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <polygon points="70,0 80,-12 80,248 70,260" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <!-- JBOD sleds (4U each, dense disk slots) -->
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <rect x="6" y="14" width="58" height="32" fill="#0e1814"/>
+                      <rect x="6" y="50" width="58" height="32" fill="#0e1814"/>
+                      <rect x="6" y="86" width="58" height="32" fill="#0e1814"/>
+                      <rect x="6" y="122" width="58" height="32" fill="#0e1814"/>
+                      <rect x="6" y="158" width="58" height="32" fill="#0e1814"/>
+                      <rect x="6" y="194" width="58" height="32" fill="#0e1814"/>
+                    </g>
+                    <!-- Disk slots (small rectangles) -->
+                    <g fill="#040806" stroke="#1a2620" stroke-width="0.2">
+                      <rect x="10" y="20" width="3" height="20"/><rect x="15" y="20" width="3" height="20"/><rect x="20" y="20" width="3" height="20"/><rect x="25" y="20" width="3" height="20"/><rect x="30" y="20" width="3" height="20"/><rect x="35" y="20" width="3" height="20"/><rect x="40" y="20" width="3" height="20"/><rect x="45" y="20" width="3" height="20"/><rect x="50" y="20" width="3" height="20"/><rect x="55" y="20" width="3" height="20"/>
+                      <rect x="10" y="56" width="3" height="20"/><rect x="15" y="56" width="3" height="20"/><rect x="20" y="56" width="3" height="20"/><rect x="25" y="56" width="3" height="20"/><rect x="30" y="56" width="3" height="20"/><rect x="35" y="56" width="3" height="20"/><rect x="40" y="56" width="3" height="20"/><rect x="45" y="56" width="3" height="20"/><rect x="50" y="56" width="3" height="20"/><rect x="55" y="56" width="3" height="20"/>
+                      <rect x="10" y="92" width="3" height="20"/><rect x="15" y="92" width="3" height="20"/><rect x="20" y="92" width="3" height="20"/><rect x="25" y="92" width="3" height="20"/><rect x="30" y="92" width="3" height="20"/><rect x="35" y="92" width="3" height="20"/><rect x="40" y="92" width="3" height="20"/><rect x="45" y="92" width="3" height="20"/><rect x="50" y="92" width="3" height="20"/><rect x="55" y="92" width="3" height="20"/>
+                      <rect x="10" y="128" width="3" height="20"/><rect x="15" y="128" width="3" height="20"/><rect x="20" y="128" width="3" height="20"/><rect x="25" y="128" width="3" height="20"/><rect x="30" y="128" width="3" height="20"/><rect x="35" y="128" width="3" height="20"/><rect x="40" y="128" width="3" height="20"/><rect x="45" y="128" width="3" height="20"/><rect x="50" y="128" width="3" height="20"/><rect x="55" y="128" width="3" height="20"/>
+                      <rect x="10" y="164" width="3" height="20"/><rect x="15" y="164" width="3" height="20"/><rect x="20" y="164" width="3" height="20"/><rect x="25" y="164" width="3" height="20"/><rect x="30" y="164" width="3" height="20"/><rect x="35" y="164" width="3" height="20"/><rect x="40" y="164" width="3" height="20"/><rect x="45" y="164" width="3" height="20"/><rect x="50" y="164" width="3" height="20"/><rect x="55" y="164" width="3" height="20"/>
+                      <rect x="10" y="200" width="3" height="20"/><rect x="15" y="200" width="3" height="20"/><rect x="20" y="200" width="3" height="20"/><rect x="25" y="200" width="3" height="20"/><rect x="30" y="200" width="3" height="20"/><rect x="35" y="200" width="3" height="20"/><rect x="40" y="200" width="3" height="20"/><rect x="45" y="200" width="3" height="20"/><rect x="50" y="200" width="3" height="20"/><rect x="55" y="200" width="3" height="20"/>
+                    </g>
+                    <!-- Disk activity LEDs -->
+                    <g fill="#64ffda">
+                      <rect x="60" y="24" width="1.4" height="1.4" opacity="0.8"/>
+                      <rect x="60" y="60" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite"/></rect>
+                      <rect x="60" y="96" width="1.4" height="1.4" opacity="0.6"/>
+                      <rect x="60" y="132" width="1.4" height="1.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.0s" repeatCount="indefinite"/></rect>
+                      <rect x="60" y="168" width="1.4" height="1.4" opacity="0.7"/>
+                      <rect x="60" y="204" width="1.4" height="1.4" opacity="0.5"/>
+                    </g>
+                    <text x="6" y="254" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">STORE-A06 · 60×NVMe</text>
+                  </g>
+
+                  <!-- Containment door between A06 and second cluster -->
+                  <g transform="translate(700, 480)">
+                    <rect x="0" y="0" width="120" height="360" fill="url(#glass-panel)" stroke="#2c3a32" stroke-width="0.6"/>
+                    <line x1="60" y1="0" x2="60" y2="360" stroke="#2c3a32" stroke-width="0.5"/>
+                    <g stroke="#1a2620" stroke-width="0.3">
+                      <line x1="0" y1="60" x2="120" y2="60"/>
+                      <line x1="0" y1="120" x2="120" y2="120"/>
+                      <line x1="0" y1="180" x2="120" y2="180"/>
+                      <line x1="0" y1="240" x2="120" y2="240"/>
+                      <line x1="0" y1="300" x2="120" y2="300"/>
+                    </g>
+                    <!-- Door handle -->
+                    <rect x="54" y="200" width="12" height="32" fill="#3a5046" stroke="#1a2620" stroke-width="0.3"/>
+                    <text x="6" y="-6" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">COLD AISLE · CONTAINMENT</text>
+                  </g>
+
+                  <!-- Second cluster: B01-B06 -->
+                  <g transform="translate(820, 0)">
+                    <!-- B01 spine -->
+                    <g transform="translate(0, 500)" class="dc-piece" data-id="B01.SPINE">
+                      <rect x="0" y="0" width="80" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="80,0 90,-12 90,328 80,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <rect x="6" y="12" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="60" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="108" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="156" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="204" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="252" width="68" height="44" fill="url(#patch-panel)" stroke="#1a2620" stroke-width="0.3"/>
+                      <rect x="6" y="300" width="68" height="30" fill="#0c1612" stroke="#1a2620" stroke-width="0.3"/>
+                      <g stroke="#64ffda" stroke-width="0.8" fill="none" opacity="0.75" filter="url(#cyan-glow)">
+                        <path d="M 90 30 Q 116 50 144 100"/>
+                        <path d="M 90 80 Q 120 100 148 160"/>
+                        <path d="M 90 130 Q 124 150 152 220"/>
+                        <path d="M 90 200 Q 128 220 156 280"/>
+                      </g>
+                      <g fill="#64ffda" filter="url(#cyan-glow)">
+                        <circle r="1.5"><animateMotion dur="2.6s" repeatCount="indefinite" path="M 90 30 Q 116 50 144 100"/></circle>
+                        <circle r="1.5"><animateMotion dur="3.0s" repeatCount="indefinite" path="M 90 130 Q 124 150 152 220"/></circle>
+                      </g>
+                      <text x="6" y="334" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">SPINE-B01 · 400G</text>
+                    </g>
+                    <!-- B02-B04 GPU cluster (3 racks of 8x GPU) -->
+                    <g transform="translate(100, 480)" class="dc-piece" data-id="B02.GPU">
+                      <rect x="0" y="0" width="80" height="360" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="80,0 90,-12 90,348 80,360" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="14"  width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="62"  width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="110" width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="158" width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="206" width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="254" width="68" height="44" fill="#0e1814"/>
+                        <rect x="6" y="302" width="68" height="36" fill="#08110d"/>
+                      </g>
+                      <g fill="#0a1410" stroke="#1a2620" stroke-width="0.2">
+                        <rect x="10" y="20" width="60" height="14"/><rect x="10" y="36" width="60" height="14"/>
+                        <rect x="10" y="68" width="60" height="14"/><rect x="10" y="84" width="60" height="14"/>
+                        <rect x="10" y="116" width="60" height="14"/><rect x="10" y="132" width="60" height="14"/>
+                        <rect x="10" y="164" width="60" height="14"/><rect x="10" y="180" width="60" height="14"/>
+                        <rect x="10" y="212" width="60" height="14"/><rect x="10" y="228" width="60" height="14"/>
+                        <rect x="10" y="260" width="60" height="14"/><rect x="10" y="276" width="60" height="14"/>
+                      </g>
+                      <g fill="#64ffda">
+                        <rect x="66" y="24" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="40" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="72" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.7s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="88" width="2" height="2.4" opacity="0.5"/>
+                        <rect x="66" y="120" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.1s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="136" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="168" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="184" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="216" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="232" width="2" height="2.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="264" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="280" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.6s" repeatCount="indefinite"/></rect>
+                      </g>
+                      <rect x="90" y="20" width="6" height="320" fill="url(#cool-pipe)" filter="url(#cyan-glow)"/>
+                      <g fill="#64ffda" filter="url(#cyan-glow)">
+                        <rect x="84" y="34" width="6" height="3" opacity="0.7"/><rect x="84" y="82" width="6" height="3" opacity="0.7"/><rect x="84" y="130" width="6" height="3" opacity="0.7"/><rect x="84" y="178" width="6" height="3" opacity="0.7"/><rect x="84" y="226" width="6" height="3" opacity="0.7"/><rect x="84" y="274" width="6" height="3" opacity="0.7"/>
+                      </g>
+                      <text x="6" y="354" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">GPU-B02 · 8×H100</text>
+                    </g>
+                    <g transform="translate(200, 480)" class="dc-piece" data-id="B03.GPU">
+                      <rect x="0" y="0" width="80" height="360" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="80,0 90,-12 90,348 80,360" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="14"  width="68" height="44" fill="#0e1814"/><rect x="6" y="62"  width="68" height="44" fill="#0e1814"/><rect x="6" y="110" width="68" height="44" fill="#0e1814"/><rect x="6" y="158" width="68" height="44" fill="#0e1814"/><rect x="6" y="206" width="68" height="44" fill="#0e1814"/><rect x="6" y="254" width="68" height="44" fill="#0e1814"/><rect x="6" y="302" width="68" height="36" fill="#08110d"/>
+                      </g>
+                      <g fill="#0a1410" stroke="#1a2620" stroke-width="0.2">
+                        <rect x="10" y="20" width="60" height="14"/><rect x="10" y="36" width="60" height="14"/>
+                        <rect x="10" y="68" width="60" height="14"/><rect x="10" y="84" width="60" height="14"/>
+                        <rect x="10" y="116" width="60" height="14"/><rect x="10" y="132" width="60" height="14"/>
+                        <rect x="10" y="164" width="60" height="14"/><rect x="10" y="180" width="60" height="14"/>
+                        <rect x="10" y="212" width="60" height="14"/><rect x="10" y="228" width="60" height="14"/>
+                        <rect x="10" y="260" width="60" height="14"/><rect x="10" y="276" width="60" height="14"/>
+                      </g>
+                      <g fill="#64ffda">
+                        <rect x="66" y="24" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="40" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="72" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="88" width="2" height="2.4" opacity="0.5"/>
+                        <rect x="66" y="120" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.0s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="136" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="168" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="184" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="216" width="2" height="2.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.3s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="232" width="2" height="2.4" opacity="0.5"/>
+                        <rect x="66" y="264" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="280" width="2" height="2.4" opacity="0.5"/>
+                      </g>
+                      <rect x="90" y="20" width="6" height="320" fill="url(#cool-pipe)" filter="url(#cyan-glow)"/>
+                      <g fill="#64ffda" filter="url(#cyan-glow)">
+                        <rect x="84" y="34" width="6" height="3" opacity="0.7"/><rect x="84" y="82" width="6" height="3" opacity="0.7"/><rect x="84" y="130" width="6" height="3" opacity="0.7"/><rect x="84" y="178" width="6" height="3" opacity="0.7"/><rect x="84" y="226" width="6" height="3" opacity="0.7"/><rect x="84" y="274" width="6" height="3" opacity="0.7"/>
+                      </g>
+                      <text x="6" y="354" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">GPU-B03 · 8×H100</text>
+                    </g>
+                    <g transform="translate(300, 480)" class="dc-piece" data-id="B04.GPU">
+                      <rect x="0" y="0" width="80" height="360" fill="url(#rack-front-gpu)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 80,0 90,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="80,0 90,-12 90,348 80,360" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="14"  width="68" height="44" fill="#0e1814"/><rect x="6" y="62"  width="68" height="44" fill="#0e1814"/><rect x="6" y="110" width="68" height="44" fill="#0e1814"/><rect x="6" y="158" width="68" height="44" fill="#0e1814"/><rect x="6" y="206" width="68" height="44" fill="#0e1814"/><rect x="6" y="254" width="68" height="44" fill="#0e1814"/><rect x="6" y="302" width="68" height="36" fill="#08110d"/>
+                      </g>
+                      <g fill="#0a1410" stroke="#1a2620" stroke-width="0.2">
+                        <rect x="10" y="20" width="60" height="14"/><rect x="10" y="36" width="60" height="14"/>
+                        <rect x="10" y="68" width="60" height="14"/><rect x="10" y="84" width="60" height="14"/>
+                        <rect x="10" y="116" width="60" height="14"/><rect x="10" y="132" width="60" height="14"/>
+                        <rect x="10" y="164" width="60" height="14"/><rect x="10" y="180" width="60" height="14"/>
+                        <rect x="10" y="212" width="60" height="14"/><rect x="10" y="228" width="60" height="14"/>
+                        <rect x="10" y="260" width="60" height="14"/><rect x="10" y="276" width="60" height="14"/>
+                      </g>
+                      <g fill="#64ffda">
+                        <rect x="66" y="24" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="40" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="72" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="88" width="2" height="2.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="120" width="2" height="2.4" opacity="0.5"/>
+                        <rect x="66" y="136" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="168" width="2" height="2.4" opacity="0.6"/>
+                        <rect x="66" y="184" width="2" height="2.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="216" width="2" height="2.4" opacity="0.5"/>
+                        <rect x="66" y="232" width="2" height="2.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/></rect>
+                        <rect x="66" y="264" width="2" height="2.4" opacity="0.7"/>
+                        <rect x="66" y="280" width="2" height="2.4" opacity="0.5"/>
+                      </g>
+                      <rect x="90" y="20" width="6" height="320" fill="url(#cool-pipe)" filter="url(#cyan-glow)"/>
+                      <g fill="#64ffda" filter="url(#cyan-glow)">
+                        <rect x="84" y="34" width="6" height="3" opacity="0.7"/><rect x="84" y="82" width="6" height="3" opacity="0.7"/><rect x="84" y="130" width="6" height="3" opacity="0.7"/><rect x="84" y="178" width="6" height="3" opacity="0.7"/><rect x="84" y="226" width="6" height="3" opacity="0.7"/><rect x="84" y="274" width="6" height="3" opacity="0.7"/>
+                      </g>
+                      <text x="6" y="354" style="font-family: var(--font-mono); font-size: 7px; fill: #64ffda;">GPU-B04 · 8×H100</text>
+                    </g>
+                    <!-- B05 compute -->
+                    <g transform="translate(400, 500)" class="dc-piece" data-id="B05.CPU">
+                      <rect x="0" y="0" width="70" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 70,0 80,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="70,0 80,-12 80,328 70,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <g stroke="#1a2620" stroke-width="0.25" fill="#0c1612">
+                        <rect x="6" y="12" width="58" height="9"/><rect x="6" y="22" width="58" height="9"/><rect x="6" y="32" width="58" height="9"/><rect x="6" y="42" width="58" height="9"/><rect x="6" y="52" width="58" height="9"/><rect x="6" y="62" width="58" height="9"/><rect x="6" y="72" width="58" height="9"/><rect x="6" y="82" width="58" height="9"/><rect x="6" y="92" width="58" height="9"/><rect x="6" y="102" width="58" height="9"/><rect x="6" y="112" width="58" height="9"/><rect x="6" y="122" width="58" height="9"/><rect x="6" y="132" width="58" height="9"/><rect x="6" y="142" width="58" height="9"/><rect x="6" y="152" width="58" height="9"/><rect x="6" y="162" width="58" height="9"/><rect x="6" y="172" width="58" height="9"/><rect x="6" y="182" width="58" height="9"/><rect x="6" y="192" width="58" height="9"/><rect x="6" y="202" width="58" height="9"/><rect x="6" y="212" width="58" height="9"/><rect x="6" y="222" width="58" height="9"/><rect x="6" y="232" width="58" height="9"/><rect x="6" y="242" width="58" height="9"/><rect x="6" y="252" width="58" height="9"/><rect x="6" y="262" width="58" height="9"/><rect x="6" y="272" width="58" height="9"/><rect x="6" y="282" width="58" height="9"/><rect x="6" y="292" width="58" height="9"/><rect x="6" y="302" width="58" height="9"/>
+                      </g>
+                      <g fill="#64ffda">
+                        <rect x="58" y="15" width="1.4" height="1.4" opacity="0.7"/>
+                        <rect x="58" y="45" width="1.4" height="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/></rect>
+                        <rect x="58" y="75" width="1.4" height="1.4" opacity="0.6"/>
+                        <rect x="58" y="105" width="1.4" height="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite"/></rect>
+                        <rect x="58" y="135" width="1.4" height="1.4" opacity="0.5"/>
+                        <rect x="58" y="165" width="1.4" height="1.4" opacity="0.7"/>
+                        <rect x="58" y="195" width="1.4" height="1.4"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.9s" repeatCount="indefinite"/></rect>
+                        <rect x="58" y="225" width="1.4" height="1.4" opacity="0.6"/>
+                        <rect x="58" y="255" width="1.4" height="1.4" opacity="0.5"/>
+                        <rect x="58" y="285" width="1.4" height="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.2s" repeatCount="indefinite"/></rect>
+                      </g>
+                      <text x="6" y="334" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">CPU-B05 · 30×1U</text>
+                    </g>
+                    <!-- B06 PDU end-of-row -->
+                    <g transform="translate(490, 500)" class="dc-piece" data-id="B06.PDU">
+                      <rect x="0" y="0" width="70" height="340" fill="url(#rack-front)" stroke="#2c3a32" stroke-width="0.7"/>
+                      <polygon points="0,0 70,0 80,-12 10,-12" fill="url(#rack-top)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <polygon points="70,0 80,-12 80,328 70,340" fill="url(#rack-side)" stroke="#2c3a32" stroke-width="0.6"/>
+                      <g stroke="#1a2620" stroke-width="0.3">
+                        <rect x="6" y="14"  width="58" height="44" fill="#040806"/><rect x="6" y="62"  width="58" height="44" fill="#040806"/><rect x="6" y="110" width="58" height="44" fill="#040806"/><rect x="6" y="158" width="58" height="44" fill="#040806"/><rect x="6" y="206" width="58" height="44" fill="#040806"/><rect x="6" y="254" width="58" height="44" fill="#040806"/>
+                      </g>
+                      <g stroke="#1a2620" stroke-width="0.25" fill="#0c1612">
+                        <rect x="10" y="20" width="48" height="10"/><rect x="10" y="34" width="48" height="10"/><rect x="10" y="46" width="48" height="10"/>
+                        <rect x="10" y="68" width="48" height="10"/><rect x="10" y="82" width="48" height="10"/><rect x="10" y="94" width="48" height="10"/>
+                        <rect x="10" y="116" width="48" height="10"/><rect x="10" y="130" width="48" height="10"/><rect x="10" y="142" width="48" height="10"/>
+                        <rect x="10" y="164" width="48" height="10"/><rect x="10" y="178" width="48" height="10"/><rect x="10" y="190" width="48" height="10"/>
+                        <rect x="10" y="212" width="48" height="10"/><rect x="10" y="226" width="48" height="10"/><rect x="10" y="238" width="48" height="10"/>
+                        <rect x="10" y="260" width="48" height="10"/><rect x="10" y="274" width="48" height="10"/><rect x="10" y="286" width="48" height="10"/>
+                      </g>
+                      <g fill="#64ffda">
+                        <circle cx="60" cy="25" r="1.4" opacity="0.7"/><circle cx="60" cy="39" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/></circle><circle cx="60" cy="51" r="1.4" opacity="0.6"/>
+                        <circle cx="60" cy="73" r="1.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></circle><circle cx="60" cy="87" r="1.4" opacity="0.7"/><circle cx="60" cy="99" r="1.4" opacity="0.5"/>
+                        <circle cx="60" cy="121" r="1.4" opacity="0.6"/><circle cx="60" cy="135" r="1.4"><animate attributeName="opacity" values="1;0.3;1" dur="2.3s" repeatCount="indefinite"/></circle><circle cx="60" cy="147" r="1.4" opacity="0.7"/>
+                        <circle cx="60" cy="169" r="1.4" opacity="0.5"/><circle cx="60" cy="183" r="1.4" opacity="0.6"/><circle cx="60" cy="195" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite"/></circle>
+                      </g>
+                      <rect x="60" y="310" width="6" height="16" fill="#3a5046"/>
+                      <text x="6" y="332" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">PDU-B06</text>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 7: CRAC / CDU cooling units (right edge)                       -->
+                <!-- =================================================================== -->
+                <g transform="translate(1700, 460)">
+                  <g class="dc-piece" data-id="CRAC-1">
+                    <!-- Cabinet body -->
+                    <rect x="0" y="0" width="120" height="400" fill="url(#crac-front)" stroke="#2c3a32" stroke-width="0.8"/>
+                    <!-- Top vent -->
+                    <rect x="6" y="6" width="108" height="22" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <g stroke="#0a1310" stroke-width="0.4">
+                      <line x1="6" y1="11" x2="114" y2="11"/>
+                      <line x1="6" y1="16" x2="114" y2="16"/>
+                      <line x1="6" y1="21" x2="114" y2="21"/>
+                    </g>
+                    <!-- Control panel -->
+                    <rect x="10" y="38" width="100" height="50" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <rect x="16" y="44" width="60" height="14" fill="rgba(100,255,218,0.10)" stroke="#1a2620" stroke-width="0.3"/>
+                    <g fill="#64ffda">
+                      <circle cx="84" cy="51" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></circle>
+                      <circle cx="92" cy="51" r="1.4" opacity="0.6"/>
+                      <circle cx="100" cy="51" r="1.4" opacity="0.7"/>
+                    </g>
+                    <text x="16" y="76" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">CRAC-1 · CW · 120 kW</text>
+                    <text x="16" y="84" style="font-family: var(--font-mono); font-size: 6.5px; fill: #5d6770;">SUPPLY 12°C · RETURN 24°C</text>
+                    <!-- Main face vent (large grille) -->
+                    <rect x="10" y="100" width="100" height="240" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <g stroke="#0a1310" stroke-width="0.5">
+                      <line x1="10" y1="108" x2="110" y2="108"/><line x1="10" y1="118" x2="110" y2="118"/><line x1="10" y1="128" x2="110" y2="128"/>
+                      <line x1="10" y1="138" x2="110" y2="138"/><line x1="10" y1="148" x2="110" y2="148"/><line x1="10" y1="158" x2="110" y2="158"/>
+                      <line x1="10" y1="168" x2="110" y2="168"/><line x1="10" y1="178" x2="110" y2="178"/><line x1="10" y1="188" x2="110" y2="188"/>
+                      <line x1="10" y1="198" x2="110" y2="198"/><line x1="10" y1="208" x2="110" y2="208"/><line x1="10" y1="218" x2="110" y2="218"/>
+                      <line x1="10" y1="228" x2="110" y2="228"/><line x1="10" y1="238" x2="110" y2="238"/><line x1="10" y1="248" x2="110" y2="248"/>
+                      <line x1="10" y1="258" x2="110" y2="258"/><line x1="10" y1="268" x2="110" y2="268"/><line x1="10" y1="278" x2="110" y2="278"/>
+                      <line x1="10" y1="288" x2="110" y2="288"/><line x1="10" y1="298" x2="110" y2="298"/><line x1="10" y1="308" x2="110" y2="308"/>
+                      <line x1="10" y1="318" x2="110" y2="318"/><line x1="10" y1="328" x2="110" y2="328"/>
+                    </g>
+                    <!-- Door handle / lower panel -->
+                    <rect x="10" y="350" width="100" height="44" fill="#0c1612" stroke="#1a2620" stroke-width="0.4"/>
+                    <rect x="92" y="368" width="14" height="14" fill="#3a5046"/>
+                    <!-- Vapor wisps coming off top -->
+                    <g opacity="0.45" filter="url(#vapor)">
+                      <path d="M 30 6 Q 26 -20 36 -36 Q 50 -56 38 -76" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                      <path d="M 60 6 Q 70 -22 60 -44 Q 50 -68 64 -88" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                      <path d="M 90 6 Q 84 -16 94 -36 Q 108 -56 96 -76" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                    </g>
+                  </g>
+                  <g class="dc-piece" data-id="CRAC-2" transform="translate(140, 0)">
+                    <rect x="0" y="0" width="120" height="400" fill="url(#crac-front)" stroke="#2c3a32" stroke-width="0.8"/>
+                    <rect x="6" y="6" width="108" height="22" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <g stroke="#0a1310" stroke-width="0.4">
+                      <line x1="6" y1="11" x2="114" y2="11"/><line x1="6" y1="16" x2="114" y2="16"/><line x1="6" y1="21" x2="114" y2="21"/>
+                    </g>
+                    <rect x="10" y="38" width="100" height="50" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <rect x="16" y="44" width="60" height="14" fill="rgba(100,255,218,0.10)" stroke="#1a2620" stroke-width="0.3"/>
+                    <g fill="#64ffda">
+                      <circle cx="84" cy="51" r="1.4" opacity="0.7"/>
+                      <circle cx="92" cy="51" r="1.4"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite"/></circle>
+                      <circle cx="100" cy="51" r="1.4" opacity="0.6"/>
+                    </g>
+                    <text x="16" y="76" style="font-family: var(--font-mono); font-size: 7px; fill: #9aa3ad;">CRAC-2 · CW · 120 kW</text>
+                    <text x="16" y="84" style="font-family: var(--font-mono); font-size: 6.5px; fill: #5d6770;">SUPPLY 12°C · RETURN 24°C</text>
+                    <rect x="10" y="100" width="100" height="240" fill="#040806" stroke="#1a2620" stroke-width="0.4"/>
+                    <g stroke="#0a1310" stroke-width="0.5">
+                      <line x1="10" y1="108" x2="110" y2="108"/><line x1="10" y1="118" x2="110" y2="118"/><line x1="10" y1="128" x2="110" y2="128"/>
+                      <line x1="10" y1="138" x2="110" y2="138"/><line x1="10" y1="148" x2="110" y2="148"/><line x1="10" y1="158" x2="110" y2="158"/>
+                      <line x1="10" y1="168" x2="110" y2="168"/><line x1="10" y1="178" x2="110" y2="178"/><line x1="10" y1="188" x2="110" y2="188"/>
+                      <line x1="10" y1="198" x2="110" y2="198"/><line x1="10" y1="208" x2="110" y2="208"/><line x1="10" y1="218" x2="110" y2="218"/>
+                      <line x1="10" y1="228" x2="110" y2="228"/><line x1="10" y1="238" x2="110" y2="238"/><line x1="10" y1="248" x2="110" y2="248"/>
+                      <line x1="10" y1="258" x2="110" y2="258"/><line x1="10" y1="268" x2="110" y2="268"/><line x1="10" y1="278" x2="110" y2="278"/>
+                      <line x1="10" y1="288" x2="110" y2="288"/><line x1="10" y1="298" x2="110" y2="298"/><line x1="10" y1="308" x2="110" y2="308"/>
+                      <line x1="10" y1="318" x2="110" y2="318"/><line x1="10" y1="328" x2="110" y2="328"/>
+                    </g>
+                    <rect x="10" y="350" width="100" height="44" fill="#0c1612" stroke="#1a2620" stroke-width="0.4"/>
+                    <rect x="92" y="368" width="14" height="14" fill="#3a5046"/>
+                    <g opacity="0.45" filter="url(#vapor)">
+                      <path d="M 30 6 Q 26 -20 36 -36 Q 50 -56 38 -76" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                      <path d="M 60 6 Q 70 -22 60 -44 Q 50 -68 64 -88" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                      <path d="M 90 6 Q 84 -16 94 -36 Q 108 -56 96 -76" stroke="rgba(180,220,210,0.6)" stroke-width="1.6" fill="none"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 8: Overhead infrastructure                                    -->
+                <!-- =================================================================== -->
+                <g>
+                  <!-- Ceiling I-beam joists (across hall) -->
+                  <g stroke="#22302a" stroke-width="0.8" fill="#0a1310">
+                    <rect x="40" y="160" width="2120" height="10"/>
+                    <rect x="40" y="160" width="2120" height="2"/>
+                    <rect x="40" y="168" width="2120" height="2"/>
+                  </g>
+                  <g stroke="#22302a" stroke-width="0.8" fill="#0a1310">
+                    <rect x="40" y="100" width="2120" height="10"/>
+                    <rect x="40" y="100" width="2120" height="2"/>
+                    <rect x="40" y="108" width="2120" height="2"/>
+                  </g>
+
+                  <!-- Ladder cable tray 1 -->
+                  <g>
+                    <rect x="40" y="200" width="2120" height="12" fill="url(#cable-tray)" stroke="#22302a" stroke-width="0.6"/>
+                    <line x1="40" y1="200" x2="2160" y2="200" stroke="#384a40" stroke-width="0.5"/>
+                    <line x1="40" y1="212" x2="2160" y2="212" stroke="#384a40" stroke-width="0.5"/>
+                    <!-- Ladder rungs -->
+                    <g stroke="#384a40" stroke-width="0.4">
+                      <line x1="80"  y1="200" x2="80"  y2="212"/><line x1="140" y1="200" x2="140" y2="212"/><line x1="200" y1="200" x2="200" y2="212"/><line x1="260" y1="200" x2="260" y2="212"/><line x1="320" y1="200" x2="320" y2="212"/><line x1="380" y1="200" x2="380" y2="212"/><line x1="440" y1="200" x2="440" y2="212"/><line x1="500" y1="200" x2="500" y2="212"/><line x1="560" y1="200" x2="560" y2="212"/><line x1="620" y1="200" x2="620" y2="212"/><line x1="680" y1="200" x2="680" y2="212"/><line x1="740" y1="200" x2="740" y2="212"/><line x1="800" y1="200" x2="800" y2="212"/><line x1="860" y1="200" x2="860" y2="212"/><line x1="920" y1="200" x2="920" y2="212"/><line x1="980" y1="200" x2="980" y2="212"/><line x1="1040" y1="200" x2="1040" y2="212"/><line x1="1100" y1="200" x2="1100" y2="212"/><line x1="1160" y1="200" x2="1160" y2="212"/><line x1="1220" y1="200" x2="1220" y2="212"/><line x1="1280" y1="200" x2="1280" y2="212"/><line x1="1340" y1="200" x2="1340" y2="212"/><line x1="1400" y1="200" x2="1400" y2="212"/><line x1="1460" y1="200" x2="1460" y2="212"/><line x1="1520" y1="200" x2="1520" y2="212"/><line x1="1580" y1="200" x2="1580" y2="212"/><line x1="1640" y1="200" x2="1640" y2="212"/><line x1="1700" y1="200" x2="1700" y2="212"/><line x1="1760" y1="200" x2="1760" y2="212"/><line x1="1820" y1="200" x2="1820" y2="212"/><line x1="1880" y1="200" x2="1880" y2="212"/><line x1="1940" y1="200" x2="1940" y2="212"/><line x1="2000" y1="200" x2="2000" y2="212"/><line x1="2060" y1="200" x2="2060" y2="212"/><line x1="2120" y1="200" x2="2120" y2="212"/>
+                    </g>
+                    <!-- Cable bundles inside tray -->
+                    <rect x="40" y="203" width="2120" height="2" fill="rgba(100,255,218,0.18)"/>
+                    <rect x="40" y="207" width="2120" height="2" fill="rgba(80,200,180,0.16)"/>
+                  </g>
+
+                  <!-- Cable tray 2 (network — fiber bundles tinted) -->
+                  <g>
+                    <rect x="40" y="220" width="2120" height="10" fill="url(#cable-tray)" stroke="#22302a" stroke-width="0.6"/>
+                    <line x1="40" y1="220" x2="2160" y2="220" stroke="#384a40" stroke-width="0.5"/>
+                    <line x1="40" y1="230" x2="2160" y2="230" stroke="#384a40" stroke-width="0.5"/>
+                    <g stroke="#384a40" stroke-width="0.4">
+                      <line x1="60"  y1="220" x2="60"  y2="230"/><line x1="120" y1="220" x2="120" y2="230"/><line x1="180" y1="220" x2="180" y2="230"/><line x1="240" y1="220" x2="240" y2="230"/><line x1="300" y1="220" x2="300" y2="230"/><line x1="360" y1="220" x2="360" y2="230"/><line x1="420" y1="220" x2="420" y2="230"/><line x1="480" y1="220" x2="480" y2="230"/><line x1="540" y1="220" x2="540" y2="230"/><line x1="600" y1="220" x2="600" y2="230"/><line x1="660" y1="220" x2="660" y2="230"/><line x1="720" y1="220" x2="720" y2="230"/><line x1="780" y1="220" x2="780" y2="230"/><line x1="840" y1="220" x2="840" y2="230"/><line x1="900" y1="220" x2="900" y2="230"/><line x1="960" y1="220" x2="960" y2="230"/><line x1="1020" y1="220" x2="1020" y2="230"/><line x1="1080" y1="220" x2="1080" y2="230"/><line x1="1140" y1="220" x2="1140" y2="230"/><line x1="1200" y1="220" x2="1200" y2="230"/><line x1="1260" y1="220" x2="1260" y2="230"/><line x1="1320" y1="220" x2="1320" y2="230"/><line x1="1380" y1="220" x2="1380" y2="230"/><line x1="1440" y1="220" x2="1440" y2="230"/><line x1="1500" y1="220" x2="1500" y2="230"/><line x1="1560" y1="220" x2="1560" y2="230"/><line x1="1620" y1="220" x2="1620" y2="230"/><line x1="1680" y1="220" x2="1680" y2="230"/><line x1="1740" y1="220" x2="1740" y2="230"/><line x1="1800" y1="220" x2="1800" y2="230"/><line x1="1860" y1="220" x2="1860" y2="230"/><line x1="1920" y1="220" x2="1920" y2="230"/><line x1="1980" y1="220" x2="1980" y2="230"/><line x1="2040" y1="220" x2="2040" y2="230"/><line x1="2100" y1="220" x2="2100" y2="230"/>
+                    </g>
+                    <rect x="40" y="223" width="2120" height="1.5" fill="rgba(100,255,218,0.30)" filter="url(#cyan-glow)"/>
+                    <rect x="40" y="226" width="2120" height="1.5" fill="rgba(100,255,218,0.20)"/>
+                  </g>
+
+                  <!-- BUSWAY rectangular duct (parallel under cable trays) -->
+                  <g>
+                    <rect x="40" y="252" width="2120" height="18" fill="url(#busway)" stroke="#22302a" stroke-width="0.7"/>
+                    <line x1="40" y1="256" x2="2160" y2="256" stroke="#384a40" stroke-width="0.4"/>
+                    <line x1="40" y1="266" x2="2160" y2="266" stroke="#384a40" stroke-width="0.4"/>
+                    <!-- Tap-off boxes every 200 px -->
+                    <g>
+                      <rect x="180" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="380" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="580" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="780" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="980" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="1180" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="1380" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="1580" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="1780" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                      <rect x="1980" y="270" width="22" height="14" fill="#0e1814" stroke="#22302a" stroke-width="0.4"/>
+                    </g>
+                    <!-- Active LEDs on tap-offs -->
+                    <g fill="#64ffda" filter="url(#cyan-glow)">
+                      <circle cx="191" cy="277" r="1.2"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></circle>
+                      <circle cx="391" cy="277" r="1.2" opacity="0.7"/>
+                      <circle cx="591" cy="277" r="1.2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.9s" repeatCount="indefinite"/></circle>
+                      <circle cx="791" cy="277" r="1.2" opacity="0.6"/>
+                      <circle cx="991" cy="277" r="1.2"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.1s" repeatCount="indefinite"/></circle>
+                      <circle cx="1191" cy="277" r="1.2" opacity="0.7"/>
+                      <circle cx="1391" cy="277" r="1.2"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.7s" repeatCount="indefinite"/></circle>
+                      <circle cx="1591" cy="277" r="1.2" opacity="0.6"/>
+                      <circle cx="1791" cy="277" r="1.2"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/></circle>
+                      <circle cx="1991" cy="277" r="1.2" opacity="0.5"/>
+                    </g>
+                  </g>
+
+                  <!-- Liquid cooling supply pipe (cyan-tinted cylinder) -->
+                  <g>
+                    <rect x="40" y="290" width="2120" height="20" fill="url(#cool-pipe)" stroke="#22302a" stroke-width="0.7" opacity="0.95"/>
+                    <ellipse cx="40" cy="300" rx="6" ry="10" fill="#1a2620" stroke="#22302a" stroke-width="0.5"/>
+                    <ellipse cx="2160" cy="300" rx="6" ry="10" fill="#1a2620" stroke="#22302a" stroke-width="0.5"/>
+                    <!-- Pipe brackets -->
+                    <g stroke="#22302a" stroke-width="0.5" fill="none">
+                      <path d="M 200 290 L 200 280 L 220 280"/>
+                      <path d="M 500 290 L 500 280 L 520 280"/>
+                      <path d="M 800 290 L 800 280 L 820 280"/>
+                      <path d="M 1100 290 L 1100 280 L 1120 280"/>
+                      <path d="M 1400 290 L 1400 280 L 1420 280"/>
+                      <path d="M 1700 290 L 1700 280 L 1720 280"/>
+                      <path d="M 2000 290 L 2000 280 L 2020 280"/>
+                    </g>
+                    <!-- Branch drops to each rack row (vertical short pipes) -->
+                    <g stroke="#64ffda" stroke-width="3" fill="none" opacity="0.55" filter="url(#cyan-glow)">
+                      <line x1="270" y1="310" x2="270" y2="478"/>
+                      <line x1="370" y1="310" x2="370" y2="478"/>
+                      <line x1="470" y1="310" x2="470" y2="498"/>
+                      <line x1="570" y1="310" x2="570" y2="498"/>
+                      <line x1="670" y1="310" x2="670" y2="578"/>
+                      <line x1="920" y1="310" x2="920" y2="498"/>
+                      <line x1="1020" y1="310" x2="1020" y2="478"/>
+                      <line x1="1120" y1="310" x2="1120" y2="478"/>
+                      <line x1="1220" y1="310" x2="1220" y2="478"/>
+                      <line x1="1320" y1="310" x2="1320" y2="498"/>
+                      <line x1="1410" y1="310" x2="1410" y2="498"/>
+                    </g>
+                    <!-- Animated cooling flow pulses along the main pipe -->
+                    <circle r="2" fill="#64ffda" filter="url(#cyan-glow)" opacity="0.85">
+                      <animateMotion dur="8s" repeatCount="indefinite" path="M 40 300 L 2160 300"/>
+                    </circle>
+                    <circle r="2" fill="#64ffda" filter="url(#cyan-glow)" opacity="0.7">
+                      <animateMotion dur="8s" begin="2s" repeatCount="indefinite" path="M 40 300 L 2160 300"/>
+                    </circle>
+                    <circle r="2" fill="#64ffda" filter="url(#cyan-glow)" opacity="0.7">
+                      <animateMotion dur="8s" begin="4s" repeatCount="indefinite" path="M 40 300 L 2160 300"/>
+                    </circle>
+                  </g>
+
+                  <!-- Ventilation ducts (rectangular cross-section, parallel) -->
+                  <g transform="translate(0, 330)">
+                    <rect x="40" y="0" width="2120" height="26" fill="#0e1814" stroke="#22302a" stroke-width="0.6"/>
+                    <line x1="40" y1="6" x2="2160" y2="6" stroke="#1a2620" stroke-width="0.4"/>
+                    <line x1="40" y1="20" x2="2160" y2="20" stroke="#1a2620" stroke-width="0.4"/>
+                    <!-- Duct flange seams every 300 px -->
+                    <g stroke="#22302a" stroke-width="0.8">
+                      <line x1="300" y1="0" x2="300" y2="26"/>
+                      <line x1="600" y1="0" x2="600" y2="26"/>
+                      <line x1="900" y1="0" x2="900" y2="26"/>
+                      <line x1="1200" y1="0" x2="1200" y2="26"/>
+                      <line x1="1500" y1="0" x2="1500" y2="26"/>
+                      <line x1="1800" y1="0" x2="1800" y2="26"/>
+                    </g>
+                    <!-- Ceiling diffuser grilles dropping down at intervals -->
+                    <g>
+                      <rect x="280" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                      <rect x="580" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                      <rect x="880" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                      <rect x="1180" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                      <rect x="1480" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                      <rect x="1780" y="26" width="40" height="6" fill="#040806" stroke="#22302a" stroke-width="0.3"/>
+                    </g>
+                  </g>
+
+                  <!-- Ceiling LED light strips -->
+                  <g>
+                    <rect x="160"  y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="460"  y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="760"  y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="1060" y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="1360" y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="1660" y="180" width="200" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                    <rect x="1960" y="180" width="180" height="3" fill="rgba(100,255,218,0.55)" filter="url(#cyan-glow)"/>
+                  </g>
+
+                  <!-- Pendant supports (cables holding tray/busway) -->
+                  <g stroke="#22302a" stroke-width="0.5">
+                    <line x1="200" y1="170" x2="200" y2="200"/>
+                    <line x1="500" y1="170" x2="500" y2="200"/>
+                    <line x1="800" y1="170" x2="800" y2="200"/>
+                    <line x1="1100" y1="170" x2="1100" y2="200"/>
+                    <line x1="1400" y1="170" x2="1400" y2="200"/>
+                    <line x1="1700" y1="170" x2="1700" y2="200"/>
+                    <line x1="2000" y1="170" x2="2000" y2="200"/>
+                  </g>
+                </g>
+
+                <!-- =================================================================== -->
+                <!-- LAYER 9: Annotations + grid coords + section labels                 -->
+                <!-- =================================================================== -->
+                <g style="font-family: var(--font-mono); letter-spacing: 0.08em;">
+                  <!-- Plant title -->
+                  <text x="40" y="44" font-size="13" fill="#f1f3f5">EUROSTATE COMPUTE · HALL 01 · ZONE A</text>
+                  <text x="40" y="62" font-size="10" fill="#9aa3ad">SOVEREIGN EU AI INFRASTRUCTURE · 8 MW PHASE 1 · LIQUID-READY</text>
+                  <text x="40" y="80" font-size="9" fill="#5d6770">SECTION B-B · NORTH ELEVATION · NOT TO SCALE · DOC EUR-DC-001 REV 0.5</text>
+
+                  <!-- Floor grid coordinate row (top) -->
+                  <g font-size="9" fill="#5d6770">
+                    <text x="200" y="850">A</text><text x="320" y="850">B</text><text x="440" y="850">C</text><text x="560" y="850">D</text><text x="680" y="850">E</text>
+                    <text x="900" y="850">F</text><text x="1020" y="850">G</text><text x="1140" y="850">H</text><text x="1260" y="850">J</text><text x="1380" y="850">K</text>
+                  </g>
+
+                  <!-- Numbered callouts -->
+                  <!-- 01 PDU -->
+                  <line x1="180" y1="500" x2="180" y2="430" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="180" y1="430" x2="240" y2="430" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="244" y="428" font-size="10" fill="#f1f3f5">01 · PDU END-OF-ROW</text>
+                  <text x="244" y="442" font-size="9" fill="#9aa3ad">3-PHASE · 80 A · METERED</text>
+
+                  <!-- 02 GPU cluster -->
+                  <line x1="280" y1="480" x2="280" y2="400" stroke="#64ffda" stroke-width="0.5"/>
+                  <line x1="280" y1="400" x2="380" y2="400" stroke="#64ffda" stroke-width="0.5"/>
+                  <text x="384" y="398" font-size="11" fill="#64ffda">02 · GPU SUPERCLUSTER</text>
+                  <text x="384" y="412" font-size="9" fill="#9aa3ad">8× H100 · 32 kW · LIQUID-COOLED</text>
+
+                  <!-- 03 spine -->
+                  <line x1="470" y1="500" x2="470" y2="440" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="470" y1="440" x2="540" y2="440" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="544" y="438" font-size="10" fill="#f1f3f5">03 · NETWORK SPINE</text>
+                  <text x="544" y="452" font-size="9" fill="#9aa3ad">400 GbE · FIBER FABRIC</text>
+
+                  <!-- 04 cold aisle containment -->
+                  <line x1="760" y1="480" x2="760" y2="400" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="760" y1="400" x2="700" y2="400" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="540" y="398" font-size="10" fill="#f1f3f5">04 · COLD AISLE CONTAINMENT</text>
+
+                  <!-- 05 CRAC -->
+                  <line x1="1820" y1="460" x2="1820" y2="420" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="1820" y1="420" x2="1880" y2="420" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="1884" y="418" font-size="10" fill="#f1f3f5">05 · CRAC · CHILLED WATER</text>
+                  <text x="1884" y="432" font-size="9" fill="#9aa3ad">240 kW · N+1 REDUNDANT</text>
+
+                  <!-- 06 UPS -->
+                  <line x1="700" y1="460" x2="700" y2="420" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="700" y1="420" x2="760" y2="420" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="764" y="418" font-size="10" fill="#f1f3f5">06 · UPS BATTERY PLANT</text>
+                  <text x="764" y="432" font-size="9" fill="#9aa3ad">2× 1.5 MW · 12 MIN RIDE-THROUGH</text>
+
+                  <!-- 07 switchgear -->
+                  <line x1="1580" y1="360" x2="1580" y2="320" stroke="#64ffda" stroke-width="0.5"/>
+                  <line x1="1580" y1="320" x2="1500" y2="320" stroke="#64ffda" stroke-width="0.5"/>
+                  <text x="1380" y="318" font-size="10" fill="#64ffda">07 · MV / LV SWITCHGEAR</text>
+
+                  <!-- 08 overhead cable tray -->
+                  <line x1="1100" y1="200" x2="1100" y2="138" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="1100" y1="138" x2="1180" y2="138" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="1184" y="136" font-size="10" fill="#f1f3f5">08 · CABLE TRAYS</text>
+                  <text x="1184" y="150" font-size="9" fill="#9aa3ad">POWER + FIBER · LADDER-RACK</text>
+
+                  <!-- 09 busway -->
+                  <line x1="1700" y1="260" x2="1700" y2="116" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="1700" y1="116" x2="1760" y2="116" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="1764" y="114" font-size="10" fill="#f1f3f5">09 · BUSWAY · 2500 A</text>
+
+                  <!-- 10 cooling pipe -->
+                  <line x1="500" y1="300" x2="500" y2="116" stroke="#64ffda" stroke-width="0.5"/>
+                  <line x1="500" y1="116" x2="580" y2="116" stroke="#64ffda" stroke-width="0.5"/>
+                  <text x="584" y="114" font-size="10" fill="#64ffda">10 · LIQUID COOLING SUPPLY</text>
+                  <text x="584" y="128" font-size="9" fill="#9aa3ad">12 / 24 °C · CDU N+1</text>
+
+                  <!-- 11 raised floor -->
+                  <line x1="1900" y1="980" x2="1900" y2="1060" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="1900" y1="1060" x2="1820" y2="1060" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="1700" y="1056" font-size="10" fill="#f1f3f5">11 · RAISED FLOOR · 800 mm PLENUM</text>
+
+                  <!-- 12 NOC -->
+                  <line x1="380" y1="320" x2="380" y2="280" stroke="#3a5046" stroke-width="0.5"/>
+                  <line x1="380" y1="280" x2="320" y2="280" stroke="#3a5046" stroke-width="0.5"/>
+                  <text x="200" y="278" font-size="10" fill="#f1f3f5">12 · NOC</text>
+                </g>
+
+                <!-- Legend (top-right) -->
+                <g transform="translate(1880, 50)" style="font-family: var(--font-mono); letter-spacing: 0.08em;">
+                  <text x="0" y="0" font-size="10" fill="#5d6770">SUBSYSTEMS</text>
+                  <line x1="0"  y1="14" x2="40" y2="14" stroke="#64ffda" stroke-width="1.6" filter="url(#cyan-glow)"/>
+                  <text x="48" y="17" font-size="9" fill="#9aa3ad">POWER · DATA</text>
+                  <line x1="0"  y1="30" x2="40" y2="30" stroke="#64ffda" stroke-width="3" opacity="0.55"/>
+                  <text x="48" y="33" font-size="9" fill="#9aa3ad">LIQUID COOLING</text>
+                  <line x1="0"  y1="46" x2="40" y2="46" stroke="rgba(180,220,210,0.6)" stroke-width="1.6"/>
+                  <text x="48" y="49" font-size="9" fill="#9aa3ad">AIR / VAPOR</text>
+                </g>
+
+                <!-- Vignette -->
+                <rect x="0" y="0" width="2200" height="1100" fill="url(#vig)" pointer-events="none"/>
               </svg>
             </div>
 
             <dl class="dc-readout">
               <div>
-                <dt>Racks</dt>
-                <dd><b data-dc-total>0</b></dd>
+                <dt>Hall capacity</dt>
+                <dd><b>8 MW</b></dd>
               </div>
               <div>
-                <dt>Active</dt>
-                <dd><b data-dc-active>0</b></dd>
+                <dt>Active racks</dt>
+                <dd><b data-dc-active>—</b></dd>
               </div>
               <div>
                 <dt>Inspecting</dt>
@@ -261,7 +1695,7 @@
     </footer>
 
     <script>
-      // Theme toggle (shared behavior)
+      // Shared header behavior
       (function () {
         var root = document.documentElement;
         var btn = document.querySelector("[data-theme-toggle]");
@@ -271,8 +1705,6 @@
           root.setAttribute("data-theme", next);
           try { localStorage.setItem("es-theme", next); } catch (_) {}
         });
-
-        // Scroll progress
         var header = document.querySelector("[data-header]");
         function onScroll() {
           var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -285,129 +1717,18 @@
         onScroll();
       })();
 
-      // === Data Center floor SVG generation ===
+      // Hall inspector: hover any .dc-piece to show its data-id in the readout
       (function () {
-        var svg = document.getElementById("dc-racks");
-        if (!svg) return;
-        var ns = "http://www.w3.org/2000/svg";
-
-        // Isometric grid: rows x cols of racks
-        var rows = 6;
-        var cols = 10;
-        var rackW = 44;   // top-face width (along x)
-        var rackD = 26;   // top-face depth (along y)
-        var rackH = 70;   // rack height
-        var gapX = 22;
-        var gapY = 14;
-        var originX = 130;
-        var originY = 200;
-
-        // Isometric projection: (gx, gy) on floor -> (sx, sy) on screen
-        function iso(gx, gy) {
-          return {
-            x: originX + (gx - gy) * 0.85,
-            y: originY + (gx + gy) * 0.48,
-          };
-        }
-
-        var total = 0;
-        for (var r = 0; r < rows; r++) {
-          for (var c = 0; c < cols; c++) {
-            var x0 = c * (rackW + gapX);
-            var y0 = r * (rackD + gapY);
-            var p = iso(x0, y0);
-
-            // Compute the eight corners of the rack box in iso
-            var topW = rackW * 0.85;
-            var topD = rackD * 0.48;
-            // Top face corners
-            var tA = { x: p.x,           y: p.y };
-            var tB = { x: p.x + topW,    y: p.y - topD };
-            var tC = { x: p.x + topW + (rackW * 0.85), y: p.y + (rackD * 0.48 - topD) };
-            // Simpler approach: define box with width/depth/height directly.
-            var topFace = [
-              [p.x, p.y],
-              [p.x + rackW * 0.85, p.y - rackD * 0.48],
-              [p.x + rackW * 0.85 + rackD * 0.85, p.y - rackD * 0.48 + rackD * 0.48],
-              [p.x + rackD * 0.85, p.y + rackD * 0.48],
-            ];
-            // Use a simpler box model:
-            var ax = rackW * 0.85, ay = rackD * 0.48; // x-axis projection
-            var bx = rackD * 0.85, by = rackD * 0.48; // y-axis projection (depth)
-            // top face: 4 points
-            var top = [
-              [p.x,           p.y],
-              [p.x + ax,      p.y - ay],
-              [p.x + ax + bx, p.y - ay + by],
-              [p.x + bx,      p.y + by],
-            ];
-            // left face goes down by rackH
-            var left = [
-              [p.x,           p.y],
-              [p.x + bx,      p.y + by],
-              [p.x + bx,      p.y + by + rackH],
-              [p.x,           p.y + rackH],
-            ];
-            // right face
-            var right = [
-              [p.x + bx,      p.y + by],
-              [p.x + ax + bx, p.y - ay + by],
-              [p.x + ax + bx, p.y - ay + by + rackH],
-              [p.x + bx,      p.y + by + rackH],
-            ];
-
-            var g = document.createElementNS(ns, "g");
-            g.setAttribute("class", "dc-rack");
-            g.dataset.id = "R" + (r + 1) + "." + (c + 1).toString().padStart(2, "0");
-
-            // 30% are "pulsing" (active)
-            var isActive = Math.random() < 0.85;
-            if (isActive) g.classList.add("is-pulsing");
-
-            function poly(pts) {
-              var path = pts.map(function (pt) { return pt.join(","); }).join(" ");
-              var el = document.createElementNS(ns, "polygon");
-              el.setAttribute("points", path);
-              return el;
-            }
-            var lf = poly(left);  lf.setAttribute("class", "rack-face-l"); g.appendChild(lf);
-            var rf = poly(right); rf.setAttribute("class", "rack-face-r"); g.appendChild(rf);
-            var tf = poly(top);   tf.setAttribute("class", "rack-top");    g.appendChild(tf);
-
-            // LEDs on top face: 3 small rectangles
-            for (var k = 0; k < 3; k++) {
-              var led = document.createElementNS(ns, "rect");
-              var lx = p.x + (ax * 0.2) + k * (ax * 0.22);
-              var ly = p.y - (ay * 0.4) + k * (ay * 0.18);
-              led.setAttribute("x", lx);
-              led.setAttribute("y", ly);
-              led.setAttribute("width", 2.4);
-              led.setAttribute("height", 2.4);
-              led.setAttribute("class", "rack-led");
-              led.style.animationDelay = (Math.random() * 1.6) + "s";
-              g.appendChild(led);
-            }
-
-            svg.appendChild(g);
-            total++;
-          }
-        }
-
-        // Wire readouts
-        var totalEl    = document.querySelector("[data-dc-total]");
-        var activeEl   = document.querySelector("[data-dc-active]");
-        var inspectEl  = document.querySelector("[data-dc-inspect]");
-        var active = document.querySelectorAll(".dc-rack.is-pulsing").length;
-        if (totalEl)  totalEl.textContent  = total;
-        if (activeEl) activeEl.textContent = active;
-
-        var racks = document.querySelectorAll(".dc-rack");
-        racks.forEach(function (g) {
+        var pieces = document.querySelectorAll(".dc-piece");
+        var active = document.querySelector("[data-dc-active]");
+        var inspect = document.querySelector("[data-dc-inspect]");
+        if (active) active.textContent = pieces.length;
+        pieces.forEach(function (g) {
           g.addEventListener("pointerenter", function () {
-            if (inspectEl) inspectEl.textContent = g.dataset.id;
+            if (inspect && g.dataset.id) inspect.textContent = g.dataset.id;
           });
           g.addEventListener("pointerleave", function () {
-            if (inspectEl) inspectEl.textContent = "—";
+            if (inspect) inspect.textContent = "—";
           });
         });
       })();
