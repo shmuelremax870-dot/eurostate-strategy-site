@@ -39,7 +39,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778580617" />
+    <link rel="stylesheet" href="./styles.css?v=1778581169" />
 
     <script type="importmap">
       {
@@ -638,7 +638,7 @@
       <span><a href="https://www.linkedin.com/company/oqp-global/" data-linkedin target="_blank" rel="noopener noreferrer" aria-label="OQP Global on LinkedIn (opens in a new tab)" style="color: var(--accent);">LinkedIn ↗</a></span>
     </footer>
 
-    <script src="./script.js?v=1778580617" defer></script>
+    <script src="./script.js?v=1778581169" defer></script>
 
     <!-- Real 3D Earth — Three.js takes over #globeCanvas, replacing the
          Canvas-2D fallback rendered by script.js. If Three.js fails to
@@ -659,8 +659,10 @@
         // our WebGL context on the same element.
         const canvas = document.createElement("canvas");
         canvas.id = "globeCanvas3D";
+        // touch-action: pan-y lets vertical page scroll pass through the
+        // globe on mobile; horizontal swipes still go to OrbitControls.
         canvas.style.cssText =
-          "position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none;";
+          "position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y;";
         canvas.setAttribute(
           "aria-label",
           oldCanvas.getAttribute("aria-label") || "Global signal visualization"
@@ -684,6 +686,7 @@
         }
 
         const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
         const w = () => stage.clientWidth || 600;
         const h = () => stage.clientHeight || 600;
 
@@ -996,8 +999,11 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.08;
         controls.rotateSpeed = 0.65;
-        controls.autoRotate = !reduced;
-        controls.autoRotateSpeed = 0.25;
+        // Always auto-rotate (even with reduced motion) but slower —
+        // a still globe reads as "broken" on mobile devices in low-power
+        // mode, where prefers-reduced-motion is on by default.
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = reduced ? 0.10 : 0.25;
         let lastInteract = 0;
         controls.addEventListener("start", () => {
           controls.autoRotate = false;
@@ -1010,23 +1016,31 @@
         });
 
         // ===== Postprocessing — UnrealBloom for premium glow =====
-        const composer = new EffectComposer(renderer);
-        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        composer.setSize(w(), h());
-        composer.addPass(new RenderPass(scene, camera));
-        const bloom = new UnrealBloomPass(
-          new THREE.Vector2(w(), h()),
-          0.85, // strength
-          0.55, // radius
-          0.18  // threshold
-        );
-        composer.addPass(bloom);
+        // Bloom is GPU-heavy; skip it on mobile and use direct render so
+        // weak phone GPUs still deliver smooth animation.
+        let composer = null;
+        let bloom = null;
+        if (!isMobile) {
+          composer = new EffectComposer(renderer);
+          composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          composer.setSize(w(), h());
+          composer.addPass(new RenderPass(scene, camera));
+          bloom = new UnrealBloomPass(
+            new THREE.Vector2(w(), h()),
+            0.85, // strength
+            0.55, // radius
+            0.18  // threshold
+          );
+          composer.addPass(bloom);
+        }
 
         // ===== Resize =====
         const ro = new ResizeObserver(() => {
           renderer.setSize(w(), h(), false);
-          composer.setSize(w(), h());
-          bloom.setSize(w(), h());
+          if (composer) {
+            composer.setSize(w(), h());
+            bloom.setSize(w(), h());
+          }
           camera.aspect = w() / h();
           camera.updateProjectionMatrix();
         });
@@ -1050,7 +1064,6 @@
           const dt = Math.min(clock.getDelta(), 0.05);
           const t = clock.elapsedTime;
           if (
-            !reduced &&
             !controls.autoRotate &&
             performance.now() - lastInteract > 3500
           ) {
@@ -1094,7 +1107,8 @@
           stars.rotation.y = t * 0.005;
 
           controls.update();
-          composer.render();
+          if (composer) composer.render();
+          else renderer.render(scene, camera);
         }
         tick();
       })().catch((err) => {
