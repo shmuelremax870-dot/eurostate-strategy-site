@@ -39,7 +39,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778619065" />
+    <link rel="stylesheet" href="./styles.css?v=1778619484" />
 
     <script type="importmap">
       {
@@ -637,7 +637,7 @@
       <span><a href="https://www.linkedin.com/company/oqp-global/" data-linkedin target="_blank" rel="noopener noreferrer" aria-label="OQP Global on LinkedIn (opens in a new tab)" style="color: var(--accent);">LinkedIn ↗</a></span>
     </footer>
 
-    <script src="./script.js?v=1778619065" defer></script>
+    <script src="./script.js?v=1778619484" defer></script>
 
     <!-- Real 3D Earth — Three.js takes over #globeCanvas, replacing the
          Canvas-2D fallback rendered by script.js. If Three.js fails to
@@ -948,23 +948,23 @@
           const dot = new THREE.Mesh(dotGeo, hb.home ? homeMat : dotMat);
           dot.position.copy(pos);
           earth.add(dot);
-          if (!reduced) {
-            const ringMesh = new THREE.Mesh(
-              new THREE.RingGeometry(0.018, 0.022, 48),
-              new THREE.MeshBasicMaterial({
-                color: hb.home ? 0xffffff : 0x9bf5c8,
-                transparent: true,
-                opacity: 0.6,
-                side: THREE.DoubleSide,
-                depthWrite: false,
-              })
-            );
-            ringMesh.position.copy(pos);
-            ringMesh.lookAt(0, 0, 0);
-            ringMesh.rotateX(Math.PI);
-            earth.add(ringMesh);
-            rings.push(ringMesh);
-          }
+          // Pulse ring around every hub. Kept alive under reduced-motion
+          // too — small in-place ring expanding is ambient, not vestibular.
+          const ringMesh = new THREE.Mesh(
+            new THREE.RingGeometry(0.018, 0.022, 48),
+            new THREE.MeshBasicMaterial({
+              color: hb.home ? 0xffffff : 0x9bf5c8,
+              transparent: true,
+              opacity: 0.6,
+              side: THREE.DoubleSide,
+              depthWrite: false,
+            })
+          );
+          ringMesh.position.copy(pos);
+          ringMesh.lookAt(0, 0, 0);
+          ringMesh.rotateX(Math.PI);
+          earth.add(ringMesh);
+          rings.push(ringMesh);
         }
 
         // ===== Arcs (parented to earth so they ride with rotation) =====

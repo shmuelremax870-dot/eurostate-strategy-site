@@ -627,9 +627,9 @@
     0%, 100% { background-position: 0% 50%; }
     50%      { background-position: 100% 50%; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .hero h1 .accent { animation: none; }
-  }
+  /* Hero accent gradient stays alive under reduced-motion — it's a
+     color sweep, not vestibular motion. iOS Low Power Mode users
+     keep the brand shimmer. */
 
   .hero-deck {
     display: grid;
@@ -1107,13 +1107,17 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
-    }
-    .reveal { opacity: 1; transform: none; }
+    /* No global wildcard kill — iOS Low Power Mode forces this media
+       query, and the previous "animation-duration: 0.001ms !important"
+       reset was nuking the marquee, hero accent gradient, hub pulses,
+       arcs, etc. We now disable only the truly vestibular triggers
+       (auto-zooming Ken Burns, scrolly parallax transform) in their
+       own scoped @media blocks below. Ambient color / opacity / wave
+       animations stay alive.
+
+       .reveal entrance still snaps in — it's an opacity move on first
+       view, not a continuous animation. */
+    .reveal { opacity: 1; transform: none; transition: none; }
   }
 }
 
@@ -1688,7 +1692,10 @@
     to   { transform: translateX(-50%); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .brand-marquee-track { animation: none; }
+    /* Slow the marquee instead of killing it. iOS Low Power Mode
+       forces this media query; a static row reads as broken on a
+       page that's otherwise alive. */
+    .brand-marquee-track { animation-duration: 90s; }
   }
   .brand-marquee:hover .brand-marquee-track { animation-play-state: paused; }
 
