@@ -1621,6 +1621,7 @@
     transform: translateY(0);
   }
 
+<<<<<<< HEAD
   /* Mobile: keep the scrolly running but shorten the scroll distance
      (so users don't have to drag forever) and tighten caption type. */
   @media (max-width: 768px), (pointer: coarse) {
@@ -1631,6 +1632,25 @@
     }
     .scrolly-captions p {
       font-size: clamp(2.8rem, 16vw, 5.5rem);
+=======
+  /* Mobile: collapse scrolly to a static image. No sticky, no canvas,
+     no frame sequence preload. Stage becomes a regular hero card. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .scrolly { height: auto; }
+    .scrolly-stage {
+      position: relative;
+      height: auto;
+      aspect-ratio: 16 / 8.4;
+      border-radius: var(--radius-3);
+    }
+    .scrolly-stage canvas { display: none; }
+    .scrolly-stage .scrolly-fallback { opacity: 1 !important; }
+    .scrolly-captions p:not([data-scrolly-caption="compute"]) { display: none; }
+    .scrolly-captions p[data-scrolly-caption="compute"] {
+      opacity: 1;
+      transform: none;
+      font-size: clamp(2.4rem, 14vw, 5rem);
+>>>>>>> origin/main
     }
   }
 
