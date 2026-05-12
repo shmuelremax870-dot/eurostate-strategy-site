@@ -27,7 +27,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778587394" />
+    <link rel="stylesheet" href="./styles.css?v=1778596131" />
 
     <script type="importmap">
     {
@@ -52,8 +52,7 @@
         <a href="./">Lab</a>
         <a href="./#architecture">Systems</a>
         <a href="./#stack">Stack</a>
-        <a href="./data-centers.html" class="active">Data Centers</a>
-        <a href="./waste-to-energy.html">Waste-to-Energy</a>
+        <a href="./data-centers.html" class="active">Compute &amp; Energy</a>
       </nav>
       <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -96,8 +95,8 @@
               <a class="btn btn-primary" href="#farm">
                 Inside the hall <span class="arrow">→</span>
               </a>
-              <a class="btn" href="./waste-to-energy.html">
-                See the power source
+              <a class="btn" href="#farm">
+                See the loop
               </a>
             </div>
           </div>
@@ -152,29 +151,38 @@
             <span class="kicker">02 — Hall</span>
           </aside>
           <div>
-            <h2>Inside the hall.</h2>
+            <h2>From the source to the hall.</h2>
             <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
-              A working AI compute environment: GPU superclusters, spine
-              networking, raised floor cooling, liquid manifolds overhead,
-              UPS plant, switchgear, and the structural systems that hold
-              it all together.
+              The compute hall does not exist in isolation — it exists because
+              the energy facility feeds it. Scroll to watch the transformation:
+              waste becomes power, power becomes the AI compute environment
+              that runs on top of it.
             </p>
+            </div>
+        </div>
+      </section>
 
-            <div class="dc-stage" aria-label="AI compute hall">
-              <div class="stage-image" data-dc-image aria-hidden="true">
-                <img
-                  src="./images/data-center-hall.jpg"
-                  alt=""
-                  width="2400"
-                  height="1350"
-                  loading="eager"
-                  decoding="async"
-                />
-                <div class="stage-overlay"></div>
-              </div>
-              <canvas id="dc3d-canvas" hidden></canvas>
-            </div>
-            </div>
+      <!-- ============================ SCROLLY: WASTE → ENERGY → COMPUTE ============================ -->
+      <section class="scrolly" data-scrolly aria-label="From waste to compute — Eurostate transformation">
+        <div class="scrolly-stage">
+          <canvas data-scrolly-canvas aria-hidden="true"></canvas>
+          <img class="scrolly-fallback" data-scrolly-fallback src="./scroll-frames/transform/frame-240.jpg" alt="" aria-hidden="true" />
+          <div class="scrolly-captions" aria-hidden="true">
+            <span class="scrolly-kicker">The chain</span>
+            <p data-scrolly-caption="waste"><span>Waste</span></p>
+            <p data-scrolly-caption="energy"><span>Energy</span></p>
+            <p data-scrolly-caption="compute"><span>Compute</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ HALL READOUT ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">03 — Readout</span>
+          </aside>
+          <div>
 
             <dl class="dc-readout">
               <div>
@@ -202,7 +210,7 @@
       <section class="section container">
         <div class="editorial">
           <aside class="editorial-aside">
-            <span class="kicker">03 — Thesis</span>
+            <span class="kicker">04 — Thesis</span>
           </aside>
           <div>
             <h2>Why we are the operator of choice.</h2>
@@ -241,23 +249,44 @@
         </div>
       </section>
 
-      <!-- ============================ CROSS-LINK ============================ -->
+      <!-- ============================ PROCESS — HOW THE LOOP CLOSES ============================ -->
       <section class="section container">
         <div class="editorial">
           <aside class="editorial-aside">
-            <span class="kicker">04 — Upstream</span>
+            <span class="kicker">05 — Process</span>
           </aside>
           <div>
-            <h2>Powered by our waste-to-energy program.</h2>
-            <div class="cross-link">
-              <div>
-                <h3>The energy story is the data center story.</h3>
-                <p>Every kilowatt that runs an AI workload here starts as waste in our circular processing units. See how the power gets made.</p>
-              </div>
-              <a class="btn btn-primary" href="./waste-to-energy.html">
-                Waste-to-Energy <span class="arrow">→</span>
-              </a>
-            </div>
+            <h2>How the loop closes.</h2>
+            <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
+              The AI build-out is constrained by power. The waste industry is
+              constrained by what to do with the material. We solve both at
+              once — taking the trash that costs municipalities money to
+              discard, and converting it to the electricity that AI operators
+              pay premium prices to secure.
+            </p>
+
+            <ol class="timeline" aria-label="Waste-to-energy process steps">
+              <li class="timeline-step">
+                <span class="step-num">01</span>
+                <h3>Intake</h3>
+                <p>Municipal and industrial waste enters the facility. Sorted, dried, and prepared for thermal processing.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">02</span>
+                <h3>Conversion</h3>
+                <p>High-temperature combustion or gasification converts the feedstock to heat. Emissions are scrubbed to EU standards.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">03</span>
+                <h3>Generation</h3>
+                <p>Steam drives a turbine; the turbine drives a generator. Base-load electricity comes out the other side.</p>
+              </li>
+              <li class="timeline-step">
+                <span class="step-num">04</span>
+                <h3>Compute</h3>
+                <p>Power is routed directly to Eurostate's adjacent AI data centers. No grid intermediary; no transmission loss.</p>
+              </li>
+            </ol>
           </div>
         </div>
       </section>
@@ -659,5 +688,10 @@
         });
       })();
     </script>
+
+    <!-- Scroll-frame driver — drives the [data-scrolly] section
+         (Waste → Energy → Compute transformation). Skipped on
+         mobile and reduced-motion. -->
+    <script src="./scroll-frames.js?v=1778596131" defer></script>
   </body>
 </html>
