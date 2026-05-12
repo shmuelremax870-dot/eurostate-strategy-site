@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Data Centers — Eurostate Strategy</title>
+    <meta name="description" content="The compute backbone for the AI era. Eurostate Strategy is building data center capacity powered by waste-to-energy infrastructure." />
+    <meta name="theme-color" content="#06080a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafaf8" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="https://eurostatestrategy.com/data-centers.html" />
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("es-theme");
+          if (saved === "light" || saved === "dark") {
+            document.documentElement.setAttribute("data-theme", saved);
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="./styles.css?v=1778544031" />
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#top">Skip to content</a>
+    <div class="progress-bar" aria-hidden="true"><span></span></div>
+
+    <header class="site-header" data-header>
+      <a class="brand" href="./" aria-label="Eurostate Strategy home">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <strong>Eurostate Strategy</strong>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="./">Lab</a>
+        <a href="./#architecture">Systems</a>
+        <a href="./#stack">Stack</a>
+        <a href="./data-centers.html" class="active">Data Centers</a>
+        <a href="./waste-to-energy.html">Waste-to-Energy</a>
+      </nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="nav-toggle-bars" aria-hidden="true"></span>
+        </button>
+        <div class="header-tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ============================ HERO ============================ -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-meta">
+            <div><span class="dot"></span> Pillar 02 / Compute</div>
+            <div>Eurostate Strategy</div>
+            <div>Data Center Operations</div>
+          </div>
+
+          <h1>
+            The compute <span class="accent">backbone</span> for the AI era.
+          </h1>
+
+          <div class="hero-deck">
+            <p class="hero-lede">
+              We are building dedicated data center capacity engineered for AI
+              workloads — high-density, liquid-ready, and powered by our own
+              waste-to-energy infrastructure. The ambition is to lead the
+              category for sovereign AI compute in the Mediterranean and EU.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#farm">
+                Inside the hall <span class="arrow">→</span>
+              </a>
+              <a class="btn" href="./waste-to-energy.html">
+                See the power source
+              </a>
+            </div>
+          </div>
+
+          <dl class="hero-footnote">
+            <div>
+              <dt>Position</dt>
+              <dd>Sovereign AI compute infrastructure</dd>
+            </div>
+            <div>
+              <dt>Power</dt>
+              <dd>Vertically integrated · waste-to-energy</dd>
+            </div>
+            <div>
+              <dt>Geography</dt>
+              <dd>Cyprus · EU · MENA reach</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ============================ POSITION ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">01 — Position</span>
+          </aside>
+          <div>
+            <h2>Leading the market in vertically-integrated AI compute.</h2>
+            <div style="margin-top: clamp(2rem, 4vw, 3rem); display: grid; gap: var(--sp-5); max-width: 60ch;">
+              <p class="lede">
+                Most data centers buy power. We <em>generate</em> it. By owning
+                the energy layer — through our waste-to-energy program — we
+                control cost, reliability, and the carbon profile of every rack
+                we operate.
+              </p>
+              <p class="lede">
+                This is the foundation for a category-defining position:
+                European-sovereign AI compute, powered by circular-economy
+                infrastructure, sold to AI product companies that need
+                guaranteed capacity and a defensible energy story.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ HALL ============================ -->
+      <section class="section container" id="farm">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">02 — Hall</span>
+          </aside>
+          <div>
+            <h2>Inside the hall.</h2>
+            <p class="lede" style="margin-top: clamp(1.5rem, 3vw, 2rem); color: var(--muted); max-width: 60ch;">
+              A working AI compute environment: GPU superclusters, spine
+              networking, raised floor cooling, liquid manifolds overhead,
+              UPS plant, switchgear, and the structural systems that hold
+              it all together.
+            </p>
+
+            <div class="dc-stage" aria-label="AI compute hall">
+              <div class="stage-image" data-dc-image aria-hidden="true">
+                <img
+                  src="./images/data-center-hall.jpg"
+                  alt=""
+                  width="2400"
+                  height="1350"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div class="stage-overlay"></div>
+              </div>
+              <canvas id="dc3d-canvas" hidden></canvas>
+            </div>
+            </div>
+
+            <dl class="dc-readout">
+              <div>
+                <dt>Hall capacity</dt>
+                <dd><b>8 MW</b></dd>
+              </div>
+              <div>
+                <dt>Active racks</dt>
+                <dd><b data-dc-active>—</b></dd>
+              </div>
+              <div>
+                <dt>Inspecting</dt>
+                <dd data-dc-inspect>—</dd>
+              </div>
+              <div>
+                <dt>Power source</dt>
+                <dd><b>WtE · 100%</b></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ THESIS ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">03 — Thesis</span>
+          </aside>
+          <div>
+            <h2>Why we are the operator of choice.</h2>
+
+            <div class="row-grid">
+              <article class="row-item">
+                <span class="row-item-num">01</span>
+                <div>
+                  <h3>Sovereign by design</h3>
+                  <p>EU-domiciled, EU-operated, EU-regulated. AI workloads that cannot leave the bloc have a natural home with us.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">02</span>
+                <div>
+                  <h3>Owned power</h3>
+                  <p>Our waste-to-energy plants feed the racks directly. Fewer grid intermediaries means lower cost and a defensible carbon story.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">03</span>
+                <div>
+                  <h3>Built for AI density</h3>
+                  <p>Liquid-cooled cabinets, high-density power distribution, and a fabric optimized for training and inference clusters.</p>
+                </div>
+              </article>
+              <article class="row-item">
+                <span class="row-item-num">04</span>
+                <div>
+                  <h3>Long-tenor contracts</h3>
+                  <p>Anchored by Eurostate's own AI product portfolio and offered to external operators under multi-year capacity agreements.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ CROSS-LINK ============================ -->
+      <section class="section container">
+        <div class="editorial">
+          <aside class="editorial-aside">
+            <span class="kicker">04 — Upstream</span>
+          </aside>
+          <div>
+            <h2>Powered by our waste-to-energy program.</h2>
+            <div class="cross-link">
+              <div>
+                <h3>The energy story is the data center story.</h3>
+                <p>Every kilowatt that runs an AI workload here starts as waste in our circular processing units. See how the power gets made.</p>
+              </div>
+              <a class="btn btn-primary" href="./waste-to-energy.html">
+                Waste-to-Energy <span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Eurostate Strategy LTD</span>
+      <span>Cyprus</span>
+      <span>AI Compute · Energy · Product Lab</span>
+      <span><a href="https://www.linkedin.com/company/oqp-global/" data-linkedin target="_blank" rel="noopener noreferrer" aria-label="OQP Global on LinkedIn (opens in a new tab)" style="color: var(--accent);">LinkedIn ↗</a></span>
+    </footer>
+
+    <script>
+      // =====================================================================
+      // Rack overlay: tiny blinking amber LEDs anchored to the hero image,
+      // each rack hover-glows. Coordinates match the rack positions used by
+      // the image generator so the dots land on real cabinet faces.
+      // =====================================================================
+      (function buildRackOverlay() {
+        const stage = document.querySelector(".dc-stage");
+        if (!stage) return;
+        const imgWrap = stage.querySelector("[data-dc-image]");
+        if (!imgWrap) return;
+
+        const W = 2400, H = 1350;
+        const vpX = W / 2;
+        const vpY = H * 0.5;
+        const RACK_COUNT = 35;
+        const lerp = (a, b, t) => a + (b - a) * t;
+        const rngFrom = (seed) => {
+          let s = (seed | 0) || 1;
+          return () => {
+            s = (s * 1664525 + 1013904223) | 0;
+            return ((s >>> 0) / 4294967296);
+          };
+        };
+
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("class", "rack-overlay");
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svg.setAttribute("aria-hidden", "true");
+
+        for (const side of [-1, 1]) {
+          for (let i = 0; i < RACK_COUNT; i++) {
+            const depth = i / RACK_COUNT;
+            const xNear = W * 0.5 + side * W * 0.46;
+            const xFar = vpX + side * 65;
+            const x = lerp(xNear, xFar, depth);
+            const rw = lerp(50, 7, depth);
+            const rhTop = lerp(H * 0.42, vpY, depth * 0.95);
+            const rhBot = lerp(H * 0.92, vpY + 10, depth * 0.95);
+            const rackLeft = side === -1 ? x - rw : x;
+            const rackRight = side === -1 ? x : x + rw;
+
+            const g = document.createElementNS(svgNS, "g");
+            g.setAttribute("class", "rack");
+            g.setAttribute("data-rack", `${side === -1 ? "L" : "R"}-${i + 1}`);
+
+            // Hover hotspot
+            const hot = document.createElementNS(svgNS, "rect");
+            hot.setAttribute("x", rackLeft);
+            hot.setAttribute("y", rhTop);
+            hot.setAttribute("width", rackRight - rackLeft);
+            hot.setAttribute("height", rhBot - rhTop);
+            hot.setAttribute("class", "rack-hotspot");
+            g.appendChild(hot);
+
+            const rng = rngFrom(side * 131 + i * 37 + 11);
+
+            if (side === 1) {
+              // RIGHT side: one amber LED on every visible slot, centered.
+              // Use the image's slot geometry: led_count = max(6, lerp(34, 6, depth))
+              const ledCount = Math.max(6, Math.round(lerp(34, 6, depth)));
+              const plinthH = Math.max(2, lerp(8, 2, depth));
+              const innerH = (rhBot - rhTop - plinthH - 4);
+              const slotH = innerH / ledCount;
+              const inset = Math.max(2, rw * 0.08);
+              const cx = (rackLeft + inset + rackRight - inset) / 2;
+              const r = Math.max(0.55, lerp(1.5, 0.55, depth));
+              for (let k = 0; k < ledCount; k++) {
+                const cy = rhTop + 4 + slotH * (k + 0.5);
+                const led = document.createElementNS(svgNS, "circle");
+                led.setAttribute("cx", cx.toFixed(1));
+                led.setAttribute("cy", cy.toFixed(1));
+                led.setAttribute("r", r.toFixed(2));
+                led.setAttribute("class", "rack-led");
+                // Slight per-LED variation so the wall doesn't strobe in sync
+                led.style.animationDelay = (rng() * 4).toFixed(2) + "s";
+                led.style.animationDuration = (2.2 + rng() * 2.6).toFixed(2) + "s";
+                g.appendChild(led);
+              }
+            } else {
+              // LEFT side: sparse mint accents (existing behavior, fewer)
+              const ledCount = Math.max(2, Math.round(lerp(5, 2, depth)));
+              for (let k = 0; k < ledCount; k++) {
+                const cx = rackLeft + (rackRight - rackLeft) * (0.18 + rng() * 0.64);
+                const cy = rhTop + (rhBot - rhTop) * (0.08 + rng() * 0.84);
+                const r = Math.max(0.7, lerp(2.0, 0.7, depth));
+                const led = document.createElementNS(svgNS, "circle");
+                led.setAttribute("cx", cx.toFixed(1));
+                led.setAttribute("cy", cy.toFixed(1));
+                led.setAttribute("r", r.toFixed(2));
+                led.setAttribute("class", "rack-led rack-led-cool");
+                led.style.animationDelay = (rng() * 3.2).toFixed(2) + "s";
+                led.style.animationDuration = (1.8 + rng() * 2.6).toFixed(2) + "s";
+                g.appendChild(led);
+              }
+            }
+
+            svg.appendChild(g);
+          }
+        }
+        imgWrap.appendChild(svg);
+      })();
+    </script>
+
+    <script type="module">
+      // =====================================================================
+      // 3D AI compute hall — Three.js interior scene
+      // =====================================================================
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+
+      const canvas = document.getElementById("dc3d-canvas");
+      if (canvas) {
+        const container = canvas.parentElement;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.45;
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0e1620);
+        scene.fog = new THREE.Fog(0x0e1620, 28, 110);
+
+        const camera = new THREE.PerspectiveCamera(38, 2, 0.1, 300);
+        // Slightly elevated, looking down a cold aisle
+        camera.position.set(8, 5, 18);
+
+        // ===== Lighting (interior data hall) =====
+        const hemi = new THREE.HemisphereLight(0x8aa4b8, 0x1a2228, 1.15);
+        scene.add(hemi);
+
+        // Overhead key light (cool, simulating LED strip wash)
+        const key = new THREE.DirectionalLight(0xcfe0e8, 1.35);
+        key.position.set(6, 22, 4);
+        key.castShadow = true;
+        key.shadow.mapSize.set(2048, 2048);
+        key.shadow.camera.near = 0.5;
+        key.shadow.camera.far = 80;
+        key.shadow.camera.left = -30;
+        key.shadow.camera.right = 30;
+        key.shadow.camera.top = 30;
+        key.shadow.camera.bottom = -30;
+        key.shadow.bias = -0.0002;
+        key.shadow.normalBias = 0.04;
+        scene.add(key);
+
+        // Warm low fill on the far end (sodium-style accent)
+        const accent = new THREE.PointLight(0xffba75, 1.6, 28, 1.6);
+        accent.position.set(0, 3, -16);
+        scene.add(accent);
+
+        // Mint accent from the side
+        const mintFill = new THREE.PointLight(0x64ffda, 0.9, 18, 2.0);
+        mintFill.position.set(-9, 2.5, 0);
+        scene.add(mintFill);
+
+        // ===== Materials =====
+        const matFloor = new THREE.MeshStandardMaterial({ color: 0x3a4448, metalness: 0.25, roughness: 0.85 });
+        const matRack = new THREE.MeshStandardMaterial({ color: 0x6e7a78, metalness: 0.55, roughness: 0.42 });
+        const matRackDark = new THREE.MeshStandardMaterial({ color: 0x4a5454, metalness: 0.6, roughness: 0.45 });
+        const matCeiling = new THREE.MeshStandardMaterial({ color: 0x282e34, metalness: 0.3, roughness: 0.6 });
+        const matTray = new THREE.MeshStandardMaterial({ color: 0x4e5860, metalness: 0.65, roughness: 0.5 });
+        const matPipe = new THREE.MeshStandardMaterial({ color: 0x5a666c, metalness: 0.7, roughness: 0.35 });
+        const matGlass = new THREE.MeshStandardMaterial({
+          color: 0x1a2228, metalness: 0.0, roughness: 0.18,
+          transparent: true, opacity: 0.42
+        });
+        // Emissive LED face material (drives bloom)
+        function ledMat(color, intensity) {
+          return new THREE.MeshStandardMaterial({
+            color: 0x0a1014, metalness: 0.0, roughness: 0.2,
+            emissive: color, emissiveIntensity: intensity
+          });
+        }
+        const ledMint = ledMat(0x4cffd8, 2.6);
+        const ledMintDim = ledMat(0x4cffd8, 1.4);
+        const ledWarm = ledMat(0xffaa55, 2.0);
+
+        // ===== Raised floor =====
+        const floorGeo = new THREE.PlaneGeometry(120, 120);
+        const floor = new THREE.Mesh(floorGeo, matFloor);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // Floor tile grid
+        const floorGrid = new THREE.GridHelper(80, 40, 0x546268, 0x303a3e);
+        floorGrid.position.y = 0.01;
+        floorGrid.material.transparent = true;
+        floorGrid.material.opacity = 0.55;
+        scene.add(floorGrid);
+
+        // ===== Ceiling slab =====
+        const ceil = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), matCeiling);
+        ceil.rotation.x = Math.PI / 2;
+        ceil.position.y = 8;
+        ceil.receiveShadow = true;
+        scene.add(ceil);
+
+        // ===== Side walls (visible only at far end) =====
+        const matWall = new THREE.MeshStandardMaterial({ color: 0x2a323a, metalness: 0.3, roughness: 0.75 });
+        const backWall = new THREE.Mesh(new THREE.PlaneGeometry(120, 8), matWall);
+        backWall.position.set(0, 4, -30);
+        backWall.receiveShadow = true;
+        scene.add(backWall);
+
+        // ===== Load 3D model (GLB) silently. The cinematic image stays
+        //       visible until a real model exists at /models/. No user-facing
+        //       debug messaging is ever rendered.
+        let renderingDisabled = true;
+        import("three/addons/loaders/GLTFLoader.js").then(({ GLTFLoader }) => {
+          const modelPath = "./models/data-center-hall.glb";
+          const loader = new GLTFLoader();
+          loader.load(
+            modelPath,
+            (gltf) => {
+              const model = gltf.scene;
+              model.traverse((c) => {
+                if (c.isMesh) {
+                  c.castShadow = true;
+                  c.receiveShadow = true;
+                  if (c.material && "envMapIntensity" in c.material) {
+                    c.material.envMapIntensity = 0.9;
+                  }
+                }
+              });
+              const box = new THREE.Box3().setFromObject(model);
+              const size = box.getSize(new THREE.Vector3());
+              const center = box.getCenter(new THREE.Vector3());
+              model.position.y -= box.min.y;
+              scene.add(model);
+
+              camera.position.set(
+                center.x + size.x * 0.35,
+                size.y * 0.55,
+                center.z + size.z * 0.45
+              );
+              controls.target.set(center.x, size.y * 0.35, center.z);
+              controls.update();
+
+              const r = Math.max(size.x, size.z) * 0.7;
+              key.shadow.camera.left = -r;
+              key.shadow.camera.right = r;
+              key.shadow.camera.top = r;
+              key.shadow.camera.bottom = -r;
+              key.shadow.camera.far = r * 4;
+              key.shadow.camera.updateProjectionMatrix();
+
+              canvas.hidden = false;
+              renderingDisabled = false;
+              const img = document.querySelector("[data-dc-image]");
+              if (img) img.style.opacity = "0";
+              setTimeout(() => { if (img) img.remove(); }, 800);
+            },
+            undefined,
+            () => {
+              // Silent: the cinematic image is already on screen.
+              // Engineering note: drop a GLB at /models/data-center-hall.glb
+              // to enable the 3D path.
+            }
+          );
+        });
+
+        // ===== Controls =====
+        const controls = new OrbitControls(camera, canvas);
+        controls.target.set(0, 2.5, -2);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.06;
+        controls.minPolarAngle = Math.PI * 0.28;
+        controls.maxPolarAngle = Math.PI * 0.5;
+        controls.minDistance = 10;
+        controls.maxDistance = 30;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.3;
+        controls.enablePan = false;
+        let userInteracting = false;
+        controls.addEventListener("start", () => { userInteracting = true; controls.autoRotate = false; });
+        controls.addEventListener("end", () => {
+          userInteracting = false;
+          setTimeout(() => { if (!userInteracting) controls.autoRotate = true; }, 4000);
+        });
+
+        // ===== Post-processing: bloom on emissives =====
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.7, 0.7, 0.6);
+        bloom.threshold = 0.55;
+        bloom.strength = 0.7;
+        bloom.radius = 0.8;
+        composer.addPass(bloom);
+
+        function resize() {
+          const rect = container.getBoundingClientRect();
+          const w = Math.max(2, Math.floor(rect.width));
+          const h = Math.max(2, Math.floor(rect.height));
+          renderer.setSize(w, h, false);
+          composer.setSize(w, h);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          if (renderingDisabled) return;
+          controls.update();
+          composer.render();
+        }
+        animate();
+      }
+    </script>
+
+    <script>
+      // Shared header behavior
+      (function () {
+        var root = document.documentElement;
+        var btn = document.querySelector("[data-theme-toggle]");
+        if (btn) btn.addEventListener("click", function () {
+          var current = root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          var next = current === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("es-theme", next); } catch (_) {}
+        });
+        var header = document.querySelector("[data-header]");
+        function onScroll() {
+          var max = document.documentElement.scrollHeight - window.innerHeight;
+          var ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          root.style.setProperty("--scroll-progress", String(ratio));
+          if (header) header.classList.toggle("scrolled", window.scrollY > 12);
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        // Mobile nav drawer
+        var navT = document.querySelector('[data-nav-toggle]');
+        var navE = document.getElementById('site-nav');
+        if (navT && navE) {
+          var closeNav = function () {
+            navE.classList.remove('is-open');
+            navT.setAttribute('aria-expanded', 'false');
+          };
+          navT.addEventListener('click', function () {
+            var open = navE.classList.toggle('is-open');
+            navT.setAttribute('aria-expanded', String(open));
+          });
+          navE.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeNav); });
+          document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+          var mq = matchMedia('(min-width: 861px)');
+          mq.addEventListener('change', function (e) { if (e.matches) closeNav(); });
+        }
+        onScroll();
+      })();
+
+      // Hall inspector: hover any .dc-piece to show its data-id in the readout
+      (function () {
+        var pieces = document.querySelectorAll(".dc-piece");
+        var active = document.querySelector("[data-dc-active]");
+        var inspect = document.querySelector("[data-dc-inspect]");
+        if (active) active.textContent = pieces.length;
+        pieces.forEach(function (g) {
+          g.addEventListener("pointerenter", function () {
+            if (inspect && g.dataset.id) inspect.textContent = g.dataset.id;
+          });
+          g.addEventListener("pointerleave", function () {
+            if (inspect) inspect.textContent = "—";
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
