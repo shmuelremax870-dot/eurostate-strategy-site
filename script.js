@@ -449,6 +449,9 @@
      [80,-66],[100,-66],[120,-67],[140,-69],[160,-74],[180,-78],
      [180,-83],[-180,-83],[-180,-78]],
   ];
+  // Expose continents so the Three.js module in index.html can build
+  // its equirectangular Earth texture from the same source data.
+  window.__GLOBE_CONTINENTS = CONTINENTS;
 
   // Pre-compute centroids for shading
   const continentMeta = CONTINENTS.map((ring) => {
@@ -680,6 +683,8 @@
 
   function drawGlobe(time) {
     if (!globeState || !globeState.visible) return;
+    // If the Three.js module took over, the canvas-2D fallback is silent.
+    if (window.__three_globe_active) return;
     const { ctx, w, h } = globeState;
     ctx.clearRect(0, 0, w, h);
 

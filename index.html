@@ -39,7 +39,16 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778579039" />
+    <link rel="stylesheet" href="./styles.css?v=1778580220" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
 
     <script type="application/ld+json">
     {
@@ -629,6 +638,363 @@
       <span><a href="https://www.linkedin.com/company/oqp-global/" data-linkedin target="_blank" rel="noopener noreferrer" aria-label="OQP Global on LinkedIn (opens in a new tab)" style="color: var(--accent);">LinkedIn ↗</a></span>
     </footer>
 
-    <script src="./script.js?v=1778579039" defer></script>
+    <script src="./script.js?v=1778580220" defer></script>
+
+    <!-- Real 3D Earth — Three.js takes over #globeCanvas, replacing the
+         Canvas-2D fallback rendered by script.js. If Three.js fails to
+         load (CDN block), the 2D fallback continues silently. -->
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+      (async () => {
+        const oldCanvas = document.getElementById("globeCanvas");
+        if (!oldCanvas) return;
+        const stage = oldCanvas.parentElement;
+
+        // Replace canvas so the 2D context bound by script.js can't fight
+        // our WebGL context on the same element.
+        const canvas = document.createElement("canvas");
+        canvas.id = "globeCanvas3D";
+        canvas.style.cssText =
+          "position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none;";
+        canvas.setAttribute(
+          "aria-label",
+          oldCanvas.getAttribute("aria-label") || "Global signal visualization"
+        );
+        stage.replaceChild(canvas, oldCanvas);
+        window.__three_globe_active = true;
+
+        // Wait briefly for script.js to expose its continent data.
+        let continents = window.__GLOBE_CONTINENTS;
+        if (!continents) {
+          await new Promise((r) => {
+            const start = performance.now();
+            const t = setInterval(() => {
+              if (window.__GLOBE_CONTINENTS || performance.now() - start > 2500) {
+                clearInterval(t);
+                r();
+              }
+            }, 40);
+          });
+          continents = window.__GLOBE_CONTINENTS || [];
+        }
+
+        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const w = () => stage.clientWidth || 600;
+        const h = () => stage.clientHeight || 600;
+
+        // ===== Build Earth equirectangular texture =====
+        const TEX_W = 4096,
+          TEX_H = 2048;
+        const tc = document.createElement("canvas");
+        tc.width = TEX_W;
+        tc.height = TEX_H;
+        const tx = tc.getContext("2d");
+
+        // Deep ocean base
+        tx.fillStyle = "#02100d";
+        tx.fillRect(0, 0, TEX_W, TEX_H);
+        // Subtle latitudinal ocean depth wash
+        const oceanWash = tx.createLinearGradient(0, 0, 0, TEX_H);
+        oceanWash.addColorStop(0, "rgba(0,0,0,0.55)");
+        oceanWash.addColorStop(0.5, "rgba(10,40,32,0)");
+        oceanWash.addColorStop(1, "rgba(0,0,0,0.6)");
+        tx.fillStyle = oceanWash;
+        tx.fillRect(0, 0, TEX_W, TEX_H);
+
+        const lonLat = (lon, lat) => [
+          ((lon + 180) / 360) * TEX_W,
+          ((90 - lat) / 180) * TEX_H,
+        ];
+
+        // Continents — emerald gradient fill + bright outline
+        for (const ring of continents) {
+          tx.beginPath();
+          for (let i = 0; i < ring.length; i++) {
+            const [x, y] = lonLat(ring[i][0], ring[i][1]);
+            i === 0 ? tx.moveTo(x, y) : tx.lineTo(x, y);
+          }
+          tx.closePath();
+          // Bounding box for per-continent gradient
+          const fill = tx.createLinearGradient(0, 0, 0, TEX_H);
+          fill.addColorStop(0, "#1c4a36");
+          fill.addColorStop(0.5, "#246a4b");
+          fill.addColorStop(1, "#1c4a36");
+          tx.fillStyle = fill;
+          tx.fill();
+          tx.lineWidth = 3;
+          tx.strokeStyle = "rgba(140, 245, 195, 0.55)";
+          tx.stroke();
+        }
+
+        // Graticule
+        tx.lineWidth = 1.2;
+        tx.strokeStyle = "rgba(110, 220, 170, 0.10)";
+        for (let lat = -75; lat <= 75; lat += 15) {
+          if (lat === 0) continue;
+          const [, y] = lonLat(0, lat);
+          tx.beginPath();
+          tx.moveTo(0, y);
+          tx.lineTo(TEX_W, y);
+          tx.stroke();
+        }
+        for (let lon = -180; lon < 180; lon += 15) {
+          const [x] = lonLat(lon, 0);
+          tx.beginPath();
+          tx.moveTo(x, 0);
+          tx.lineTo(x, TEX_H);
+          tx.stroke();
+        }
+        // Equator slightly brighter
+        tx.strokeStyle = "rgba(140, 245, 195, 0.18)";
+        tx.lineWidth = 1.6;
+        const [, eqY] = lonLat(0, 0);
+        tx.beginPath();
+        tx.moveTo(0, eqY);
+        tx.lineTo(TEX_W, eqY);
+        tx.stroke();
+
+        const earthTex = new THREE.CanvasTexture(tc);
+        earthTex.colorSpace = THREE.SRGBColorSpace;
+        earthTex.anisotropy = 8;
+        earthTex.wrapS = THREE.RepeatWrapping;
+
+        // ===== Renderer / scene / camera =====
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w(), h(), false);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.1;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(28, w() / h(), 0.1, 100);
+        camera.position.set(0, 0, 5.6);
+
+        // ===== Earth =====
+        const earth = new THREE.Mesh(
+          new THREE.SphereGeometry(1, 96, 96),
+          new THREE.MeshStandardMaterial({
+            map: earthTex,
+            roughness: 0.78,
+            metalness: 0.1,
+            emissive: new THREE.Color(0x021410),
+            emissiveIntensity: 0.35,
+          })
+        );
+        // 23.5° axial tilt for realism
+        earth.rotation.z = (23.5 * Math.PI) / 180;
+        scene.add(earth);
+
+        // ===== Atmosphere — Fresnel back-side shell =====
+        const atm = new THREE.Mesh(
+          new THREE.SphereGeometry(1.105, 96, 96),
+          new THREE.ShaderMaterial({
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            depthWrite: false,
+            uniforms: { uColor: { value: new THREE.Color(0x6ef0b0) } },
+            vertexShader: `
+              varying vec3 vN; varying vec3 vP;
+              void main() {
+                vN = normalize(normalMatrix * normal);
+                vP = normalize((modelViewMatrix * vec4(position, 1.0)).xyz);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+              }`,
+            fragmentShader: `
+              uniform vec3 uColor;
+              varying vec3 vN; varying vec3 vP;
+              void main() {
+                float i = pow(0.62 - dot(vN, vP), 2.6);
+                gl_FragColor = vec4(uColor * i * 1.4, i);
+              }`,
+          })
+        );
+        scene.add(atm);
+
+        // ===== Lighting =====
+        scene.add(new THREE.AmbientLight(0xeaf6ef, 0.55));
+        const sun = new THREE.DirectionalLight(0xfff5e6, 1.7);
+        sun.position.set(-3.2, 1.8, 3.4);
+        scene.add(sun);
+        const rim = new THREE.DirectionalLight(0x88ffcc, 0.4);
+        rim.position.set(3, -1, -2);
+        scene.add(rim);
+
+        // ===== Hubs =====
+        const hubs = [
+          { lon: 33.04, lat: 34.71, home: true },
+          { lon: -0.13, lat: 51.51 },
+          { lon: -74.0, lat: 40.71 },
+          { lon: -122.42, lat: 37.77 },
+          { lon: 139.69, lat: 35.69 },
+          { lon: 103.82, lat: 1.35 },
+          { lon: 55.27, lat: 25.2 },
+          { lon: -46.63, lat: -23.55 },
+          { lon: 13.4, lat: 52.52 },
+          { lon: 77.59, lat: 12.97 },
+          { lon: 151.21, lat: -33.86 },
+        ];
+        const lonLatToVec3 = (lon, lat, r = 1) => {
+          const phi = ((90 - lat) * Math.PI) / 180;
+          const theta = ((lon + 180) * Math.PI) / 180;
+          return new THREE.Vector3(
+            -r * Math.sin(phi) * Math.cos(theta),
+            r * Math.cos(phi),
+            r * Math.sin(phi) * Math.sin(theta)
+          );
+        };
+        const dotGeo = new THREE.SphereGeometry(0.013, 16, 16);
+        const dotMat = new THREE.MeshBasicMaterial({ color: 0x9bf5c8 });
+        const homeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const rings = [];
+        for (const hb of hubs) {
+          const pos = lonLatToVec3(hb.lon, hb.lat, 1.005);
+          const dot = new THREE.Mesh(dotGeo, hb.home ? homeMat : dotMat);
+          dot.position.copy(pos);
+          earth.add(dot);
+          if (!reduced) {
+            const ringMesh = new THREE.Mesh(
+              new THREE.RingGeometry(0.018, 0.022, 48),
+              new THREE.MeshBasicMaterial({
+                color: hb.home ? 0xffffff : 0x9bf5c8,
+                transparent: true,
+                opacity: 0.6,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+              })
+            );
+            ringMesh.position.copy(pos);
+            ringMesh.lookAt(0, 0, 0);
+            ringMesh.rotateX(Math.PI);
+            earth.add(ringMesh);
+            rings.push(ringMesh);
+          }
+        }
+
+        // ===== Arcs (parented to earth so they ride with rotation) =====
+        const arcs = [];
+        const accentCol = new THREE.Color(0x9bf5c8);
+        function spawnArc() {
+          const a = hubs[0];
+          const b = hubs[1 + Math.floor(Math.random() * (hubs.length - 1))];
+          const va = lonLatToVec3(a.lon, a.lat, 1);
+          const vb = lonLatToVec3(b.lon, b.lat, 1);
+          const dist = va.distanceTo(vb);
+          const mid = va.clone().add(vb).multiplyScalar(0.5);
+          mid.normalize().multiplyScalar(1 + dist * 0.3);
+          const curve = new THREE.QuadraticBezierCurve3(va, mid, vb);
+          const tube = new THREE.TubeGeometry(curve, 56, 0.005, 8, false);
+          const mat = new THREE.MeshBasicMaterial({
+            color: accentCol,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+          });
+          const mesh = new THREE.Mesh(tube, mat);
+          earth.add(mesh);
+          arcs.push({ mesh, t: 0, life: 1.0 });
+        }
+
+        // ===== Controls =====
+        const controls = new OrbitControls(camera, canvas);
+        controls.enablePan = false;
+        controls.enableZoom = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.rotateSpeed = 0.65;
+        controls.autoRotate = !reduced;
+        controls.autoRotateSpeed = 0.25;
+        let lastInteract = 0;
+        controls.addEventListener("start", () => {
+          controls.autoRotate = false;
+          lastInteract = performance.now();
+          canvas.style.cursor = "grabbing";
+        });
+        controls.addEventListener("end", () => {
+          lastInteract = performance.now();
+          canvas.style.cursor = "grab";
+        });
+
+        // ===== Resize =====
+        const ro = new ResizeObserver(() => {
+          renderer.setSize(w(), h(), false);
+          camera.aspect = w() / h();
+          camera.updateProjectionMatrix();
+        });
+        ro.observe(stage);
+
+        // ===== Visibility (pause when offscreen) =====
+        let visible = true;
+        new IntersectionObserver(
+          (ents) => {
+            visible = ents[0].isIntersecting;
+          },
+          { threshold: 0.05 }
+        ).observe(stage);
+
+        // ===== Loop =====
+        const clock = new THREE.Clock();
+        let arcTimer = 0;
+        function tick() {
+          requestAnimationFrame(tick);
+          if (!visible) return;
+          const dt = Math.min(clock.getDelta(), 0.05);
+          const t = clock.elapsedTime;
+          if (
+            !reduced &&
+            !controls.autoRotate &&
+            performance.now() - lastInteract > 3500
+          ) {
+            controls.autoRotate = true;
+          }
+
+          // Hub pulse rings
+          for (let i = 0; i < rings.length; i++) {
+            const phase = (t * 0.24 + i * 0.07) % 1;
+            const s = 1 + phase * 6.5;
+            rings[i].scale.set(s, s, s);
+            rings[i].material.opacity = (1 - phase) * 0.5;
+          }
+
+          // Arc spawn + lifecycle
+          arcTimer += dt;
+          if (arcTimer > 1.6 && arcs.length < 3) {
+            arcTimer = 0;
+            spawnArc();
+          }
+          for (let i = arcs.length - 1; i >= 0; i--) {
+            const a = arcs[i];
+            a.t += dt * 0.6;
+            if (a.t < 1) {
+              a.mesh.material.opacity = Math.min(1, a.t * 2.5) * 0.85;
+            } else {
+              a.life -= dt * 0.6;
+              a.mesh.material.opacity = Math.max(0, a.life) * 0.85;
+              if (a.life <= 0) {
+                earth.remove(a.mesh);
+                a.mesh.geometry.dispose();
+                a.mesh.material.dispose();
+                arcs.splice(i, 1);
+              }
+            }
+          }
+
+          controls.update();
+          renderer.render(scene, camera);
+        }
+        tick();
+      })().catch((err) => {
+        console.warn("Three.js globe init failed; falling back to 2D.", err);
+        window.__three_globe_active = false;
+      });
+    </script>
   </body>
 </html>
