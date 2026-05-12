@@ -1635,14 +1635,13 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .scrolly { height: auto; }
-    .scrolly-stage {
-      position: relative;
-      height: auto;
-      aspect-ratio: 16 / 8.4;
+    /* Honor reduced-motion only for the parallax transform (the
+       vestibular trigger). The scroll-driven slideshow itself stays
+       active — it's user-controlled, not autoplay. iOS Low Power Mode
+       forces this query on, and a fully-static page reads as broken. */
+    .scrolly-stage canvas {
+      transform: none !important;
     }
-    .scrolly-stage canvas { display: none; }
-    .scrolly-stage .scrolly-fallback { opacity: 1 !important; }
   }
 
   /* === Brand marquee strip === */
