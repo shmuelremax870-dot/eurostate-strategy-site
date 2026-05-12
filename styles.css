@@ -479,16 +479,28 @@
     pointer-events: none;
   }
   .btn-primary {
-    background: var(--accent);
+    /* Subtle linear gradient + a flowing sheen on hover */
+    background:
+      linear-gradient(120deg, var(--accent) 0%, #9ee6df 50%, var(--accent) 100%);
+    background-size: 220% 100%;
+    background-position: 0% 50%;
     color: var(--bg);
     border-color: var(--accent);
     box-shadow: 0 0 0 0 transparent;
+    transition:
+      background-position 600ms var(--ease-out),
+      transform 200ms var(--ease-out),
+      box-shadow 280ms var(--ease-out),
+      filter 200ms var(--ease-out);
   }
   .btn-primary:hover {
-    background: var(--accent-strong);
+    background-position: 100% 50%;
     border-color: var(--accent-strong);
-    transform: translateY(-1px);
-    box-shadow: 0 12px 24px -12px var(--accent-glow);
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 32px -14px var(--accent-glow),
+      0 0 0 1px color-mix(in oklab, var(--accent) 35%, transparent);
+    filter: brightness(1.05);
   }
   .btn-primary:active { transform: translateY(0) scale(0.98); }
   .btn .arrow {
@@ -587,8 +599,37 @@
 
   .hero h1 {
     max-width: 18ch;
+    /* Larger, more cinematic display size */
+    font-size: clamp(3rem, 7vw, 7.2rem);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
   }
-  .hero h1 .accent { color: var(--accent); font-style: normal; }
+  .hero h1 .accent {
+    /* Animated mint -> cyan -> mint gradient flowing across the word */
+    background:
+      linear-gradient(
+        90deg,
+        var(--accent) 0%,
+        #9ee6df 25%,
+        #c9f5ee 50%,
+        #9ee6df 75%,
+        var(--accent) 100%
+      );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-style: normal;
+    animation: heroAccentShift 9s ease-in-out infinite;
+  }
+  @keyframes heroAccentShift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1 .accent { animation: none; }
+  }
 
   .hero-deck {
     display: grid;
@@ -896,14 +937,34 @@
   }
   @media (max-width: 740px) { .portfolio-grid { grid-template-columns: 1fr; } }
   .portfolio-card {
+    position: relative;
     padding: clamp(2rem, 4vw, 3rem);
     border-right: 1px solid var(--line);
     cursor: pointer;
-    transition: background-color 240ms var(--ease-out);
+    transition:
+      background-color 320ms var(--ease-out),
+      transform 320ms var(--ease-out),
+      box-shadow 320ms var(--ease-out);
     display: grid;
     gap: var(--sp-4);
     align-content: start;
     outline: none;
+    overflow: hidden;
+  }
+  /* Animated accent rail at top of card on hover */
+  .portfolio-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: translateX(-100%);
+    transition: transform 600ms var(--ease-out);
+  }
+  .portfolio-card:hover::before,
+  .portfolio-card.is-active::before {
+    transform: translateX(0);
   }
   .portfolio-card:last-child { border-right: 0; }
   @media (max-width: 740px) {
@@ -912,6 +973,8 @@
   }
   .portfolio-card:hover, .portfolio-card.is-active, .portfolio-card:focus-visible {
     background: var(--surface-1);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px -28px var(--accent-glow);
   }
   .portfolio-card-top {
     display: flex;
@@ -1023,6 +1086,25 @@
   }
   .reveal.is-visible { opacity: 1; transform: none; }
 
+  /* Stronger section-level reveal — applied automatically to every
+     <section class="section ..."> via JS at runtime. Subtle but visible
+     fade + lift as each section enters the viewport. */
+  .section-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
+    will-change: opacity, transform;
+  }
+  .section-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Stagger child elements inside revealed sections for cinematic feel */
+  .section-reveal > * { transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
+  @media (prefers-reduced-motion: reduce) {
+    .section-reveal { opacity: 1; transform: none; transition: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
@@ -1060,6 +1142,7 @@
   }
   @media (max-width: 860px) { .stack-grid { grid-template-columns: 1fr; } }
   .stack-cell {
+    position: relative;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     border-right: 1px solid var(--line);
     display: flex;
@@ -1067,15 +1150,33 @@
     gap: var(--sp-3);
     text-decoration: none;
     color: inherit;
-    transition: background-color 240ms var(--ease-out);
+    transition:
+      background-color 320ms var(--ease-out),
+      transform 320ms var(--ease-out),
+      box-shadow 320ms var(--ease-out);
     min-height: 280px;
+    overflow: hidden;
   }
+  .stack-cell::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: translateX(-100%);
+    transition: transform 600ms var(--ease-out);
+  }
+  .stack-cell:hover::before { transform: translateX(0); }
   .stack-cell:last-child { border-right: 0; }
   @media (max-width: 860px) {
     .stack-cell { border-right: 0; border-bottom: 1px solid var(--line); }
     .stack-cell:last-child { border-bottom: 0; }
   }
-  .stack-cell:hover { background: var(--surface-1); }
+  .stack-cell:hover {
+    background: var(--surface-1);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -28px var(--accent-glow);
+  }
   .stack-cell .pillar-num {
     font-family: var(--font-mono);
     font-size: var(--fs-mono);
@@ -1405,6 +1506,72 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .stage-image img { animation: none; }
+  }
+
+  /* === Brand marquee strip === */
+  .brand-marquee {
+    margin-block: clamp(2rem, 5vw, 4rem);
+    border-block: 1px solid var(--line);
+    overflow: hidden;
+    background: color-mix(in oklab, var(--surface-1) 60%, transparent);
+  }
+  .brand-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-block: clamp(0.9rem, 1.6vw, 1.4rem);
+    width: max-content;
+    animation: marqueeScroll 38s linear infinite;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .brand-marquee-track > span {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+  .brand-marquee-track > span::after {
+    content: "✦";
+    color: var(--accent);
+    font-style: normal;
+    opacity: 0.6;
+  }
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-marquee-track { animation: none; }
+  }
+  .brand-marquee:hover .brand-marquee-track { animation-play-state: paused; }
+
+  /* Section divider — small geometric mark used between major sections */
+  .section-mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-block: clamp(1rem, 3vw, 2rem);
+    color: var(--soft);
+  }
+  .section-mark::before,
+  .section-mark::after {
+    content: "";
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  }
+  .section-mark span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
   }
 
   /* Pillar preview slide (homepage section linking to dedicated page) */

@@ -57,7 +57,7 @@
     mq.addEventListener("change", (e) => { if (e.matches) closeNav(); });
   }
 
-  /* ----- Reveal on scroll --------------------------------------------- */
+  /* ----- Reveal on scroll (subtle .reveal + cinematic .section) ------- */
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -70,6 +70,13 @@
     { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
   );
   document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+  // Auto-mark every <section class="section"> for cinematic reveal —
+  // no markup changes needed in the existing pages.
+  document.querySelectorAll("section.section").forEach((el) => {
+    el.classList.add("section-reveal");
+    revealObserver.observe(el);
+  });
 
   /* ----- Nav active link ----------------------------------------------- */
   // Only in-page hash links can be section-tracked; external page links are skipped.
