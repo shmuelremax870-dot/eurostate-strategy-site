@@ -2,6 +2,18 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": false,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/waste-to-energy.html",
+      "destination": "/data-centers.html#farm",
+      "permanent": true
+    },
+    {
+      "source": "/waste-to-energy",
+      "destination": "/data-centers.html#farm",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*\\.html)",
