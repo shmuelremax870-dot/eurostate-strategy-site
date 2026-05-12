@@ -27,7 +27,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778581965" />
+    <link rel="stylesheet" href="./styles.css?v=1778582400" />
 
     <script type="importmap">
     {
@@ -259,6 +259,10 @@
 
         const W = 2400, H = 1350;
         const WAVE_PERIOD = 5; // seconds for full wave traversal
+        // Mobile boost: tiny r=0.7..2.5 LEDs render sub-pixel after the
+        // ~6x scale-down on phones. Pump the radius so they're visible.
+        const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+        const LED_SCALE = isMobile ? 3.2 : 1;
 
         // Deterministic RNG so positions are stable across reloads
         let s = 0x9e3779b9;
@@ -312,7 +316,7 @@
           const led = document.createElementNS(svgNS, "circle");
           led.setAttribute("cx", x.toFixed(1));
           led.setAttribute("cy", y.toFixed(1));
-          led.setAttribute("r", (isFeature ? r * 1.7 : r).toFixed(2));
+          led.setAttribute("r", ((isFeature ? r * 1.7 : r) * LED_SCALE).toFixed(2));
           led.setAttribute("class", isFeature ? "we-led is-feature" : "we-led");
 
           // Wave: peak phase moves left-to-right across the image.
