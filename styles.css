@@ -1621,16 +1621,23 @@
     transform: translateY(0);
   }
 
-  /* Mobile: keep the scrolly running but shorten the scroll distance
-     (so users don't have to drag forever) and tighten caption type. */
+  /* Mobile: shorter scroll distance + tighter type so the section
+     fits in one or two swipes and doesn't feel oversized. */
   @media (max-width: 768px), (pointer: coarse) {
-    .scrolly { height: 240vh; }
+    .scrolly { height: 160vh; }
+    .scrolly-stage { height: 100svh; }
     .scrolly-captions {
-      left: clamp(1rem, 6vw, 2rem);
-      bottom: clamp(1.5rem, 6vh, 3rem);
+      left: clamp(0.9rem, 5vw, 1.6rem);
+      bottom: clamp(1.2rem, 5vh, 2.4rem);
+    }
+    .scrolly-kicker {
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
     }
     .scrolly-captions p {
-      font-size: clamp(2.8rem, 16vw, 5.5rem);
+      font-size: clamp(2rem, 11vw, 3.6rem);
+      letter-spacing: -0.025em;
     }
   }
 
