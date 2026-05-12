@@ -449,6 +449,9 @@
      [80,-66],[100,-66],[120,-67],[140,-69],[160,-74],[180,-78],
      [180,-83],[-180,-83],[-180,-78]],
   ];
+  // Expose continents so the Three.js module in index.html can build
+  // its equirectangular Earth texture from the same source data.
+  window.__GLOBE_CONTINENTS = CONTINENTS;
 
   // Pre-compute centroids for shading
   const continentMeta = CONTINENTS.map((ring) => {
@@ -680,6 +683,8 @@
 
   function drawGlobe(time) {
     if (!globeState || !globeState.visible) return;
+    // If the Three.js module took over, the canvas-2D fallback is silent.
+    if (window.__three_globe_active) return;
     const { ctx, w, h } = globeState;
     ctx.clearRect(0, 0, w, h);
 
@@ -755,6 +760,49 @@
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.clip();
 
+    // ===== Graticule — lat/long grid, fades on terminator =====
+    // Drawn before continents so landmasses sit on top.
+    ctx.lineWidth = 0.4;
+    // Latitude rings every 20°
+    for (let lat = -60; lat <= 60; lat += 20) {
+      ctx.beginPath();
+      let started = false, prevVis = false;
+      for (let lon = -180; lon <= 180; lon += 4) {
+        const p = project(lon, lat, rotation, cx, cy, r, tilt);
+        if (!p.visible) { prevVis = false; continue; }
+        if (!started || !prevVis) { ctx.moveTo(p.x, p.y); started = true; }
+        else ctx.lineTo(p.x, p.y);
+        prevVis = true;
+      }
+      const latShade = 0.10 + Math.cos(lat * Math.PI / 180) * 0.05;
+      ctx.strokeStyle = hexToRgba(accent, latShade);
+      ctx.stroke();
+    }
+    // Longitude meridians every 30°
+    for (let lon = -180; lon < 180; lon += 30) {
+      ctx.beginPath();
+      let started = false, prevVis = false;
+      for (let lat = -85; lat <= 85; lat += 4) {
+        const p = project(lon, lat, rotation, cx, cy, r, tilt);
+        if (!p.visible) { prevVis = false; continue; }
+        if (!started || !prevVis) { ctx.moveTo(p.x, p.y); started = true; }
+        else ctx.lineTo(p.x, p.y);
+        prevVis = true;
+      }
+      ctx.strokeStyle = hexToRgba(accent, 0.09);
+      ctx.stroke();
+    }
+
+    // ===== Specular highlight — soft sub-solar gloss =====
+    // Sits over ocean, under continents — gives a true spherical "lit" feel.
+    const specR = r * 0.55;
+    const spec = ctx.createRadialGradient(lx, ly, 0, lx, ly, specR);
+    spec.addColorStop(0,    "rgba(220, 255, 240, 0.22)");
+    spec.addColorStop(0.35, "rgba(160, 230, 200, 0.10)");
+    spec.addColorStop(1,    "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = spec;
+    ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+
     // ===== Continents — crisp emerald outline, no fill warmth =====
     for (const m of continentMeta) {
       const shade = shadeAt(m.centroid[0], m.centroid[1], rotation, tilt);
@@ -770,7 +818,7 @@
 
     // ===== Sparse orbital arcs — at most one in flight =====
     arcTimer += 16;
-    if (arcTimer > 3600 && liveArcs.length === 0) { arcTimer = 0; spawnArc(); }
+    if (arcTimer > 2200 && liveArcs.length < 2) { arcTimer = 0; spawnArc(); }
 
     for (let i = liveArcs.length - 1; i >= 0; i--) {
       const arc = liveArcs[i];
@@ -821,11 +869,31 @@
 
     ctx.restore();
 
-    // ===== Hub node lights — small, uniform, no labels =====
-    hubs.forEach((hub) => {
+    // ===== Hub node lights — small, uniform, with pulse rings =====
+    // Pulse phase is shared; each hub gets a tiny offset so they breathe out of sync.
+    const pulseT = (time % 4200) / 4200; // 0..1 every 4.2s
+    hubs.forEach((hub, idx) => {
       const p = project(hub.lon, hub.lat, rotation, cx, cy, r, tilt);
       if (!p.visible) return;
       const baseR = hub.home ? 2.4 : 1.5;
+
+      // Expanding pulse ring (skip when reduced motion)
+      if (!reducedMotion) {
+        const phase = (pulseT + idx * 0.07) % 1;
+        const ringR = baseR + phase * 14;
+        const ringA = (1 - phase) * (hub.home ? 0.45 : 0.28);
+        if (ringA > 0.02) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
+          ctx.strokeStyle = hub.home
+            ? hexToRgba(palette.text, ringA)
+            : hexToRgba(accent, ringA);
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+
+      // Core dot
       ctx.beginPath();
       ctx.arc(p.x, p.y, baseR, 0, Math.PI * 2);
       ctx.fillStyle = hub.home ? hexToRgba(palette.text, 1) : hexToRgba(accent, 0.85);
@@ -838,12 +906,25 @@
       }
     });
 
-    // ===== Sphere edge — single crisp rim =====
+    // ===== Sphere edge — crisp inner rim =====
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.strokeStyle = hexToRgba(accent, 0.32);
     ctx.lineWidth = 0.8;
     ctx.stroke();
+
+    // ===== Atmospheric Fresnel — second outer scattering band =====
+    // Sits just outside the sphere; a tighter, brighter band than the
+    // wide haloOuter drawn at the start, so the rim reads as
+    // a real atmosphere instead of a flat sticker.
+    const fres = ctx.createRadialGradient(cx, cy, r * 1.0, cx, cy, r * 1.06);
+    fres.addColorStop(0,   hexToRgba(accent, 0.55));
+    fres.addColorStop(0.5, hexToRgba(accent, 0.18));
+    fres.addColorStop(1,   hexToRgba(accent, 0));
+    ctx.fillStyle = fres;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 1.06, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   /* ----- Master rAF loop ----------------------------------------------- */
