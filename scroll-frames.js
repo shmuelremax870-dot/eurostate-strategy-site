@@ -4,8 +4,8 @@
    [data-scrolly] section. Exposes scroll progress as CSS custom property
    --p (0..1) on the canvas for parallax / zoom effects.
 
-   Skipped on mobile, narrow viewports, and prefers-reduced-motion —
-   the fallback <img> (last frame) stays visible.
+   On mobile: loads every other frame (120 frames, ~7 MB) to keep the
+   data + GPU budget reasonable. Skipped only under prefers-reduced-motion.
    ========================================================================= */
 (function initScrolly() {
   "use strict";
@@ -16,19 +16,26 @@
   if (!canvas) return;
 
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
-  if (reducedMotion || isMobile) return;
+  if (reducedMotion) return;
 
-  const TOTAL = 240;
+  const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+  // STEP=2 on mobile -> use 120 frames (every other one). Same scroll
+  // distance, half the asset weight and half the decoded textures in memory.
+  const STEP = isMobile ? 2 : 1;
+  const TOTAL_SOURCE = 240;
+  const TOTAL = Math.ceil(TOTAL_SOURCE / STEP);
   const PATH = (i) =>
-    `./scroll-frames/transform/frame-${String(i + 1).padStart(3, "0")}.jpg`;
+    `./scroll-frames/transform/frame-${String(i * STEP + 1).padStart(3, "0")}.jpg`;
 
   // Native frame dimensions (after watermark crop)
   const FW = 1280;
   const FH = 670;
 
   const ctx = canvas.getContext("2d");
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // Lower DPR on mobile — saves a lot of VRAM with full-bleed canvas.
+  const dpr = isMobile
+    ? Math.min(window.devicePixelRatio || 1, 1.25)
+    : Math.min(window.devicePixelRatio || 1, 2);
 
   function sizeCanvas() {
     const stage = root.querySelector(".scrolly-stage") || root;
