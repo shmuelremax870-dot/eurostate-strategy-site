@@ -134,13 +134,16 @@
   );
 
   /* ----- Signal rows pulse --------------------------------------------- */
+  // Signal rows pulse — color cycle, not vestibular. Keep alive on
+  // reduced-motion too (iOS Low Power Mode forces that flag and a
+  // static panel reads as broken). Slow the cadence a little instead.
   const signalRows = [...document.querySelectorAll("[data-signal-row]")];
-  if (!reducedMotion && signalRows.length) {
+  if (signalRows.length) {
     let i = 0;
     setInterval(() => {
       signalRows.forEach((r, idx) => r.classList.toggle("active", idx === i));
       i = (i + 1) % signalRows.length;
-    }, 2200);
+    }, reducedMotion ? 3500 : 2200);
   }
 
   /* ----- Portfolio selector -------------------------------------------- */
@@ -927,22 +930,27 @@
     ctx.fill();
   }
 
-  /* ----- Master rAF loop ----------------------------------------------- */
+  /* ----- Master rAF loop -----------------------------------------------
+     Always animates — hero dust and globe drifts are ambient, not
+     vestibular. iOS Low Power Mode forces prefers-reduced-motion on
+     by default, so gating the loop behind it left phones with a
+     frozen hero. We now run the loop everywhere; the only
+     reduced-motion accommodation is the slower hub pulse, slower
+     marquee, and disabled parallax transform, all handled elsewhere. */
   let frame = null;
   function tick(time) {
     drawHero(time);
     drawGlobe(time);
-    if (!reducedMotion) frame = requestAnimationFrame(tick);
+    frame = requestAnimationFrame(tick);
   }
   if (heroState || globeState) {
-    if (reducedMotion) tick(0);
-    else frame = requestAnimationFrame(tick);
+    frame = requestAnimationFrame(tick);
   }
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       if (frame) cancelAnimationFrame(frame);
       frame = null;
-    } else if (!reducedMotion && !frame) {
+    } else if (!frame) {
       frame = requestAnimationFrame(tick);
     }
   });
