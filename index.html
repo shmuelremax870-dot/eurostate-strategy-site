@@ -39,7 +39,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778580220" />
+    <link rel="stylesheet" href="./styles.css?v=1778580465" />
 
     <script type="importmap">
       {
@@ -638,7 +638,7 @@
       <span><a href="https://www.linkedin.com/company/oqp-global/" data-linkedin target="_blank" rel="noopener noreferrer" aria-label="OQP Global on LinkedIn (opens in a new tab)" style="color: var(--accent);">LinkedIn ↗</a></span>
     </footer>
 
-    <script src="./script.js?v=1778580220" defer></script>
+    <script src="./script.js?v=1778580465" defer></script>
 
     <!-- Real 3D Earth — Three.js takes over #globeCanvas, replacing the
          Canvas-2D fallback rendered by script.js. If Three.js fails to
@@ -646,6 +646,9 @@
     <script type="module">
       import * as THREE from "three";
       import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 
       (async () => {
         const oldCanvas = document.getElementById("globeCanvas");
@@ -760,6 +763,60 @@
         earthTex.anisotropy = 8;
         earthTex.wrapS = THREE.RepeatWrapping;
 
+        // ===== Roughness map: ocean shiny, land matte =====
+        // White = rough (matte land), Black = smooth (shiny ocean).
+        const rc = document.createElement("canvas");
+        rc.width = TEX_W;
+        rc.height = TEX_H;
+        const rx = rc.getContext("2d");
+        // Ocean = very smooth (dark gray)
+        rx.fillStyle = "#1a1a1a";
+        rx.fillRect(0, 0, TEX_W, TEX_H);
+        // Land = rough (white)
+        rx.fillStyle = "#ffffff";
+        for (const ring of continents) {
+          rx.beginPath();
+          for (let i = 0; i < ring.length; i++) {
+            const [x, y] = lonLat(ring[i][0], ring[i][1]);
+            i === 0 ? rx.moveTo(x, y) : rx.lineTo(x, y);
+          }
+          rx.closePath();
+          rx.fill();
+        }
+        const roughTex = new THREE.CanvasTexture(rc);
+        roughTex.anisotropy = 4;
+
+        // ===== Cloud texture: procedural soft blobs =====
+        const cc = document.createElement("canvas");
+        cc.width = 2048;
+        cc.height = 1024;
+        const cx2 = cc.getContext("2d");
+        cx2.fillStyle = "rgba(0,0,0,0)";
+        cx2.fillRect(0, 0, cc.width, cc.height);
+        // Sprinkle ~520 soft white blobs at random lat/lon, biased toward
+        // mid-latitudes for realism.
+        for (let i = 0; i < 520; i++) {
+          const lon = Math.random() * 360 - 180;
+          // Bias toward 0 lat with a power curve
+          const latRaw = (Math.random() * 2 - 1);
+          const lat = Math.sign(latRaw) * Math.pow(Math.abs(latRaw), 1.4) * 70;
+          const x = ((lon + 180) / 360) * cc.width;
+          const y = ((90 - lat) / 180) * cc.height;
+          const r = 18 + Math.random() * 60;
+          const g = cx2.createRadialGradient(x, y, 0, x, y, r);
+          const a = 0.18 + Math.random() * 0.35;
+          g.addColorStop(0, `rgba(255,255,255,${a})`);
+          g.addColorStop(0.5, `rgba(220,235,230,${a * 0.45})`);
+          g.addColorStop(1, "rgba(255,255,255,0)");
+          cx2.fillStyle = g;
+          cx2.beginPath();
+          cx2.arc(x, y, r, 0, Math.PI * 2);
+          cx2.fill();
+        }
+        const cloudTex = new THREE.CanvasTexture(cc);
+        cloudTex.colorSpace = THREE.SRGBColorSpace;
+        cloudTex.anisotropy = 4;
+
         // ===== Renderer / scene / camera =====
         const renderer = new THREE.WebGLRenderer({
           canvas,
@@ -779,18 +836,85 @@
 
         // ===== Earth =====
         const earth = new THREE.Mesh(
-          new THREE.SphereGeometry(1, 96, 96),
+          new THREE.SphereGeometry(1, 128, 128),
           new THREE.MeshStandardMaterial({
             map: earthTex,
-            roughness: 0.78,
-            metalness: 0.1,
+            roughnessMap: roughTex,
+            roughness: 1.0, // multiplied by roughnessMap; ocean (dark) ends up smooth
+            metalness: 0.35, // ocean shows real specular reflection
             emissive: new THREE.Color(0x021410),
-            emissiveIntensity: 0.35,
+            emissiveIntensity: 0.3,
           })
         );
         // 23.5° axial tilt for realism
         earth.rotation.z = (23.5 * Math.PI) / 180;
         scene.add(earth);
+
+        // ===== Clouds — semi-transparent shell, slow independent rotation =====
+        const clouds = new THREE.Mesh(
+          new THREE.SphereGeometry(1.013, 96, 96),
+          new THREE.MeshStandardMaterial({
+            map: cloudTex,
+            transparent: true,
+            opacity: 0.62,
+            depthWrite: false,
+            roughness: 1.0,
+            metalness: 0.0,
+            alphaTest: 0.02,
+          })
+        );
+        earth.add(clouds);
+
+        // ===== Starfield background — additive twinkle =====
+        const STAR_COUNT = 1800;
+        const starGeo = new THREE.BufferGeometry();
+        const starPos = new Float32Array(STAR_COUNT * 3);
+        const starSize = new Float32Array(STAR_COUNT);
+        const starPhase = new Float32Array(STAR_COUNT);
+        for (let i = 0; i < STAR_COUNT; i++) {
+          // Sphere shell at radius 25, push behind/around camera
+          const u = Math.random(),
+            v = Math.random();
+          const theta = 2 * Math.PI * u;
+          const phi = Math.acos(2 * v - 1);
+          const R = 22 + Math.random() * 6;
+          starPos[i * 3 + 0] = R * Math.sin(phi) * Math.cos(theta);
+          starPos[i * 3 + 1] = R * Math.sin(phi) * Math.sin(theta);
+          starPos[i * 3 + 2] = R * Math.cos(phi);
+          starSize[i] = 0.6 + Math.random() * 1.8;
+          starPhase[i] = Math.random() * Math.PI * 2;
+        }
+        starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
+        starGeo.setAttribute("aSize", new THREE.BufferAttribute(starSize, 1));
+        starGeo.setAttribute("aPhase", new THREE.BufferAttribute(starPhase, 1));
+        const starMat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          uniforms: { uTime: { value: 0 } },
+          vertexShader: `
+            attribute float aSize;
+            attribute float aPhase;
+            uniform float uTime;
+            varying float vTwinkle;
+            void main() {
+              vTwinkle = 0.55 + 0.45 * sin(uTime * 1.6 + aPhase);
+              vec4 mv = modelViewMatrix * vec4(position, 1.0);
+              gl_PointSize = aSize * (320.0 / -mv.z) * vTwinkle;
+              gl_Position = projectionMatrix * mv;
+            }`,
+          fragmentShader: `
+            varying float vTwinkle;
+            void main() {
+              vec2 c = gl_PointCoord - vec2(0.5);
+              float d = length(c);
+              if (d > 0.5) discard;
+              float a = smoothstep(0.5, 0.0, d) * vTwinkle;
+              gl_FragColor = vec4(vec3(0.85, 1.0, 0.95) * a, a);
+            }`,
+        });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
 
         // ===== Atmosphere — Fresnel back-side shell =====
         const atm = new THREE.Mesh(
@@ -851,9 +975,16 @@
             r * Math.sin(phi) * Math.sin(theta)
           );
         };
-        const dotGeo = new THREE.SphereGeometry(0.013, 16, 16);
-        const dotMat = new THREE.MeshBasicMaterial({ color: 0x9bf5c8 });
-        const homeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const dotGeo = new THREE.SphereGeometry(0.014, 16, 16);
+        // HDR-bright colors (>1) so UnrealBloom picks them up as real light points.
+        const dotMat = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(0x9bf5c8).multiplyScalar(2.4),
+          toneMapped: false,
+        });
+        const homeMat = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(0xffffff).multiplyScalar(3.0),
+          toneMapped: false,
+        });
         const rings = [];
         for (const hb of hubs) {
           const pos = lonLatToVec3(hb.lon, hb.lat, 1.005);
@@ -923,9 +1054,24 @@
           canvas.style.cursor = "grab";
         });
 
+        // ===== Postprocessing — UnrealBloom for premium glow =====
+        const composer = new EffectComposer(renderer);
+        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        composer.setSize(w(), h());
+        composer.addPass(new RenderPass(scene, camera));
+        const bloom = new UnrealBloomPass(
+          new THREE.Vector2(w(), h()),
+          0.85, // strength
+          0.55, // radius
+          0.18  // threshold
+        );
+        composer.addPass(bloom);
+
         // ===== Resize =====
         const ro = new ResizeObserver(() => {
           renderer.setSize(w(), h(), false);
+          composer.setSize(w(), h());
+          bloom.setSize(w(), h());
           camera.aspect = w() / h();
           camera.updateProjectionMatrix();
         });
@@ -987,8 +1133,16 @@
             }
           }
 
+          // Cloud drift — slightly faster than auto-rotate
+          clouds.rotation.y += dt * 0.012;
+
+          // Star twinkle uniform
+          starMat.uniforms.uTime.value = t;
+          // Slow drift on stars so they feel like real space, not a sticker
+          stars.rotation.y = t * 0.005;
+
           controls.update();
-          renderer.render(scene, camera);
+          composer.render();
         }
         tick();
       })().catch((err) => {
