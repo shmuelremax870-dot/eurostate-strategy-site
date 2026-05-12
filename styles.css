@@ -1544,11 +1544,26 @@
   .scrolly-stage .scrolly-fallback {
     z-index: 1;
     opacity: 1;
-    transition: opacity 240ms var(--ease-out);
+    transition: opacity 400ms var(--ease-out);
   }
-  .scrolly-stage.is-ready .scrolly-fallback { opacity: 0; pointer-events: none; }
-  .scrolly-stage canvas { z-index: 2; opacity: 0; transition: opacity 240ms var(--ease-out); }
-  .scrolly-stage.is-ready canvas { opacity: 1; }
+  [data-scrolly][data-scrolly-ready] .scrolly-fallback {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* Canvas: subtle push-in parallax driven by --p (0..1 scroll progress)
+     set by scroll-frames.js. Compensates for Veo's static camera —
+     gives the viewer the feeling of moving forward into the compute hall. */
+  .scrolly-stage canvas {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 400ms var(--ease-out);
+    transform-origin: 50% 55%;
+    transform:
+      scale(calc(1 + 0.06 * var(--p, 0)))
+      translateY(calc(-16px * var(--p, 0)));
+    will-change: transform, opacity;
+  }
+  [data-scrolly][data-scrolly-ready] canvas { opacity: 1; }
 
   /* Vignette + bottom gradient for caption legibility */
   .scrolly-stage::after {
