@@ -15,9 +15,11 @@
   const canvas = root.querySelector("[data-scrolly-canvas]");
   if (!canvas) return;
 
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reducedMotion) return;
-
+  // Do NOT bail on prefers-reduced-motion: iOS Low Power Mode forces
+  // that flag on by default, and a scroll-driven slideshow isn't
+  // motion in the vestibular sense (the user controls it 1:1 with
+  // scroll). The parallax push-in *is* honest motion — that part is
+  // disabled via CSS @media (prefers-reduced-motion: reduce).
   const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
   // STEP=2 on mobile -> use 120 frames (every other one). Same scroll
   // distance, half the asset weight and half the decoded textures in memory.
