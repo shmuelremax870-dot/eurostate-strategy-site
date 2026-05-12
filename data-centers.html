@@ -27,7 +27,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wdth,wght@6..144,25..151,100..1000&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link rel="stylesheet" href="./styles.css?v=1778581965" />
+    <link rel="stylesheet" href="./styles.css?v=1778582400" />
 
     <script type="importmap">
     {
@@ -286,6 +286,10 @@
         const vpX = W / 2;
         const vpY = H * 0.5;
         const RACK_COUNT = 35;
+        // On mobile the SVG scales down ~6x; tiny r=0.55..1.5 LEDs render
+        // sub-pixel and disappear. Boost the radius proportionally.
+        const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+        const LED_SCALE = isMobile ? 3.2 : 1;
         const lerp = (a, b, t) => a + (b - a) * t;
         const rngFrom = (seed) => {
           let s = (seed | 0) || 1;
@@ -338,7 +342,7 @@
               const slotH = innerH / ledCount;
               const inset = Math.max(2, rw * 0.08);
               const cx = (rackLeft + inset + rackRight - inset) / 2;
-              const r = Math.max(0.55, lerp(1.5, 0.55, depth));
+              const r = Math.max(0.55, lerp(1.5, 0.55, depth)) * LED_SCALE;
               for (let k = 0; k < ledCount; k++) {
                 const cy = rhTop + 4 + slotH * (k + 0.5);
                 const led = document.createElementNS(svgNS, "circle");
@@ -357,7 +361,7 @@
               for (let k = 0; k < ledCount; k++) {
                 const cx = rackLeft + (rackRight - rackLeft) * (0.18 + rng() * 0.64);
                 const cy = rhTop + (rhBot - rhTop) * (0.08 + rng() * 0.84);
-                const r = Math.max(0.7, lerp(2.0, 0.7, depth));
+                const r = Math.max(0.7, lerp(2.0, 0.7, depth)) * LED_SCALE;
                 const led = document.createElementNS(svgNS, "circle");
                 led.setAttribute("cx", cx.toFixed(1));
                 led.setAttribute("cy", cy.toFixed(1));
