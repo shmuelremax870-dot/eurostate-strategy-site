@@ -1514,6 +1514,129 @@
     .stage-image img { animation: none; }
   }
 
+  /* =========================================================================
+     SCROLLY — frame-by-frame waste → energy → compute scrubber
+     ========================================================================= */
+  .scrolly {
+    position: relative;
+    height: 320vh; /* scroll distance that maps to frame 0 → frame N */
+    margin-block: clamp(2rem, 6vw, 5rem);
+  }
+  .scrolly-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #04060a;
+  }
+  .scrolly-stage canvas,
+  .scrolly-stage .scrolly-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Fallback image is shown until JS swaps it out for the canvas frame.
+     It uses the LAST frame so the user sees the final state even if
+     JS / preload is slow. */
+  .scrolly-stage .scrolly-fallback {
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 240ms var(--ease-out);
+  }
+  .scrolly-stage.is-ready .scrolly-fallback { opacity: 0; pointer-events: none; }
+  .scrolly-stage canvas { z-index: 2; opacity: 0; transition: opacity 240ms var(--ease-out); }
+  .scrolly-stage.is-ready canvas { opacity: 1; }
+
+  /* Vignette + bottom gradient for caption legibility */
+  .scrolly-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%),
+      radial-gradient(120% 80% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+
+  .scrolly-captions {
+    position: absolute;
+    z-index: 4;
+    left: clamp(1.5rem, 5vw, 4rem);
+    bottom: clamp(2rem, 7vh, 5rem);
+    color: #fff;
+    pointer-events: none;
+  }
+  .scrolly-kicker {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+  }
+  .scrolly-captions p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    font-size: clamp(3rem, 11vw, 9rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out);
+    color: #fff;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
+    white-space: nowrap;
+  }
+  .scrolly-captions p span {
+    background: linear-gradient(180deg, #ffffff 0%, #b9f3d6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .scrolly-captions p.is-on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile: collapse scrolly to a static image. No sticky, no canvas,
+     no frame sequence preload. Stage becomes a regular hero card. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .scrolly { height: auto; }
+    .scrolly-stage {
+      position: relative;
+      height: auto;
+      aspect-ratio: 16 / 8.4;
+      border-radius: var(--radius-3);
+    }
+    .scrolly-stage canvas { display: none; }
+    .scrolly-stage .scrolly-fallback { opacity: 1 !important; }
+    .scrolly-captions p:not([data-scrolly-caption="compute"]) { display: none; }
+    .scrolly-captions p[data-scrolly-caption="compute"] {
+      opacity: 1;
+      transform: none;
+      font-size: clamp(2.4rem, 14vw, 5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scrolly { height: auto; }
+    .scrolly-stage {
+      position: relative;
+      height: auto;
+      aspect-ratio: 16 / 8.4;
+    }
+    .scrolly-stage canvas { display: none; }
+    .scrolly-stage .scrolly-fallback { opacity: 1 !important; }
+  }
+
   /* === Brand marquee strip === */
   .brand-marquee {
     margin-block: clamp(2rem, 5vw, 4rem);

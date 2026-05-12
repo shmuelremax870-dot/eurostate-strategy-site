@@ -946,4 +946,155 @@
       frame = requestAnimationFrame(tick);
     }
   });
+
+  /* =========================================================================
+     SCROLLY — frame-by-frame waste → energy → compute scrubber
+     ========================================================================= */
+  (function initScrolly() {
+    const section = document.querySelector("[data-scrolly]");
+    if (!section) return;
+    const stage = section.querySelector(".scrolly-stage");
+    const canvas = section.querySelector("[data-scrolly-canvas]");
+    if (!stage || !canvas) return;
+
+    // Mobile / reduced motion → static fallback image already in DOM. Skip.
+    const isMobile = matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+    if (isMobile || reducedMotion) {
+      // The fallback <img> in CSS is already visible; nothing to wire up.
+      return;
+    }
+
+    const TOTAL = 240;
+    const PATH = (i) =>
+      `./scroll-frames/transform/frame-${String(i + 1).padStart(3, "0")}.jpg`;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function sizeCanvas() {
+      const r = stage.getBoundingClientRect();
+      canvas.width  = Math.round(r.width  * dpr);
+      canvas.height = Math.round(r.height * dpr);
+    }
+    sizeCanvas();
+    window.addEventListener("resize", sizeCanvas, { passive: true });
+
+    // Image cache. Loads asynchronously; we start rendering once the
+    // first ~30 frames are in memory so the section never blocks paint.
+    const imgs = new Array(TOTAL);
+    let loadedCount = 0;
+    let ready = false;
+    function loadFrame(i) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.onload = () => {
+          imgs[i] = img;
+          loadedCount++;
+          if (!ready && loadedCount >= 30) {
+            ready = true;
+            stage.classList.add("is-ready");
+            requestAnimationFrame(render);
+          }
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = PATH(i);
+      });
+    }
+    // Prioritise: frame 0, frame N-1, then every 8th (key frames), then rest.
+    const priority = [0, TOTAL - 1];
+    for (let i = 0; i < TOTAL; i += 8) if (!priority.includes(i)) priority.push(i);
+    for (let i = 0; i < TOTAL; i++) if (!priority.includes(i)) priority.push(i);
+    (async () => {
+      // Load first 30 sequentially-ish to ensure smoothness near top.
+      for (let i = 0; i < 30 && i < priority.length; i++) {
+        await loadFrame(priority[i]);
+      }
+      // The rest in parallel — browser will throttle to ~6 connections.
+      for (let i = 30; i < priority.length; i++) loadFrame(priority[i]);
+    })();
+
+    // Captions cross-fade based on progress.
+    const caps = {
+      waste:   section.querySelector('[data-scrolly-caption="waste"]'),
+      energy:  section.querySelector('[data-scrolly-caption="energy"]'),
+      compute: section.querySelector('[data-scrolly-caption="compute"]'),
+    };
+    function setCaption(progress) {
+      const w = progress < 0.33 ? 1 : Math.max(0, 1 - (progress - 0.33) / 0.08);
+      const e =
+        progress < 0.33 ? Math.max(0, 1 - (0.33 - progress) / 0.08) :
+        progress < 0.66 ? 1 :
+        Math.max(0, 1 - (progress - 0.66) / 0.08);
+      const c = progress > 0.66 ? 1 : Math.max(0, 1 - (0.66 - progress) / 0.08);
+      caps.waste.style.opacity   = w.toFixed(3);
+      caps.energy.style.opacity  = e.toFixed(3);
+      caps.compute.style.opacity = c.toFixed(3);
+      caps.waste.classList.toggle("is-on",   w > 0.5);
+      caps.energy.classList.toggle("is-on",  e > 0.5);
+      caps.compute.classList.toggle("is-on", c > 0.5);
+    }
+
+    // object-fit: cover math, drawn on the 2D canvas.
+    function drawCover(img) {
+      if (!img) return;
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale, dh = ih * scale;
+      const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+    // Find the nearest loaded frame for a given index (so we can draw
+    // before EVERY frame has streamed in, falling back to the closest
+    // available neighbour).
+    function nearestLoaded(idx) {
+      for (let r = 0; r < TOTAL; r++) {
+        if (imgs[idx - r]) return imgs[idx - r];
+        if (imgs[idx + r]) return imgs[idx + r];
+      }
+      return null;
+    }
+
+    let lastDrawn = -1;
+    function render() {
+      if (!ready) return;
+      const r = section.getBoundingClientRect();
+      const viewport = window.innerHeight;
+      const total = section.offsetHeight - viewport;
+      const progress = Math.max(0, Math.min(1, -r.top / total));
+      const idx = Math.round(progress * (TOTAL - 1));
+      if (idx !== lastDrawn) {
+        const img = nearestLoaded(idx);
+        if (img) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawCover(img);
+          lastDrawn = idx;
+        }
+      }
+      setCaption(progress);
+    }
+
+    // Throttle scroll → rAF
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            render();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+    window.addEventListener("resize", () => {
+      lastDrawn = -1;
+      render();
+    });
+    // Initial draw once ready (covered by load callback too).
+    setCaption(0);
+  })();
 })();
