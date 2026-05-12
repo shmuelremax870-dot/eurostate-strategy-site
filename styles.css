@@ -801,16 +801,17 @@
     aspect-ratio: 1 / 1;
     min-height: clamp(360px, 50vw, 560px);
     max-height: 620px;
-    background:
-      radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.65) 100%),
-      #04060a;
-    overflow: hidden;
-    border-radius: 50%;
+    /* Circular clip moved to the canvas itself so .system-meta text in
+       the corners is no longer hidden by the round overflow:hidden. */
   }
   .system-stage canvas {
     position: absolute;
     inset: 0;
     width: 100%; height: 100%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.65) 100%),
+      #04060a;
   }
 
   .system-meta {
@@ -1403,7 +1404,10 @@
     45%, 55% { opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .we-led-overlay .we-led { animation: none; opacity: 0.55; }
+    /* Keep the wave animation but slow it dramatically — iOS Low Power
+       Mode forces this media query, and going fully static reads as
+       broken/unlit instead of accessible. */
+    .we-led-overlay .we-led { animation-duration: 14s; }
   }
 
   /* Interactive rack overlay on top of the data-center hero image.
@@ -1456,7 +1460,9 @@
     50%      { opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .rack-overlay .rack-led { animation: none; opacity: 0.7; }
+    /* See comment above — keep the LED blink alive (slower) so users
+       in iOS Low Power Mode still see a living data center. */
+    .rack-overlay .rack-led { animation-duration: 7s; }
   }
 
   /* Cinematic stage image (production-facing hero visual until a GLB
