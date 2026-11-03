@@ -38,3 +38,21 @@
     if (y) y.textContent = new Date().getFullYear();
   });
 })();
+
+(function () {
+  var kick = function () {
+    document.querySelectorAll('video').forEach(function (v) {
+      v.muted = true;
+      if (v.paused && (v.hasAttribute('autoplay') || v.dataset.want === '1')) { var p = v.play(); if (p) p.catch(function () {}); }
+    });
+  };
+  var hv = document.querySelector('video[autoplay]');
+  // Safety net: if the scroll stage has not started the opening footage (no WebGL, reduced motion, script error), start it here.
+  if (hv) setTimeout(function () {
+    if (hv.currentSrc) return;
+    hv.querySelectorAll('source[data-src]').forEach(function (s) { s.src = s.dataset.src; s.removeAttribute('data-src'); });
+    hv.muted = true; hv.load(); var p = hv.play(); if (p) p.catch(function () {});
+  }, 1200);
+  ['touchstart', 'click', 'scroll'].forEach(function (e) { window.addEventListener(e, kick, { passive: true, once: true }); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
+})();

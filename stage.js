@@ -156,8 +156,10 @@ async function start() {
   function ensure(L) {
     if (L.loaded || !L.v) return;
     L.loaded = true;
-    for (const s of L.v.querySelectorAll('source[data-src]')) { s.src = s.dataset.src; }
-    L.v.load();
+    const lazy = L.v.querySelectorAll('source[data-src]');
+    for (const s of lazy) { s.src = s.dataset.src; }
+    L.v.muted = true; L.v.defaultMuted = true; L.v.setAttribute('muted', '');
+    if (lazy.length) L.v.load();
   }
   if (CAPTURE) {
     layers.forEach(ensure);
@@ -239,7 +241,7 @@ async function start() {
       const near = q > w[0] - 0.08 && q < w[3] + 0.04;
       if (near) ensure(L);
       if (!CAPTURE && L.v) {
-        if (o > 0.001 && !L.playing) { L.playing = true; const pr = L.v.play(); if (pr) pr.catch(() => { L.playing = false; }); }
+        if (o > 0.001 && (!L.playing || L.v.paused)) { L.playing = true; L.v.muted = true; const pr = L.v.play(); if (pr) pr.catch(() => { L.playing = false; }); }
         else if (o <= 0.001 && L.playing) { L.playing = false; L.v.pause(); }
       }
     }
