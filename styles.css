@@ -359,3 +359,4 @@ html:not(.stage-live) .layer{display:none}
 }
 .stage h1{max-width:19ch}
 @media (max-width:760px){.stage h1{max-width:none}}
+@media (min-width:761px){.cap-hero{max-width:900px}}
