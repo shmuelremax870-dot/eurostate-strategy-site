@@ -371,3 +371,35 @@ html:not(.stage-live) .layer[data-layer=hero]{opacity:1}
 .layer.vid-blocked .layer-anim{opacity:1;animation:esKen 18s ease-in-out infinite alternate}
 .layer.vid-blocked video{animation:esKen 18s ease-in-out infinite alternate}
 @keyframes esKen{0%{transform:scale(1.04) translate3d(-1%,0,0)}100%{transform:scale(1.14) translate3d(1.5%,-1.5%,0)}}
+
+
+/* ===== v4 (Nov 3, Shmuel 20:36 IL: "the animations are small, not clearly visible") =====
+   Footage full-bleed and bright; only a short bottom gradient behind small text; longer holds per scene. */
+.stage-live .stage{height:900vh}
+.stage-snap{position:absolute;left:0;width:1px;height:1px;pointer-events:none;scroll-snap-align:start}
+.stage-shade{background:
+  linear-gradient(90deg,rgba(4,12,26,.66) 0%,rgba(4,12,26,.34) 34%,rgba(4,12,26,0) 58%),
+  linear-gradient(180deg,rgba(4,12,26,.4) 0%,rgba(4,12,26,0) 16%,rgba(4,12,26,0) 76%,rgba(4,12,26,.6) 100%)}
+.cap-title,.cap-text,.stage h1,.cap-label,.stage .eyebrow,.stage .hero-lede{text-shadow:0 1px 14px rgba(0,0,0,.45),0 1px 2px rgba(0,0,0,.35)}
+.stage-grain{opacity:.05}
+@media (max-width:820px){
+  html{scroll-snap-type:y proximity}
+  .stage-live .stage{height:1100vh}
+  .stage-sticky{align-items:flex-end}
+  .stage-shade{background:linear-gradient(180deg,rgba(3,8,18,.3) 0%,rgba(3,8,18,0) 11%,rgba(3,8,18,0) 60%,rgba(3,8,18,.5) 77%,rgba(3,8,18,.8) 100%)}
+  .cap{align-self:end;padding-top:0;padding-bottom:58px;max-width:none}
+  .cap-label{font-size:.64rem;letter-spacing:.14em;margin-bottom:8px;gap:8px}
+  .cap-label::before{width:16px}
+  .cap-title{font-size:clamp(1.3rem,6vw,1.65rem);line-height:1.14}
+  .stage .cap-text{display:none}
+  .stage .eyebrow{white-space:normal;line-height:1.5;max-width:30ch}
+  .stage h1{font-size:clamp(1.35rem,6.2vw,1.7rem);line-height:1.14}
+  .stage .eyebrow{font-size:.6rem;margin-bottom:10px;letter-spacing:.14em}
+  .stage .hero-lede{display:none}
+  .stage .hero-actions{margin-top:14px;gap:10px}
+  .stage .hero-actions .btn,.cap .btn{min-height:44px;padding:0 18px;font-size:.84rem;flex:0 0 auto}
+  .cap .btn{margin-top:10px}
+  .stage-ticks{bottom:24px}
+  .scroll-hint{bottom:16px}
+  .scroll-hint{display:none}
+}

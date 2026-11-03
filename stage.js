@@ -170,13 +170,14 @@ async function start() {
   const KD = [
     [0.00, 26, 30, 4.6, 0.50, 0.05],
     [0.10, 22, 38, 4.3, 0.46, 0.05],
-    [0.24, 16, 45, 3.0, 0.30, 0.03],
-    [0.38, 13, 47, 2.05, 0.18, 0.02],
-    [0.76, 24, 42, 3.4, 0.36, 0.05],
-    [0.90, 14, 48, 2.75, 0.40, 0.02],
+    [0.22, 16, 45, 3.0, 0.30, 0.03],
+    [0.31, 13, 47, 2.05, 0.18, 0.02],
+    [0.72, 24, 42, 3.4, 0.36, 0.05],
+    [0.88, 14, 48, 2.75, 0.40, 0.02],
     [1.00, 12, 49, 2.6, 0.42, 0.02],
   ];
-  const KM = KD.map(k => [k[0], k[1], k[2] - 3, k[3] * 1.32, 0, 0.42]);
+  // phone: the globe fills the screen above the caption (was pushed into the top half and shrunk)
+  const KM = KD.map(k => [k[0], k[1], k[2] - 4, k[3] * 1.12, 0, 0.16]);
 
   let W = 0, H = 0;
   function resize() {
@@ -185,11 +186,18 @@ async function start() {
   }
   resize(); addEventListener('resize', resize);
 
+  // Phones: gentle scroll-snap points, one per scene, so a flick lands on a scene and it stays put.
+  const SNAP = [0, 0.235, 0.415, 0.575, 0.735, 0.95];
+  const snaps = SNAP.map(() => { const s = document.createElement('i'); s.className = 'stage-snap'; s.setAttribute('aria-hidden', 'true'); stage.appendChild(s); return s; });
+  function placeSnaps() { const span = stage.offsetHeight - innerHeight; snaps.forEach((s, i) => { s.style.top = Math.round(SNAP[i] * span) + 'px'; }); }
+  placeSnaps(); addEventListener('resize', placeSnaps);
+
   const caps = [...stage.querySelectorAll('.cap')];
   const ticks = [...stage.querySelectorAll('[data-tick]')];
   const tag = stage.querySelector('.geo-tag');
-  const CAPW = [[-1, -0.5, 0.07, 0.11], [0.17, 0.21, 0.33, 0.37], [0.42, 0.45, 0.54, 0.57], [0.58, 0.61, 0.67, 0.70], [0.71, 0.74, 0.81, 0.84], [0.89, 0.93, 2, 3]];
-  const LAYW = { hero: [-1, -0.5, 0.10, 0.17], energy: [0.36, 0.41, 0.555, 0.595], dc: [0.555, 0.595, 0.68, 0.72], build: [0.68, 0.72, 0.82, 0.87] };
+  // v4 (Nov 3): equal holds per scene so each one stays on screen (~1.6 phone screens of scroll each on mobile).
+  const CAPW = [[-1, -0.5, 0.08, 0.12], [0.16, 0.19, 0.28, 0.32], [0.35, 0.38, 0.46, 0.49], [0.51, 0.54, 0.62, 0.65], [0.67, 0.70, 0.77, 0.80], [0.86, 0.89, 2, 3]];
+  const LAYW = { hero: [-1, -0.5, 0.10, 0.16], energy: [0.31, 0.35, 0.47, 0.51], dc: [0.47, 0.51, 0.63, 0.67], build: [0.63, 0.67, 0.78, 0.83] };
 
   const qy = new THREE.Quaternion(), qx = new THREE.Quaternion(), Y = new THREE.Vector3(0, 1, 0), X = new THREE.Vector3(1, 0, 0);
   const sunDay = new THREE.Vector3(-.45, .45, .77).normalize(), sunNight = new THREE.Vector3(.9, .2, -.1).normalize();
@@ -215,14 +223,14 @@ async function start() {
     camera.position.set(0, 0, dist); camera.lookAt(0, 0, 0);
     camera.setViewOffset(W, H, -ox * W * 0.5, oy * H * 0.5, W, H);
 
-    const nightAmt = ss(0.72, 0.84, q);
+    const nightAmt = ss(0.68, 0.82, q);
     uni.uNightAmt.value = nightAmt;
     uni.uSun.value.copy(sunDay).lerp(sunNight, nightAmt).normalize();
-    patchMat.uniforms.uAlpha.value = 1 - ss(0.5, 0.7, q);
+    patchMat.uniforms.uAlpha.value = 1 - ss(0.45, 0.62, q);
 
     const pinA = 0;
     pin.material.opacity = pinA; ring.material.opacity = pinA * (0.55 + 0.25 * Math.sin(clock * 2.2));
-    const arcP = ss(0.87, 0.98, q);
+    const arcP = ss(0.84, 0.97, q);
     for (const A of arcs) {
       const t = clamp((arcP - A.delay) / 0.62);
       A.m.geometry.setDrawRange(0, Math.floor(A.total * t / 3) * 3);

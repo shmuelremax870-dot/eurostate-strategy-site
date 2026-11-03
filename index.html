@@ -18,7 +18,8 @@
   <link rel="manifest" href="site.webmanifest">
 <meta property="og:type" content="website">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/video/hero.jpg" as="image">
+<link rel="preload" href="assets/video/hero-m.jpg" as="image" media="(max-aspect-ratio: 1/1)">
+<link rel="preload" href="assets/video/hero.jpg" as="image" media="(min-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 <script type="module" src="stage.js"></script>
@@ -31,10 +32,11 @@
   - Company facts (name, Reg. No. HE 477914, registered office): Cyprus companies registry listings (i-cyprus.com/company/660374).
   - Capability wording for origination / development / delivery is neutral positioning only; no projects, capacities, clients or dates are claimed.
   FOOTAGE (real camera footage, free licences, no attribution required; credited here):
-  - assets/video/hero.*   — Mixkit #46623 "Aerial view of solar panels in a field at sunset" (mixkit.co/free-stock-video/aerial-view-of-solar-panels-in-a-field-at-sunset-46623/), Mixkit Stock Video Free License.
+  - assets/video/hero* — Pexels video 7044793 "Drone footage of a solar farm" (pexels.com/video/drone-footage-of-a-solar-farm-7044793/), Pexels License (free for commercial use, no attribution required). Replaced Mixkit #46623 on 2026-11-03: its page lists the "Mixkit Restricted License".
   - assets/video/energy.* — Pexels video 4188245 "A drone shot of a nuclear power plant" (cooling towers at sunset) (pexels.com/video/4188245/), Pexels License. (Stock footage; not a Eurostate facility.)
   - assets/video/build.*  — Pexels video 40486460 "Aerial view of construction site with heavy machinery" (pexels.com/video/40486460/), Pexels License. (Stock footage; not a Eurostate site.)
-  - assets/video/dc.*     — Mixkit #23219 "Long hallway in data center" (mixkit.co/free-stock-video/long-hallway-in-data-center-23219/), Mixkit Stock Video Free License.
+  - assets/video/dc*   — Pexels video 7140931 "Close-up shot of an electronic device" (server front, blue light) (pexels.com/video/close-up-shot-of-a-electronic-device-7140931/), Pexels License. Replaced Mixkit #23219 on 2026-11-03 (Mixkit page lists "Mixkit Restricted License").
+  - "-m" files are 9:16 phone crops of the same clips; *-loop-m.webp are animated fallbacks for phones that block video (Low Power Mode). Grading baked in at encode.
   EARTH: NASA Blue Marble "Whole world – land and oceans" (commons.wikimedia.org/wiki/File:Whole_world_-_land_and_oceans_12000.jpg, public domain);
          NASA/NOAA "Earth's City Lights" DMSP 1994–95 (commons.wikimedia.org, public domain). three.js r170 (MIT).
   IMAGE CREDITS:
@@ -74,12 +76,12 @@
   <!-- HERO v2: real aerial footage + photographic Earth (stage.js). Without WebGL / with reduced motion: the opening frame and the first caption. -->
   <section class="stage" id="stage" aria-labelledby="hero-title">
     <div class="stage-sticky">
-      <img class="stage-poster" src="assets/video/hero.jpg" alt="" aria-hidden="true">
+      <img class="stage-poster" src="assets/video/hero.jpg" data-src-m="assets/video/hero-m.jpg" alt="" aria-hidden="true">
       <canvas id="globe" aria-hidden="true"></canvas>
-      <div class="layer" data-layer="hero" aria-hidden="true"><video autoplay muted playsinline webkit-playsinline loop preload="none" poster="assets/video/hero.jpg"><source data-src="assets/video/hero.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/hero-loop.webp"></div>
-      <div class="layer" data-layer="energy" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/energy.jpg"><source data-src="assets/video/energy.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/energy-loop.webp"></div>
-      <div class="layer" data-layer="build" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/build.jpg"><source data-src="assets/video/build.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/build-loop.webp"></div>
-      <div class="layer" data-layer="dc" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/dc.jpg"><source data-src="assets/video/dc.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/dc-loop.webp"></div>
+      <div class="layer" data-layer="hero" aria-hidden="true"><video autoplay muted playsinline webkit-playsinline loop preload="none" poster="assets/video/hero.jpg" data-poster-m="assets/video/hero-m.jpg"><source data-src="assets/video/hero.mp4" data-src-m="assets/video/hero-m.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/hero-loop-m.webp"></div>
+      <div class="layer" data-layer="energy" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/energy.jpg" data-poster-m="assets/video/energy-m.jpg"><source data-src="assets/video/energy.mp4" data-src-m="assets/video/energy-m.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/energy-loop-m.webp"></div>
+      <div class="layer" data-layer="build" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/build.jpg" data-poster-m="assets/video/build-m.jpg"><source data-src="assets/video/build.mp4" data-src-m="assets/video/build-m.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/build-loop-m.webp"></div>
+      <div class="layer" data-layer="dc" aria-hidden="true"><video muted playsinline webkit-playsinline loop preload="none" poster="assets/video/dc.jpg" data-poster-m="assets/video/dc-m.jpg"><source data-src="assets/video/dc.mp4" data-src-m="assets/video/dc-m.mp4" type="video/mp4"></video><img class="layer-anim" alt="" decoding="async" data-src="assets/video/dc-loop-m.webp"></div>
       <div class="stage-shade" aria-hidden="true"></div>
       <div class="stage-grain" aria-hidden="true"></div>
       <div class="wrap stage-captions">
@@ -119,6 +121,10 @@
           <a class="btn btn-accent" href="#what-we-do">Explore</a>
         </div>
       </div>
+      <script>/* phones in portrait get 9:16 crops of the same footage (sharper, full-bleed) */
+      (function(){if(!matchMedia('(max-aspect-ratio: 1/1)').matches)return;var s=document.getElementById('stage');
+      s.querySelectorAll('[data-src-m]').forEach(function(e){if(e.tagName==='IMG'){e.src=e.dataset.srcM}else{e.dataset.src=e.dataset.srcM}});
+      s.querySelectorAll('[data-poster-m]').forEach(function(v){v.poster=v.dataset.posterM});document.documentElement.classList.add('es-portrait')})();</script>
       <ol class="stage-ticks" aria-hidden="true">
         <li data-tick class="on"><span></span>Vision</li>
         <li data-tick><span></span>Platform</li>
