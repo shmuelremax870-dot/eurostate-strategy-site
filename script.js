@@ -56,3 +56,14 @@
   ['touchstart', 'click', 'scroll'].forEach(function (e) { window.addEventListener(e, kick, { passive: true, once: true }); });
   document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
 })();
+
+// One quiet retry if a clip's network fetch fails (flaky mobile connections).
+document.querySelectorAll('video').forEach(function (v) {
+  var tries = 0;
+  var retry = function () {
+    if (tries++ >= 2) return;
+    setTimeout(function () { var t = v.currentTime; v.load(); v.muted = true; var p = v.play(); if (p) p.catch(function () {}); }, 1200);
+  };
+  v.addEventListener('error', retry);
+  v.querySelectorAll('source').forEach(function (s) { s.addEventListener('error', retry); });
+});
