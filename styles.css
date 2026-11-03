@@ -403,3 +403,24 @@ html:not(.stage-live) .layer[data-layer=hero]{opacity:1}
   .scroll-hint{bottom:16px}
   .scroll-hint{display:none}
 }
+
+/* ===== Nov 3: Advanced power + AI compute sections ===== */
+.thesis-3{grid-template-columns:repeat(3,1fr)}
+.steps-5{grid-template-columns:repeat(5,1fr)}
+.sub-2{margin-top:10px}
+.spec{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-top:clamp(36px,5vw,56px);padding:clamp(24px,3vw,36px);border:1px solid rgba(228,168,58,.45);background:rgba(255,255,255,.03)}
+.spec h3{color:#fff;font-size:clamp(1.3rem,2.2vw,1.7rem);margin-bottom:8px}
+.spec p{color:#a9b8cf;margin:0;max-width:60ch}
+.spec .btn{flex:none}
+.more-jobs{font-size:clamp(1.25rem,2vw,1.6rem);margin:clamp(28px,4vw,44px) 0 6px}
+.nuclear .loop-media img{object-position:40% 50%}
+.cards-5 .card:nth-child(4){transition-delay:.08s}.cards-5 .card:nth-child(5){transition-delay:.16s}
+@media (max-width:1080px){.steps-5{grid-template-columns:1fr 1fr 1fr;row-gap:44px}}
+@media (max-width:960px){.thesis-3{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){
+  .thesis-3,.steps-5{grid-template-columns:1fr}
+  .spec{flex-direction:column;align-items:flex-start;gap:18px}
+  .spec .btn{width:100%}
+  .nuclear .loop-media img{aspect-ratio:4/3;object-position:40% 35%}
+}
+.loop-media img{height:auto}
