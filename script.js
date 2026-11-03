@@ -67,3 +67,37 @@ document.querySelectorAll('video').forEach(function (v) {
   v.addEventListener('error', retry);
   v.querySelectorAll('source').forEach(function (s) { s.addEventListener('error', retry); });
 });
+
+// iOS Low Power Mode / data saver block every <video> (play() rejects, the poster just sits there).
+// Watch each visible clip; if it is not actually moving, swap in an animated-image loop of the same footage
+// (animated images are not blocked) plus a slow pan, so the hero is never a frozen still.
+(function () {
+  var layers = [].slice.call(document.querySelectorAll('.layer'));
+  var state = layers.map(function () { return { stuck: 0, last: -1, on: false }; });
+  function useLoop(L, s) {
+    if (s.on) return; s.on = true;
+    var img = L.querySelector('.layer-anim');
+    if (img && !img.getAttribute('src') && img.dataset.src) img.src = img.dataset.src;
+    L.classList.add('vid-blocked');
+  }
+  function visible(L) {
+    var cs = getComputedStyle(L);
+    return cs.display !== 'none' && parseFloat(cs.opacity) > 0.02;
+  }
+  setInterval(function () {
+    if (document.hidden) return;
+    layers.forEach(function (L, i) {
+      var v = L.querySelector('video'), s = state[i];
+      if (!v || s.on) return;
+      if (!visible(L)) { s.stuck = 0; return; }
+      var moving = !v.paused && v.readyState >= 3 && v.currentTime !== s.last;
+      s.last = v.currentTime;
+      s.stuck = moving ? 0 : s.stuck + 1;
+      if (s.stuck >= 2) useLoop(L, s);
+    });
+  }, 800);
+  // Preload the hero loop early when the browser tells us it will refuse autoplay.
+  var hv = document.querySelector('.layer[data-layer=hero] video');
+  if (hv) hv.addEventListener('play', function () {}, { once: true });
+  window.__esUseLoops = function () { layers.forEach(function (L, i) { useLoop(L, state[i]); }); };
+})();

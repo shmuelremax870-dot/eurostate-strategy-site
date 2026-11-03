@@ -7,7 +7,7 @@ const root = document.documentElement;
 const stage = document.getElementById('stage');
 const canvas = document.getElementById('globe');
 const CAPTURE = location.search.includes('capture');
-const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches && !CAPTURE;
+const reduce = false; // motion always on (owner's call); the footage is slow, no flashing
 
 function webglOK() {
   try { const c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); }
