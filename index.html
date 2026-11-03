@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eurostate Strategy — Energy &amp; Data-Center Infrastructure for Europe</title>
+<meta name="description" content="Eurostate Strategy originates, develops and delivers energy and data-center infrastructure projects — from waste-to-energy power to high-density compute, for Europe.">
+<meta name="theme-color" content="#071a33">
+<meta property="og:title" content="Eurostate Strategy — Building Europe's next generation of energy and data-center infrastructure">
+<meta property="og:description" content="Energy and data-center infrastructure projects, from origination to operation.">
+<meta property="og:image" content="og.jpg">
+<meta property="og:type" content="website">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/video/hero.jpg" as="image">
+<link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
+<script type="module" src="stage.js"></script>
+<!--
+  POSITIONING (owner direction, Nov 3 2026): Eurostate Strategy creates and delivers projects — an infrastructure project developer
+  for energy and data centers. Not described as a contractor/EPC.
+  CONTENT SOURCES (nothing invented):
+  - Energy / compute / waste-to-energy wording: the previous Eurostate Strategy site (GitHub repo shmuelremax870-dot/eurostate-strategy-site,
+    index.html + data-centers.html, last push 2026-07-10) and the company's LinkedIn page (linkedin.com/company/eurostatestrategy).
+  - Company facts (name, Reg. No. HE 477914, registered office): Cyprus companies registry listings (i-cyprus.com/company/660374).
+  - Capability wording for origination / development / delivery is neutral positioning only; no projects, capacities, clients or dates are claimed.
+  FOOTAGE (real camera footage, free licences, no attribution required; credited here):
+  - assets/video/hero.*   — Mixkit #46623 "Aerial view of solar panels in a field at sunset" (mixkit.co/free-stock-video/aerial-view-of-solar-panels-in-a-field-at-sunset-46623/), Mixkit Stock Video Free License.
+  - assets/video/energy.* — Pexels video 4188245 "A drone shot of a nuclear power plant" (cooling towers at sunset) (pexels.com/video/4188245/), Pexels License. (Stock footage; not a Eurostate facility.)
+  - assets/video/build.*  — Pexels video 40486460 "Aerial view of construction site with heavy machinery" (pexels.com/video/40486460/), Pexels License. (Stock footage; not a Eurostate site.)
+  - assets/video/dc.*     — Mixkit #23219 "Long hallway in data center" (mixkit.co/free-stock-video/long-hallway-in-data-center-23219/), Mixkit Stock Video Free License.
+  EARTH: NASA Blue Marble "Whole world – land and oceans" (commons.wikimedia.org/wiki/File:Whole_world_-_land_and_oceans_12000.jpg, public domain);
+         NASA/NOAA "Earth's City Lights" DMSP 1994–95 (commons.wikimedia.org, public domain). three.js r170 (MIT).
+  IMAGE CREDITS:
+  - assets/img/compute-servers.jpg — Pexels photo 1148820, Pexels License.
+  - assets/img/band-datacenter.jpg — Pexels photo 325229, Pexels License.
+  - assets/img/energy-substation.jpg — Pexels photo 12809142, Pexels License.
+  - assets/img/energy-grid.jpg      — Pexels photo 7304225, Pexels License.
+  FONT: Inter (SIL Open Font License), self-hosted.
+-->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Eurostate Strategy — home">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-text"><strong>EUROSTATE</strong> STRATEGY</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul id="nav-list">
+        <li><a href="#what-we-do">What we do</a></li>
+        <li><a href="#approach">How we deliver</a></li>
+        <li><a href="#compute-energy">Energy &amp; Compute</a></li>
+        <li><a href="#about">About</a></li>
+        <li class="nav-cta"><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO v2: real aerial footage + photographic Earth (stage.js). Without WebGL / with reduced motion: the opening frame and the first caption. -->
+  <section class="stage" id="stage" aria-labelledby="hero-title">
+    <div class="stage-sticky">
+      <img class="stage-poster" src="assets/video/hero.jpg" alt="" aria-hidden="true">
+      <canvas id="globe" aria-hidden="true"></canvas>
+      <div class="layer" data-layer="hero" aria-hidden="true"><video muted playsinline loop preload="none" poster="assets/video/hero.jpg"><source data-src="assets/video/hero.mp4" type="video/mp4"></video></div>
+      <div class="layer" data-layer="energy" aria-hidden="true"><video muted playsinline loop preload="none" poster="assets/video/energy.jpg"><source data-src="assets/video/energy.mp4" type="video/mp4"></video></div>
+      <div class="layer" data-layer="build" aria-hidden="true"><video muted playsinline loop preload="none" poster="assets/video/build.jpg"><source data-src="assets/video/build.mp4" type="video/mp4"></video></div>
+      <div class="layer" data-layer="dc" aria-hidden="true"><video muted playsinline loop preload="none" poster="assets/video/dc.jpg"><source data-src="assets/video/dc.mp4" type="video/mp4"></video></div>
+      <div class="stage-shade" aria-hidden="true"></div>
+      <div class="stage-grain" aria-hidden="true"></div>
+      <div class="wrap stage-captions">
+        <div class="cap cap-hero is-active" data-cap="0">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Energy &amp; Data-Center Infrastructure · Europe</p>
+          <h1 id="hero-title">Building Europe's next generation of energy and <span class="nw">data-center</span> infrastructure.</h1>
+          <p class="hero-lede">Eurostate Strategy originates, develops and delivers the power and compute projects Europe's digital economy will run on.</p>
+          <div class="hero-actions">
+            <a class="btn btn-accent" href="#what-we-do">What we do</a>
+            <a class="btn btn-ghost" href="#contact">Get in touch</a>
+          </div>
+        </div>
+        <div class="cap" data-cap="1">
+          <p class="cap-label">Waste · Power · Compute</p>
+          <h2 class="cap-title">Power. Compute. Delivered.</h2>
+          <p class="cap-text">Energy and data-center infrastructure, engineered as one integrated system.</p>
+        </div>
+        <div class="cap" data-cap="2">
+          <p class="cap-label">Energy</p>
+          <h2 class="cap-title">It starts with power.</h2>
+          <p class="cap-text">Base-load generation — from waste-to-energy to the next generation of clean power — built to feed the racks directly.</p>
+        </div>
+        <div class="cap" data-cap="3">
+          <p class="cap-label">Data centers</p>
+          <h2 class="cap-title">Then we put that power to work.</h2>
+          <p class="cap-text">Data centers engineered for AI density — high-density, liquid-ready, and designed to run on their own power.</p>
+        </div>
+        <div class="cap" data-cap="4">
+          <p class="cap-label">Originate · Develop · Deliver</p>
+          <h2 class="cap-title">We don't wait for projects. We create them.</h2>
+          <p class="cap-text">Site, power, partners, engineering and construction — every project led from the first study to an operating asset.</p>
+        </div>
+        <div class="cap" data-cap="5">
+          <p class="cap-label">Europe</p>
+          <h2 class="cap-title">Where Europe's energy meets its data.</h2>
+          <p class="cap-text">Powering Europe's next era of compute — Waste · Power · Compute, across the continent.</p>
+          <a class="btn btn-accent" href="#what-we-do">Explore</a>
+        </div>
+      </div>
+      <ol class="stage-ticks" aria-hidden="true">
+        <li data-tick class="on"><span></span>Vision</li>
+        <li data-tick><span></span>Platform</li>
+        <li data-tick><span></span>Energy</li>
+        <li data-tick><span></span>Data centers</li>
+        <li data-tick><span></span>Delivery</li>
+        <li data-tick><span></span>Europe</li>
+      </ol>
+      <div class="scroll-hint" aria-hidden="true"><span></span>Scroll</div>
+    </div>
+  </section>
+
+  <!-- FACTS STRIP -->
+  <section class="facts-band" aria-label="At a glance">
+    <div class="wrap facts-grid">
+      <div><span class="k">What we do</span><span class="v">Originate, develop and deliver infrastructure projects</span></div>
+      <div><span class="k">Sectors</span><span class="v">Waste-to-energy · Power · Data centers</span></div>
+      <div><span class="k">Market</span><span class="v">Europe</span></div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro section" aria-labelledby="intro-title">
+    <div class="wrap intro-grid">
+      <p class="label reveal">01 — Project developer</p>
+      <div class="reveal">
+        <h2 id="intro-title" class="statement">We create projects — and we see them built.</h2>
+        <div class="two-col">
+          <p>Eurostate Strategy is an infrastructure project developer. We find the opportunity, secure the site and the power, bring together the right partners, and take each project from an idea to a built, operating asset.</p>
+          <p>The AI build-out is constrained by power. The waste industry is constrained by what to do with the material. Our projects are designed to solve both at once — Waste · Power · Compute.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO: three pillars -->
+  <section class="pillars section section-tint" id="what-we-do" aria-labelledby="wwd-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="label">What we do</p>
+        <h2 id="wwd-title">Energy and compute — one vertically integrated system.</h2>
+        <p class="sub">Waste · Power · Compute — engineered as one system.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/img/energy-substation.jpg" alt="Electrical power substation at sunset" loading="lazy" width="1200" height="795"></div>
+          <div class="card-body">
+            <p class="card-kicker">01</p>
+            <h3>Waste-to-Energy</h3>
+            <p>Converting municipal and industrial waste into reliable, low-carbon electricity — and routing it directly into AI data centers. Circular economy meets compute economy.</p>
+            <a class="more" href="#loop">The loop <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/img/compute-servers.jpg" alt="Server hardware with blue status lights" loading="lazy" width="1200" height="801"></div>
+          <div class="card-body">
+            <p class="card-kicker">02</p>
+            <h3>Data Centers</h3>
+            <p>Dedicated data-center capacity engineered for AI workloads — high-density, liquid-ready, and powered by its own waste-to-energy infrastructure.</p>
+            <a class="more" href="#compute-energy">Energy &amp; compute <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="card-img"><img src="assets/video/build.jpg" alt="Aerial view of a large construction site" loading="lazy" width="1280" height="720"></div>
+          <div class="card-body">
+            <p class="card-kicker">03</p>
+            <h3>Project Development</h3>
+            <p>Origination, site and power, partners and structure, engineering, procurement and construction through trusted partners — managed by us from first study to operation.</p>
+            <a class="more" href="#approach">How we deliver <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE DELIVER -->
+  <section class="model section" id="approach" aria-labelledby="model-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="label">How we deliver</p>
+        <h2 id="model-title">From idea to operating asset.</h2>
+        <p class="sub">We don't wait for projects to be tendered. We create them — and stay with them until they run.</p>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><span class="step-n">01</span><h3>Originate</h3><p>Identify the opportunity: the site, the power, the demand. The point where conviction becomes a project.</p></li>
+        <li class="reveal"><span class="step-n">02</span><h3>Develop</h3><p>Shape the project end to end — technical concept, permits, partners and commercial structure.</p></li>
+        <li class="reveal"><span class="step-n">03</span><h3>Deliver</h3><p>Engineering, procurement and construction with selected partners, led and managed by Eurostate.</p></li>
+        <li class="reveal"><span class="step-n">04</span><h3>Operate</h3><p>Commissioning and long-term operation — power and capacity sold under multi-year agreements.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ENERGY & COMPUTE -->
+  <section class="ce" id="compute-energy" aria-labelledby="ce-title">
+    <div class="ce-band">
+      <img src="assets/img/band-datacenter.jpg" alt="Corridor of server racks in a data center" loading="lazy" width="2000" height="700">
+      <div class="ce-band-shade" aria-hidden="true"></div>
+      <div class="wrap ce-band-content reveal">
+        <p class="label label-light">Energy &amp; Compute</p>
+        <h2 id="ce-title">The compute backbone for the AI era.</h2>
+        <p>Sovereign AI compute for Europe — designed to run on its own power.</p>
+      </div>
+    </div>
+    <div class="section section-dark ce-body">
+      <div class="wrap">
+        <div class="ce-intro reveal">
+          <h3 class="statement statement-light">Most data centers buy power. Ours are designed to <em>generate</em> it.</h3>
+          <p>By owning the energy layer — through a waste-to-energy program — the project controls cost, reliability and the carbon profile of every rack. European-sovereign AI compute, powered by circular-economy infrastructure, for operators that need guaranteed capacity and a defensible energy story.</p>
+        </div>
+        <ul class="thesis">
+          <li class="reveal"><h4>Sovereign by design</h4><p>EU-domiciled, EU-operated, EU-regulated. AI workloads that cannot leave the bloc have a natural home.</p></li>
+          <li class="reveal"><h4>Owned power</h4><p>Waste-to-energy generation feeds the racks directly. Fewer grid intermediaries means lower cost and a defensible carbon story.</p></li>
+          <li class="reveal"><h4>Built for AI density</h4><p>Liquid-cooled cabinets, high-density power distribution, and a fabric optimized for training and inference clusters.</p></li>
+          <li class="reveal"><h4>Long-tenor contracts</h4><p>Capacity offered to operators under multi-year agreements.</p></li>
+        </ul>
+      </div>
+    </div>
+    <div class="section loop" id="loop" aria-labelledby="loop-title">
+      <div class="wrap loop-grid">
+        <div class="loop-media reveal">
+          <img src="assets/img/energy-grid.jpg" alt="High-voltage power lines against a sunset sky" loading="lazy" width="1100" height="1375">
+        </div>
+        <div class="loop-text">
+          <p class="label reveal">How the loop closes</p>
+          <h2 id="loop-title" class="reveal">From waste to the power that runs AI.</h2>
+          <p class="reveal">Taking the waste that costs municipalities money to discard, and converting it to the electricity that AI operators pay premium prices to secure.</p>
+          <ol class="chain">
+            <li class="reveal"><span>01</span><div><h4>Intake</h4><p>Municipal and industrial waste enters the facility. Sorted, dried, and prepared for thermal processing.</p></div></li>
+            <li class="reveal"><span>02</span><div><h4>Conversion</h4><p>High-temperature combustion or gasification converts the feedstock to heat. Emissions are scrubbed to EU standards.</p></div></li>
+            <li class="reveal"><span>03</span><div><h4>Generation</h4><p>Steam drives a turbine; the turbine drives a generator. Base-load electricity comes out the other side.</p></div></li>
+            <li class="reveal"><span>04</span><div><h4>Compute</h4><p>Power is routed directly to the adjacent AI data center. No grid intermediary; no transmission loss.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS: [PLACEHOLDER] — no project list yet; add real projects (name, location, status) when Shmuel provides them. -->
+
+  <!-- ABOUT -->
+  <section class="about section section-tint" id="about" aria-labelledby="about-title">
+    <figure class="wrap about-photo reveal">
+      <img src="assets/video/hero.jpg" alt="Aerial view of a solar field at sunset" loading="lazy" width="1280" height="720">
+      <figcaption>Energy · Data Centers · Europe</figcaption>
+    </figure>
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <p class="label">About</p>
+        <h2 id="about-title">Built to create and deliver infrastructure.</h2>
+        <p class="statement-sm">Powering Europe's next era of compute.</p>
+        <p>Eurostate Strategy develops energy and data-center projects: originating them, shaping them, and leading their delivery with the right engineering and construction partners.</p>
+        <p>The focus is the meeting point of energy and compute — Waste · Power · Compute — across Europe.</p>
+      </div>
+      <dl class="company reveal">
+        <div><dt>Company</dt><dd>Euro State Strategy Ltd</dd></div>
+        <div><dt>Type</dt><dd>Private limited company</dd></div>
+        <div><dt>Reg. No.</dt><dd>HE 477914</dd></div>
+        <div><dt>Focus</dt><dd>Energy · Data Centers</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact section section-dark" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <p class="label label-light">Contact</p>
+        <h2 id="contact-title">Let's build Europe's next infrastructure.</h2>
+        <p class="contact-lede">For partnerships, sites and capacity enquiries, write to us.</p>
+        <a class="btn btn-accent" href="mailto:shmuel@eurostatestrategy.com">Email us</a>
+      </div>
+      <div class="contact-cards reveal">
+        <a class="c-card" href="mailto:shmuel@eurostatestrategy.com">
+          <span class="c-k">Email</span>
+          <span class="c-v">shmuel@eurostatestrategy.com</span>
+        </a>
+        <a class="c-card" href="https://www.google.com/maps/search/?api=1&amp;query=Stratigou+Timagia+26+Larnaca+6047+Cyprus" target="_blank" rel="noopener">
+          <span class="c-k">Office</span>
+          <span class="c-v">Stratigou Timagia 26, Siantona Building, Office 102<br>Larnaca 6047, Cyprus</span>
+        </a>
+        <a class="c-card" href="https://www.linkedin.com/company/eurostatestrategy" target="_blank" rel="noopener">
+          <span class="c-k">LinkedIn</span>
+          <span class="c-v">Eurostate Strategy <span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <a class="brand brand-small" href="#top" aria-label="Back to top">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-text"><strong>EUROSTATE</strong> STRATEGY</span>
+    </a>
+    <p>© <span id="year">2026</span> Euro State Strategy Ltd · Reg. No. HE 477914 · Larnaca, Cyprus</p>
+    <p class="footer-links"><a href="#what-we-do">What we do</a><a href="#approach">How we deliver</a><a href="#compute-energy">Energy &amp; Compute</a><a href="#contact">Contact</a></p>
+  </div>
+</footer>
+</body>
+</html>
