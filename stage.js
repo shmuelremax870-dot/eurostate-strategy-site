@@ -1,5 +1,6 @@
-// Eurostate Strategy — hero v2: real footage + a photographic Earth, choreographed by scroll.
-// Footage (credited in index.html): Mixkit + Pexels free licences. Earth: NASA Blue Marble ("Whole world – land and oceans",
+// Euro State Strategy — scroll stage (reused from the live eurostatestrategy.com hero): real footage + a photographic Earth, choreographed by scroll.
+// Nov 11 2026 tech version: energy/build layers removed; the opening layer is the server footage, the data-center scene is a still with the same slow push-in.
+// Footage (credited in index.html): Pexels free licence. Earth: NASA Blue Marble ("Whole world – land and oceans",
 // public domain) and NASA "Earth's City Lights" (DMSP, public domain). three.js r170 (MIT), self-hosted.
 import * as THREE from './assets/vendor/three.module.min.js';
 
@@ -163,7 +164,7 @@ async function start() {
   }
   if (CAPTURE) {
     layers.forEach(ensure);
-    await Promise.all(layers.map(L => new Promise(r => { if (L.v.readyState >= 2) return r(); L.v.addEventListener('loadeddata', r, { once: true }); setTimeout(r, 8000); })));
+    await Promise.all(layers.filter(L => L.v).map(L => new Promise(r => { if (L.v.readyState >= 2) return r(); L.v.addEventListener('loadeddata', r, { once: true }); setTimeout(r, 8000); })));
   }
 
   // Camera keyframes in scroll progress p: [p, lon, lat, dist, offsetX, offsetY]
@@ -197,7 +198,7 @@ async function start() {
   const tag = stage.querySelector('.geo-tag');
   // v4 (Nov 3): equal holds per scene so each one stays on screen (~1.6 phone screens of scroll each on mobile).
   const CAPW = [[-1, -0.5, 0.08, 0.12], [0.16, 0.19, 0.28, 0.32], [0.35, 0.38, 0.46, 0.49], [0.51, 0.54, 0.62, 0.65], [0.67, 0.70, 0.77, 0.80], [0.86, 0.89, 2, 3]];
-  const LAYW = { hero: [-1, -0.5, 0.10, 0.16], energy: [0.31, 0.35, 0.47, 0.51], dc: [0.47, 0.51, 0.63, 0.67], build: [0.63, 0.67, 0.78, 0.83] };
+  const LAYW = { hero: [-1, -0.5, 0.10, 0.16], racks: [0.63, 0.67, 0.78, 0.83] };
 
   const qy = new THREE.Quaternion(), qx = new THREE.Quaternion(), Y = new THREE.Vector3(0, 1, 0), X = new THREE.Vector3(1, 0, 0);
   const sunDay = new THREE.Vector3(-.45, .45, .77).normalize(), sunNight = new THREE.Vector3(.9, .2, -.1).normalize();
